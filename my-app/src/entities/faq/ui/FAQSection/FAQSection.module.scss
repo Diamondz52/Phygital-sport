@@ -1,0 +1,66 @@
+.faqSection {
+  position: absolute;
+  top: 2000px;
+  left: 0;
+  width: 100%;
+  padding: 80px 0;
+  background-color: #190027;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+}
+
+.faqTitle {
+  font-size: 52px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.faqGrid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+.faqButtonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.learnMoreButton {
+  background: transparent;
+  border: 2px solid #D38DFF;
+  border-radius: 50px;
+  padding: 16px 60px;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(211, 141, 255, 0.3);
+
+  &:hover {
+    background: #C25EFF;
+    border-color: #C25EFF;
+    color: #FFFFFF;
+    box-shadow: 0 0 30px rgba(194, 94, 255, 0.5);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 0 20px rgba(194, 94, 255, 0.3);
+  }
+}

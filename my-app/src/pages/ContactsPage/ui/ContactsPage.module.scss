@@ -1,0 +1,30 @@
+@import '../../../app/styles/variables';
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $bg-dark 0%, $bg-darker 100%);
+}
+
+.main {
+  padding-top: $spacing-xxl;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+  color: $text-primary;
+
+  h1 {
+    font-size: 48px;
+    margin-bottom: $spacing-md;
+    color: $primary-color;
+  }
+
+  p {
+    font-size: 18px;
+    color: $text-secondary;
+  }
+}

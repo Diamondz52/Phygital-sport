@@ -1,0 +1,1 @@
+export { DisciplinesPage } from './ui/DisciplinesPage';

@@ -1,0 +1,72 @@
+@import '../../../app/styles/variables';
+
+.header {
+  width: 100%;
+  padding: 40px 0 20px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.navWrapper {
+  background: rgba(44, 1, 88, 0.4);
+  border-radius: 100px;
+  padding: 12px 32px;
+  display: inline-flex;
+  backdrop-filter: blur(5px);
+}
+
+.nav {
+  .navList {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+
+  .navLink {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+
+    &:hover {
+      color: #D38DFF;
+    }
+
+    &.active {
+      color: #D38DFF;
+    }
+  }
+
+  .profileButton {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #D38DFF;
+      background: rgba(211, 141, 255, 0.1);
+    }
+
+    svg {
+      display: block;
+    }
+  }
+}

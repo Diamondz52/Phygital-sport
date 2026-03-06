@@ -1,0 +1,150 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 654px;
+  height: 559px;
+  background: #190027; // Изменено на #190027
+  border-radius: 30px;
+  padding: 50px 60px;
+  z-index: 1000;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease;
+  border: 1px solid rgba(231, 192, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #E7C0FF;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(231, 192, 255, 0.2);
+  }
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #E7C0FF;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 18px;
+  font-weight: 500;
+  color: #E7C0FF;
+  margin-bottom: 5px;
+}
+
+.input {
+  width: 497px;
+  height: 45px;
+  background: #E7C0FF;
+  border: none;
+  border-radius: 12px;
+  padding: 0 20px;
+  color: #4C007B;
+  font-size: 16px;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: rgba(76, 0, 123, 0.5);
+  }
+
+  &:focus {
+    outline: 2px solid #C25EFF;
+    outline-offset: 2px;
+  }
+}
+
+.submitButton {
+  width: 497px;
+  height: 45px;
+  background: transparent;
+  border: 2px solid #E7C0FF;
+  border-radius: 12px;
+  color: #E7C0FF;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+
+  &:hover {
+    background: #C25EFF;
+    border-color: #C25EFF;
+    color: #FFFFFF;
+  }
+}
+
+.registerLink {
+  margin-top: 35px;
+  text-align: center;
+  font-size: 16px;
+  color: #E7C0FF;
+
+  .registerButton {
+    color: #C25EFF;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 5px;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #E7C0FF;
+      text-decoration: underline;
+    }
+  }
+}

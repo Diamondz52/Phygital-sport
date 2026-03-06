@@ -1,0 +1,30 @@
+@import '../../../app/styles/variables';
+
+.page {
+  min-height: 100vh;
+  background-color: #190027;
+}
+
+.main {
+  padding-top: 180px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+  color: #FFFFFF;
+
+  h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #D38DFF;
+  }
+
+  p {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
