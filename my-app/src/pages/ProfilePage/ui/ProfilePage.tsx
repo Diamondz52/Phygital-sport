@@ -1,5 +1,6 @@
 import React from 'react';
-import { Header } from '../../../widgets/Header/ui/Header'; // Прямой импорт
+import { Header } from '../../../widgets/Header';
+import { Footer } from '../../../widgets/Footer';
 import styles from './ProfilePage.module.scss';
 
 export const ProfilePage: React.FC = () => {
@@ -7,11 +8,12 @@ export const ProfilePage: React.FC = () => {
     <div className={styles.page}>
       <Header />
       <main className={styles.main}>
-        <div className={styles.container}>
-          <h1>Личный кабинет</h1>
-          <p>Страница в разработке</p>
+        <div className={styles.content}>
+          <h1 className={styles.title}>Личный кабинет</h1>
+          <p className={styles.text}>Страница личного кабинета находится в разработке</p>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

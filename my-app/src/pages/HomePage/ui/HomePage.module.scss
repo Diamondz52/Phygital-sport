@@ -1,28 +1,49 @@
 @import '../../../app/styles/variables';
 
-.homePage {
+.page {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  background-color: #190027;
+  background-color: $bg-dark;
 }
 
 .main {
+  flex: 1;
   position: relative;
-  min-width: 1200px;
+  min-height:3000px; // Увеличиваем минимальную высоту, чтобы футер был внизу
 }
 
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 40px;
-  position: relative;
+  padding: 0 $spacing-xl;
 }
 
-// Левая колонка для верхнего текста
+.topSection {
+  padding-top: 180px;
+  margin-bottom: 200px;
+}
+
 .leftColumn {
-  width: 600px;
+  max-width: 600px;
 }
 
-// Правая колонка для секции дисциплин
+.title {
+  font-size: $font-size-hero;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: $spacing-xl;
+  color: $text-primary;
+  text-transform: uppercase;
+}
+
+.description {
+  font-size: $font-size-lg;
+  line-height: 1.6;
+  color: $text-secondary;
+  max-width: 650px;
+}
+
 .rightColumn {
   display: flex;
   flex-direction: column;
@@ -30,30 +51,6 @@
   width: 100%;
 }
 
-// Верхняя секция с заголовком
-.topSection {
-  padding-top: 180px;
-  margin-bottom: 200px;
-}
-
-.title {
-  font-size: 72px;
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 30px;
-  color: #FFFFFF;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-}
-
-.description {
-  font-size: 18px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.7);
-  width: 650px;
-}
-
-// Секция дисциплин
 .disciplinesSection {
   position: absolute;
   top: 1259px;
@@ -62,38 +59,32 @@
 }
 
 .disciplinesTitle {
-  font-size: 48px;
+  font-size: $font-size-title;
   font-weight: 700;
-  color: #FFFFFF;
-  margin-bottom: 30px;
+  color: $text-primary;
+  margin-bottom: $spacing-xl;
   text-transform: uppercase;
-  letter-spacing: 2px;
   text-align: right;
   width: 100%;
 }
 
-// Контейнер для изображения с легкой подсветкой
 .imageWrapper {
   position: relative;
   width: 553px;
   height: 602px;
   margin-left: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-// Легкая фиолетовая подсветка по бокам фото
 .imageGlow {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius: 24px;
+  border-radius: $radius-lg;
   box-shadow: 
-    0 0 30px 5px rgba(211, 141, 255, 0.3),
-    inset 0 0 20px 5px rgba(211, 141, 255, 0.1);
+    0 0 30px 5px rgba($primary-color, 0.3),
+    inset 0 0 20px 5px rgba($primary-color, 0.1);
   z-index: 2;
   pointer-events: none;
 }
@@ -104,7 +95,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 24px;
+  border-radius: $radius-lg;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
@@ -121,13 +112,13 @@
   align-items: center;
   padding: 40px 0 100px 0;
   z-index: 3;
-  border-radius: 24px;
+  border-radius: $radius-lg;
 }
 
 .disciplineName {
   font-size: 36px;
   font-weight: 400;
-  color: #FFFFFF;
+  color: $text-primary;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   text-align: center;
   margin-top: 40px;
@@ -138,10 +129,10 @@
   width: 400px;
   height: 60px;
   background: rgba(44, 1, 88, 0.3);
-  border: 1.5px solid rgba(211, 141, 255, 0.6);
-  border-radius: 50px;
-  color: #FFFFFF;
-  font-size: 18px;
+  border: 1.5px solid rgba($primary-color, 0.6);
+  border-radius: $radius-round;
+  color: $text-primary;
+  font-size: $font-size-lg;
   font-weight: 600;
   letter-spacing: 1.5px;
   cursor: pointer;
@@ -157,128 +148,5 @@
     background: #FFFFFF;
     color: #000000;
     border-color: #FFFFFF;
-    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
-  }
-}
-
-// Секция FAQ
-.faqSection {
-  position: absolute;
-  top: 2000px;
-  left: 0;
-  width: 100%;
-  padding: 80px 0;
-  background-color: #190027;
-}
-
-.faqTitle {
-  font-size: 52px;
-  font-weight: 700;
-  color: #FFFFFF;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-align: center;
-  margin-bottom: 60px;
-}
-
-.faqGrid {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 60px;
-}
-
-.faqCard {
-  width: 416px;
-  height: 550px;
-  background: rgba(44, 1, 88, 0.3); // Фиолетовый полупрозрачный фон
-  border: 1px solid rgba(211, 141, 255, 0.3);
-  border-radius: 30px;
-  padding: 40px 30px;
-  display: flex;
-  flex-direction: column;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5);
-  position: relative;
-  overflow: hidden;
-
-  // Добавляем легкий градиент сверху
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
-    background: linear-gradient(180deg, rgba(211, 141, 255, 0.1) 0%, transparent 100%);
-    pointer-events: none;
-  }
-}
-
-.faqQuestion {
-  font-size: 24px;
-  font-weight: 600;
-  color: #D38DFF;
-  margin-bottom: 20px;
-  line-height: 1.3;
-  position: relative;
-  z-index: 2;
-}
-
-.faqAnswer {
-  font-size: 16px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
-  overflow-y: auto;
-  flex: 1;
-  position: relative;
-  z-index: 2;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 2px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(211, 141, 255, 0.5);
-    border-radius: 2px;
-  }
-}
-
-// Кнопка "УЗНАТЬ БОЛЬШЕ"
-.faqButtonWrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-}
-
-.learnMoreButton {
-  background: transparent;
-  border: 2px solid #D38DFF;
-  border-radius: 50px;
-  padding: 16px 60px;
-  color: #FFFFFF;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  box-shadow: 0 0 20px rgba(211, 141, 255, 0.3);
-
-  &:hover {
-    background: #C25EFF;
-    border-color: #C25EFF;
-    color: #FFFFFF;
-    box-shadow: 0 0 30px rgba(194, 94, 255, 0.5);
-  }
-
-  &:active {
-    transform: translateY(2px);
-    box-shadow: 0 0 20px rgba(194, 94, 255, 0.3);
   }
 }

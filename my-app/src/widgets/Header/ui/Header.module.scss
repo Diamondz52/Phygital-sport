@@ -2,71 +2,87 @@
 
 .header {
   width: 100%;
-  padding: 40px 0 20px 0;
+  padding: $spacing-xl 0 $spacing-lg;
   display: flex;
   justify-content: center;
+  background: linear-gradient(180deg, $bg-dark 0%, rgba(25, 0, 39, 0.95) 100%);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba($primary-color, 0.2);
 }
 
 .container {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 20px;
+  padding: 0 $spacing-xl;
 }
 
 .navWrapper {
-  background: rgba(44, 1, 88, 0.4);
-  border-radius: 100px;
-  padding: 12px 32px;
+  background: $bg-overlay;
+  border-radius: $radius-round;
+  padding: $spacing-sm $spacing-xl;
   display: inline-flex;
   backdrop-filter: blur(5px);
+  border: 1px solid rgba($primary-color, 0.2);
 }
 
 .nav {
   .navList {
     display: flex;
     list-style: none;
-    gap: 40px;
+    gap: $spacing-xl;
     margin: 0;
     padding: 0;
     align-items: center;
   }
 
   .navLink {
-    color: #FFFFFF;
+    color: $text-primary;
     text-decoration: none;
-    font-size: 16px;
+    font-size: $font-size-md;
     font-weight: 500;
     transition: color 0.3s ease;
     white-space: nowrap;
 
     &:hover {
-      color: #D38DFF;
+      color: $primary-color;
     }
 
     &.active {
-      color: #D38DFF;
+      color: $primary-color;
     }
   }
 
   .profileButton {
     background: none;
     border: none;
-    color: #FFFFFF;
+    color: $text-primary;
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 8px;
+    padding: $spacing-sm;
     border-radius: 50%;
     transition: all 0.3s ease;
 
     &:hover {
-      color: #D38DFF;
-      background: rgba(211, 141, 255, 0.1);
+      color: $primary-color;
+      background: rgba($primary-color, 0.1);
     }
 
     svg {
       display: block;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .navWrapper {
+    overflow-x: auto;
+    max-width: 100%;
+    padding: $spacing-sm $spacing-lg;
+    
+    .navList {
+      gap: $spacing-lg;
     }
   }
 }

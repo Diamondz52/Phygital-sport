@@ -1,0 +1,110 @@
+@import '../../../app/styles/variables';
+
+.footer {
+  background: $bg-overlay;
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba($primary-color, 0.2);
+  padding: $spacing-xxl 0 $spacing-xl;
+  margin-top: auto;
+  width: 100%;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 $spacing-xl;
+}
+
+.footerContent {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xxl;
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-xl;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.columnTitle {
+  font-size: $font-size-xl;
+  font-weight: 700;
+  color: $primary-color;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.description {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 300px;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  li {
+    margin: 0;
+  }
+}
+
+.link {
+  color: $text-secondary;
+  text-decoration: none;
+  font-size: $font-size-sm;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.contactList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  line-height: 1.4;
+}
+
+.contactIcon {
+  font-size: $font-size-lg;
+  min-width: 24px;
+}
+
+.copyright {
+  text-align: center;
+  padding-top: $spacing-xl;
+  border-top: 1px solid rgba($primary-color, 0.2);
+  color: $text-muted;
+  font-size: $font-size-xs;
+}

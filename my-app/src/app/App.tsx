@@ -1,16 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HomePage } from '../pages/HomePage';
+import { TournamentsPage } from '../pages/TournamentsPage';
 import { DisciplinesPage } from '../pages/DisciplinesPage';
+import { TeamsPage } from '../pages/TeamsPage';
+import { MediaPage } from '../pages/MediaPage';
 import { FAQPage } from '../pages/FAQPage';
+import { ContactsPage } from '../pages/ContactsPage';
+import { ProfilePage } from '../pages/ProfilePage';
 import './styles/index.scss';
-
-// Временные заглушки для других страниц
-const TournamentsPage = () => <div style={{paddingTop: '100px', color: 'white', textAlign: 'center'}}>Турниры (в разработке)</div>;
-const TeamsPage = () => <div style={{paddingTop: '100px', color: 'white', textAlign: 'center'}}>Команды (в разработке)</div>;
-const MediaPage = () => <div style={{paddingTop: '100px', color: 'white', textAlign: 'center'}}>Медиацентр (в разработке)</div>;
-const ContactsPage = () => <div style={{paddingTop: '100px', color: 'white', textAlign: 'center'}}>Контакты (в разработке)</div>;
-const ProfilePage = () => <div style={{paddingTop: '100px', color: 'white', textAlign: 'center'}}>Личный кабинет (в разработке)</div>;
-const RegisterPage = () => <div style={{paddingTop: '100px', color: 'white', textAlign: 'center'}}>Регистрация (в разработке)</div>;
 
 function App() {
   return (
@@ -24,7 +21,6 @@ function App() {
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>
   );

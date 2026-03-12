@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../../widgets/Header';
+import { Footer } from '../../../widgets/Footer';
 import { FAQSection } from '../../../entities/faq';
 import styles from './HomePage.module.scss';
 
@@ -23,21 +24,18 @@ export const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleDetailClick = () => {
-    console.log('Navigating to disciplines');
     navigate('/disciplines');
   };
 
   const handleLearnMoreClick = () => {
-    console.log('Navigating to faq');
     navigate('/faq');
   };
 
   return (
-    <div className={styles.homePage}>
+    <div className={styles.page}>
       <Header />
       
       <main className={styles.main}>
-        {/* Верхняя часть с заголовком */}
         <div className={styles.topSection}>
           <div className={styles.container}>
             <div className={styles.leftColumn}>
@@ -51,7 +49,6 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Секция "НАШИ ДИСЦИПЛИНЫ" */}
         <div className={styles.disciplinesSection}>
           <div className={styles.container}>
             <div className={styles.rightColumn}>
@@ -59,7 +56,7 @@ export const HomePage: React.FC = () => {
               <div className={styles.imageWrapper}>
                 <div className={styles.imageGlow}></div>
                 <img 
-                  src="/src/shared/assets/images/Group 12.png"
+                  src="/src/shared/assets/images/basketball.jpg" 
                   alt="Фиджитал Баскетбол" 
                   className={styles.disciplineImage}
                 />
@@ -77,12 +74,13 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Секция FAQ */}
         <FAQSection 
           items={faqItems} 
           onButtonClick={handleLearnMoreClick}
         />
       </main>
+
+      <Footer />
     </div>
   );
 };

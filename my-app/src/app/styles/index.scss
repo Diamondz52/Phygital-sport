@@ -6,16 +6,81 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: $font-family-base;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: $bg-dark;
   color: $text-primary;
+  line-height: 1.5;
 }
 
 #root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Общие стили для контейнера
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 $spacing-xl;
+  width: 100%;
+}
+
+// Общие стили для кнопок
+.button {
+  background: transparent;
+  border: 2px solid $primary-color;
+  border-radius: $radius-round;
+  padding: $spacing-md $spacing-xl;
+  color: $text-primary;
+  font-size: $font-size-md;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(211, 141, 255, 0.3);
+
+  &:hover {
+    background: $primary-hover;
+    border-color: $primary-hover;
+    color: $text-primary;
+    box-shadow: 0 0 30px rgba(194, 94, 255, 0.5);
+  }
+
+  &:active {
+    transform: translateY(2px);
+  }
+}
+
+// Общие стили для ссылок
+.link {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+  }
+}
+
+// Утилиты для текста
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
 }
