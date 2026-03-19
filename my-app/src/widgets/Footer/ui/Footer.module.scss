@@ -10,9 +10,9 @@
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1600px; // Увеличил максимальную ширину
   margin: 0 auto;
-  padding: 0 $spacing-xl;
+  padding: 0 $spacing-xxl; // Увеличил отступы по бокам
 }
 
 .footerContent {

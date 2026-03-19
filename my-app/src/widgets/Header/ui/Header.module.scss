@@ -6,43 +6,49 @@
   display: flex;
   justify-content: center;
   background: linear-gradient(180deg, $bg-dark 0%, rgba(25, 0, 39, 0.95) 100%);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba($primary-color, 0.2);
 }
 
 .container {
   width: 100%;
+  max-width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 $spacing-xl;
+  padding: 0 $spacing-xxl;
 }
 
 .navWrapper {
   background: $bg-overlay;
   border-radius: $radius-round;
-  padding: $spacing-sm $spacing-xl;
+  padding: $spacing-md $spacing-xxl;
   display: inline-flex;
   backdrop-filter: blur(5px);
-  border: 1px solid rgba($primary-color, 0.2);
+  width: 100%;
+  max-width: 1250px; // Увеличил максимальную ширину навигации
+  justify-content: center;
 }
 
 .nav {
+  width: 100%;
+  
   .navList {
     display: flex;
     list-style: none;
-    gap: $spacing-xl;
+    gap: $spacing-xxl; // Увеличил расстояние между пунктами
     margin: 0;
     padding: 0;
     align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 
   .navLink {
     color: $text-primary;
     text-decoration: none;
-    font-size: $font-size-md;
+    font-size: $font-size-xl; // Увеличил размер текста до 24px
     font-weight: 500;
     transition: color 0.3s ease;
     white-space: nowrap;
+    letter-spacing: 0.5px; // Добавил небольшой интервал между буквами
 
     &:hover {
       color: $primary-color;
@@ -71,18 +77,8 @@
 
     svg {
       display: block;
-    }
-  }
-}
-
-@media (max-width: $breakpoint-tablet) {
-  .navWrapper {
-    overflow-x: auto;
-    max-width: 100%;
-    padding: $spacing-sm $spacing-lg;
-    
-    .navList {
-      gap: $spacing-lg;
+      width: 28px; // Увеличил иконку
+      height: 28px;
     }
   }
 }

@@ -36,6 +36,15 @@ export const HomePage: React.FC = () => {
       <Header />
       
       <main className={styles.main}>
+        {/* Первая рука (слева от текста) */}
+        <div className={styles.handLeft}>
+          <img 
+            src="/src/shared/assets/images/hand-left.png" 
+            alt="Hand" 
+            className={styles.handImage}
+          />
+        </div>
+
         <div className={styles.topSection}>
           <div className={styles.container}>
             <div className={styles.leftColumn}>
@@ -49,6 +58,15 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
+        {/* Вторая рука (над "НАШИ ДИСЦИПЛИНЫ") */}
+        <div className={styles.handRight}>
+          <img 
+            src="/src/shared/assets/images/hand-right.png" 
+            alt="Hand" 
+            className={styles.handImage}
+          />
+        </div>
+
         <div className={styles.disciplinesSection}>
           <div className={styles.container}>
             <div className={styles.rightColumn}>
@@ -56,7 +74,7 @@ export const HomePage: React.FC = () => {
               <div className={styles.imageWrapper}>
                 <div className={styles.imageGlow}></div>
                 <img 
-                  src="/src/shared/assets/images/basketball.jpg" 
+                  src="/src/shared/assets/images/basketball.png" 
                   alt="Фиджитал Баскетбол" 
                   className={styles.disciplineImage}
                 />

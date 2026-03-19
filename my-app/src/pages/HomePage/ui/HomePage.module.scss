@@ -10,22 +10,60 @@
 .main {
   flex: 1;
   position: relative;
-  min-height:3000px; // Увеличиваем минимальную высоту, чтобы футер был внизу
+  min-height: 3000px;
 }
 
 .container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 $spacing-xl;
+  position: relative;
+  z-index: 2;
+}
+
+// Первая рука (справа, от правого края)
+.handLeft {
+  position: absolute;
+  top: 150px;
+  right: 0; // Прижимаем к правому краю
+  z-index: 1;
+  width: 450px;
+  height: auto;
+  
+  .handImage {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+// Вторая рука (слева, от левого края)
+.handRight {
+  position: absolute;
+  top: 800px;
+  left: 0; // Прижимаем к левому краю
+  z-index: 1;
+  width: 400px;
+  height: auto;
+  
+  .handImage {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
 }
 
 .topSection {
   padding-top: 180px;
-  margin-bottom: 200px;
+  margin-bottom: 400px;
+  position: relative;
+  z-index: 3;
 }
 
 .leftColumn {
   max-width: 600px;
+  position: relative;
+  z-index: 3;
 }
 
 .title {
@@ -49,6 +87,8 @@
   flex-direction: column;
   align-items: flex-end;
   width: 100%;
+  position: relative;
+  z-index: 3;
 }
 
 .disciplinesSection {
@@ -56,6 +96,7 @@
   top: 1259px;
   left: 0;
   width: 100%;
+  z-index: 3;
 }
 
 .disciplinesTitle {
