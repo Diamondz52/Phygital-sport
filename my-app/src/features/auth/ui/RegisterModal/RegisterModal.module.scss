@@ -1,0 +1,199 @@
+@import '../../../../app/styles/variables';
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 654px;
+  background: $bg-dark;
+  border-radius: 30px;
+  padding: 50px 60px;
+  z-index: 1000;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease;
+  border: 1px solid rgba($primary-color, 0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: $primary-color;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba($primary-color, 0.2);
+  }
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 700;
+  color: $primary-color;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 18px;
+  font-weight: 500;
+  color: $primary-color;
+}
+
+.input {
+  width: 100%;
+  height: 45px;
+  background: $input-bg;
+  border: none;
+  border-radius: 12px;
+  padding: 0 20px;
+  color: $secondary-color;
+  font-size: 16px;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: rgba($secondary-color, 0.5);
+  }
+
+  &:focus {
+    outline: 2px solid $primary-hover;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: $primary-color;
+}
+
+.checkboxLabel {
+  color: $primary-color;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.error {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.formError {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid #ff6b6b;
+  border-radius: 8px;
+  padding: 10px;
+  color: #ff6b6b;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.submitButton {
+  width: 100%;
+  height: 45px;
+  background: transparent;
+  border: 2px solid $primary-color;
+  border-radius: 12px;
+  color: $primary-color;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+
+  &:hover:not(:disabled) {
+    background: $primary-hover;
+    border-color: $primary-hover;
+    color: $text-primary;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.switchText {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 16px;
+  color: $primary-color;
+}
+
+.switchButton {
+  background: none;
+  border: none;
+  color: $primary-hover;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 5px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $primary-color;
+    text-decoration: underline;
+  }
+}

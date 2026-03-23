@@ -1,4 +1,4 @@
-@import './variables';
+@use './variables' as *;
 
 * {
   margin: 0;
@@ -25,7 +25,6 @@ body {
   flex-direction: column;
 }
 
-// Общие стили для контейнера
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -33,7 +32,6 @@ body {
   width: 100%;
 }
 
-// Общие стили для кнопок
 .button {
   background: transparent;
   border: 2px solid $primary-color;
@@ -60,7 +58,6 @@ body {
   }
 }
 
-// Общие стили для ссылок
 .link {
   color: $primary-color;
   text-decoration: none;
@@ -72,7 +69,6 @@ body {
   }
 }
 
-// Утилиты для текста
 .text-center {
   text-align: center;
 }

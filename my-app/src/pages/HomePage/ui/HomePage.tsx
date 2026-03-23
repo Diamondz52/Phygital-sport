@@ -36,7 +36,7 @@ export const HomePage: React.FC = () => {
       <Header />
       
       <main className={styles.main}>
-        {/* Первая рука (слева от текста) */}
+        {/* Первая рука (справа) */}
         <div className={styles.handLeft}>
           <img 
             src="/src/shared/assets/images/hand-left.png" 
@@ -58,7 +58,7 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Вторая рука (над "НАШИ ДИСЦИПЛИНЫ") */}
+        {/* Вторая рука (слева) */}
         <div className={styles.handRight}>
           <img 
             src="/src/shared/assets/images/hand-right.png" 

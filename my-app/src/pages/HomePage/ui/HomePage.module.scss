@@ -1,4 +1,4 @@
-@import '../../../app/styles/variables';
+@use '../../../app/styles/variables' as *;
 
 .page {
   display: flex;
@@ -21,11 +21,10 @@
   z-index: 2;
 }
 
-// Первая рука (справа, от правого края)
 .handLeft {
   position: absolute;
   top: 150px;
-  right: 0; // Прижимаем к правому краю
+  right: 0;
   z-index: 1;
   width: 450px;
   height: auto;
@@ -37,11 +36,10 @@
   }
 }
 
-// Вторая рука (слева, от левого края)
 .handRight {
   position: absolute;
   top: 800px;
-  left: 0; // Прижимаем к левому краю
+  left: 0;
   z-index: 1;
   width: 400px;
   height: auto;

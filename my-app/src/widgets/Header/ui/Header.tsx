@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AuthPopup } from '../../../features/auth/ui/AuthPopup';
+import { LoginModal } from '../../../features/auth/ui/LoginModal';
+import { RegisterModal } from '../../../features/auth/ui/RegisterModal';
+import { useAuth } from '../../../features/auth/model';
 import styles from './Header.module.scss';
 
 interface NavItem {
@@ -20,9 +22,10 @@ const navItems: NavItem[] = [
 
 export const Header: React.FC = () => {
   const location = useLocation();
+  const { user } = useAuth();
   const [activeItem, setActiveItem] = useState<string>('Главная');
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [showContacts, setShowContacts] = useState(true);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -33,19 +36,30 @@ export const Header: React.FC = () => {
   }, [location]);
 
   const handleProfileClick = () => {
-    setIsPopupOpen(true);
-    setShowContacts(false); // Контакты исчезают при открытии попапа
+    if (user) {
+      window.location.href = '/profile';
+    } else {
+      setIsLoginOpen(true);
+    }
   };
 
-  const handleClosePopup = () => {
-    setIsPopupOpen(false);
-    setShowContacts(true); // Контакты появляются при закрытии
+  const handleCloseLogin = () => {
+    setIsLoginOpen(false);
   };
 
-  // Фильтруем элементы навигации
-  const visibleNavItems = showContacts 
-    ? navItems 
-    : navItems.filter(item => item.label !== 'Контакты');
+  const handleCloseRegister = () => {
+    setIsRegisterOpen(false);
+  };
+
+  const handleSwitchToRegister = () => {
+    setIsLoginOpen(false);
+    setIsRegisterOpen(true);
+  };
+
+  const handleSwitchToLogin = () => {
+    setIsRegisterOpen(false);
+    setIsLoginOpen(true);
+  };
 
   return (
     <>
@@ -54,7 +68,7 @@ export const Header: React.FC = () => {
           <div className={styles.navWrapper}>
             <nav className={styles.nav}>
               <ul className={styles.navList}>
-                {visibleNavItems.map((item) => (
+                {navItems.map((item) => (
                   <li key={item.label} className={styles.navItem}>
                     <Link
                       to={item.path}
@@ -67,15 +81,15 @@ export const Header: React.FC = () => {
                     </Link>
                   </li>
                 ))}
-                {/* Кнопка с человечком */}
                 <li className={styles.navItem}>
                   <button 
                     className={styles.profileButton}
                     onClick={handleProfileClick}
+                    title={user ? "Личный кабинет" : "Войти"}
                   >
                     <svg
-                      width="20"
-                      height="20"
+                      width="28"
+                      height="28"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -93,8 +107,17 @@ export const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Попап авторизации */}
-      <AuthPopup isOpen={isPopupOpen} onClose={handleClosePopup} />
+      <LoginModal 
+        isOpen={isLoginOpen} 
+        onClose={handleCloseLogin}
+        onSwitchToRegister={handleSwitchToRegister}
+      />
+
+      <RegisterModal 
+        isOpen={isRegisterOpen} 
+        onClose={handleCloseRegister}
+        onSwitchToLogin={handleSwitchToLogin}
+      />
     </>
   );
 };

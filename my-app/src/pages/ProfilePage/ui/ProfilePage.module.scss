@@ -17,6 +17,8 @@
 .content {
   text-align: center;
   padding: $spacing-xxxl 0;
+  max-width: 500px;
+  width: 100%;
 }
 
 .title {
@@ -25,7 +27,40 @@
   margin-bottom: $spacing-xl;
 }
 
-.text {
+.userInfo {
+  background: rgba($primary-color, 0.1);
+  border: 1px solid rgba($primary-color, 0.3);
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  margin-bottom: $spacing-xl;
+  text-align: left;
+}
+
+.userName, .userEmail {
   font-size: $font-size-lg;
-  color: $text-secondary;
+  color: $text-primary;
+  margin-bottom: $spacing-sm;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.logoutButton {
+  background: transparent;
+  border: 2px solid $primary-color;
+  border-radius: $radius-round;
+  padding: $spacing-md $spacing-xl;
+  color: $text-primary;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+
+  &:hover {
+    background: $primary-hover;
+    border-color: $primary-hover;
+    color: $text-primary;
+  }
 }
