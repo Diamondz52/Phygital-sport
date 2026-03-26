@@ -56,13 +56,8 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, o
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') {
-      setAgreeToTerms(checked);
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
-    // Очищаем ошибку при вводе
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -95,46 +90,42 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, o
         
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               className={styles.input}
-              placeholder="Введите email"
+              placeholder="Email"
             />
             {errors.email && <span className={styles.error}>{errors.email}</span>}
           </div>
 
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Имя</label>
             <input
               type="text"
               name="full_name"
               value={formData.full_name}
               onChange={handleChange}
               className={styles.input}
-              placeholder="Введите имя"
+              placeholder="Имя"
             />
             {errors.full_name && <span className={styles.error}>{errors.full_name}</span>}
           </div>
 
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Пароль</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               className={styles.input}
-              placeholder="Введите пароль"
+              placeholder="Пароль"
             />
             {errors.password && <span className={styles.error}>{errors.password}</span>}
           </div>
 
           <div className={styles.inputGroup}>
-            <label className={styles.label}>Подтвердите пароль</label>
             <input
               type="password"
               name="confirmPassword"
@@ -151,7 +142,7 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, o
               type="checkbox"
               id="terms"
               checked={agreeToTerms}
-              onChange={handleChange}
+              onChange={(e) => setAgreeToTerms(e.target.checked)}
               className={styles.checkbox}
             />
             <label htmlFor="terms" className={styles.checkboxLabel}>

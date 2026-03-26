@@ -1,10 +1,12 @@
+@import '../../../../app/styles/variables';
+
 .faqSection {
   position: absolute;
   top: 2000px;
   left: 0;
   width: 100%;
   padding: 80px 0;
-  background-color: #190027;
+  background-color: $bg-dark;
 }
 
 .container {
@@ -15,52 +17,112 @@
 }
 
 .faqTitle {
-  font-size: 52px;
+  font-size: 72px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
   text-transform: uppercase;
   letter-spacing: 2px;
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
+  font-family: inherit;
 }
 
 .faqGrid {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 60px;
   margin-bottom: 60px;
   flex-wrap: wrap;
+}
+
+.faqCard {
+  width: 360px;
+  height: 520px;
+  background: rgba(44, 1, 88, 0.3);
+  border: 1px solid rgba($primary-color, 0.5);
+  border-radius: 30px;
+  padding: 35px 25px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba($primary-color, 0.4);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(180deg, rgba($primary-color, 0.15) 0%, transparent 100%);
+    pointer-events: none;
+  }
+}
+
+.faqQuestion {
+  font-size: 36px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 24px;
+  line-height: 1.3;
+  position: relative;
+  z-index: 2;
+  white-space: pre-line;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.faqAnswer {
+  font-size: 22px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.95);
+  position: relative;
+  z-index: 2;
+  white-space: pre-line;
+  text-align: left;
+  margin: 0 auto;
+  width: fit-content;
+  max-width: 90%;
+  margin-bottom: 30px;
 }
 
 .faqButtonWrapper {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 120px; // Опустил еще ниже (было 80px)
+  margin-bottom: 80px; // Увеличил отступ снизу
 }
 
 .learnMoreButton {
-  background: transparent;
-  border: 2px solid #D38DFF;
-  border-radius: 50px;
+  background: rgba(44, 1, 88, 0.3);
+  border: 1px solid rgba($primary-color, 0.5);
+  border-radius: 8px;
   padding: 16px 60px;
-  color: #FFFFFF;
+  color: $text-primary;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 1.5px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-transform: uppercase;
-  box-shadow: 0 0 20px rgba(211, 141, 255, 0.3);
+  box-shadow: 0 0 25px rgba($primary-color, 0.4);
+  width: 400px;
+  height: 60px;
+  backdrop-filter: blur(10px);
 
   &:hover {
-    background: #C25EFF;
-    border-color: #C25EFF;
-    color: #FFFFFF;
-    box-shadow: 0 0 30px rgba(194, 94, 255, 0.5);
+    background: $primary-hover;
+    border-color: $primary-hover;
+    color: $text-primary;
+    box-shadow: 0 0 30px rgba($primary-hover, 0.5);
   }
 
   &:active {
     transform: translateY(2px);
-    box-shadow: 0 0 20px rgba(194, 94, 255, 0.3);
+    box-shadow: 0 0 20px rgba($primary-hover, 0.3);
   }
 }

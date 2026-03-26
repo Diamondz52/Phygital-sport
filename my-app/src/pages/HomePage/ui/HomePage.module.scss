@@ -1,16 +1,18 @@
-@use '../../../app/styles/variables' as *;
+@import '../../../app/styles/variables';
 
 .page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background-color: $bg-dark;
+  overflow-x: clip;
 }
 
 .main {
   flex: 1;
   position: relative;
   min-height: 3000px;
+  overflow-x: visible;
 }
 
 .container {
@@ -21,33 +23,39 @@
   z-index: 2;
 }
 
+// Левая рука - справа
 .handLeft {
   position: absolute;
-  top: 150px;
-  right: 0;
-  z-index: 1;
-  width: 450px;
-  height: auto;
+  top: -130px;
+  right: -65px;
+  z-index: 0;
+  width: 1200px;
+  height: 1100px;
+  pointer-events: none;
   
   .handImage {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: contain;
+    pointer-events: none;
   }
 }
 
+// Правая рука - слева (увеличена)
 .handRight {
   position: absolute;
-  top: 800px;
-  left: 0;
-  z-index: 1;
-  width: 400px;
-  height: auto;
+  top: 750px;
+  left: -150px; // Сдвинул левее
+  z-index: 0;
+  width: 1100px; // Увеличил (было 800px)
+  height: 1500px; // Увеличил (было 1271px)
+  pointer-events: none;
   
   .handImage {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: contain;
+    pointer-events: none;
   }
 }
 
@@ -56,62 +64,90 @@
   margin-bottom: 400px;
   position: relative;
   z-index: 3;
+  padding-left: -40px;
+  margin-left: -40px;
 }
 
 .leftColumn {
-  max-width: 600px;
+  max-width: 1100px;
   position: relative;
   z-index: 3;
+  margin-left: -80px;
 }
 
-.title {
-  font-size: $font-size-hero;
+.titleSmall {
+  font-size: 58px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 0;
+  color: $text-primary;
+  text-transform: uppercase;
+  background: transparent;
+  letter-spacing: 1px;
+}
+
+.titleLarge {
+  font-size: 90px;
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: $spacing-xl;
-  color: $text-primary;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
   text-transform: uppercase;
+  background: transparent;
+  letter-spacing: 2px;
+  margin-top: -10px;
 }
 
 .description {
-  font-size: $font-size-lg;
-  line-height: 1.6;
-  color: $text-secondary;
-  max-width: 650px;
+  font-size: 32px;
+  line-height: 1.2;
+  color: #746080;
+  max-width: 950px;
+  margin-top: 20px;
 }
 
-.rightColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: 100%;
-  position: relative;
-  z-index: 3;
-}
-
-.disciplinesSection {
+// Отдельный компонент для заголовка "НАШИ ДИСЦИПЛИНЫ"
+.disciplinesTitleWrapper {
   position: absolute;
-  top: 1259px;
-  left: 0;
-  width: 100%;
+  top: 1050px;
+  right: 265px;
   z-index: 3;
+  width: 553px;
+  display: flex;
+  justify-content: center;
 }
 
 .disciplinesTitle {
-  font-size: $font-size-title;
+  font-size: 64px;
   font-weight: 700;
-  color: $text-primary;
-  margin-bottom: $spacing-xl;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
+  margin: 0;
   text-transform: uppercase;
-  text-align: right;
-  width: 100%;
+  text-align: center;
+  background: transparent;
+  white-space: nowrap;
+}
+
+// Секция с фото (отдельный компонент)
+.disciplinesSection {
+  position: absolute;
+  top: 1280px;
+  right: 265px;
+  width: 553px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .imageWrapper {
   position: relative;
   width: 553px;
   height: 602px;
-  margin-left: auto;
 }
 
 .imageGlow {
@@ -158,7 +194,6 @@
   font-size: 36px;
   font-weight: 400;
   color: $text-primary;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   text-align: center;
   margin-top: 40px;
   letter-spacing: 1px;
@@ -169,7 +204,7 @@
   height: 60px;
   background: rgba(44, 1, 88, 0.3);
   border: 1.5px solid rgba($primary-color, 0.6);
-  border-radius: $radius-round;
+  border-radius: 8px;
   color: $text-primary;
   font-size: $font-size-lg;
   font-weight: 600;

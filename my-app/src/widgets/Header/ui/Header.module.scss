@@ -13,7 +13,7 @@
   max-width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 $spacing-xxl;
+  padding: 0 100px;
 }
 
 .navWrapper {
@@ -23,7 +23,7 @@
   display: inline-flex;
   backdrop-filter: blur(5px);
   width: 100%;
-  max-width: 1400px;
+  max-width: 1300px; // Увеличил с 1200px до 1300px
   justify-content: center;
 }
 
@@ -33,7 +33,7 @@
   .navList {
     display: flex;
     list-style: none;
-    gap: $spacing-xxl;
+    gap: 56px;
     margin: 0;
     padding: 0;
     align-items: center;

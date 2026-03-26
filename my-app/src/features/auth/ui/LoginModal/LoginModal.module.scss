@@ -15,7 +15,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 654px;
+  width: 600px;
   background: $bg-dark;
   border-radius: 30px;
   padding: 50px 60px;
@@ -61,7 +61,7 @@
 .title {
   font-size: 42px;
   font-weight: 700;
-  color: $primary-color;
+  color: #FFFFFF; // Белый цвет
   margin-bottom: 40px;
   text-align: center;
 }
@@ -69,7 +69,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
   width: 100%;
 }
 
@@ -79,30 +79,24 @@
   gap: 8px;
 }
 
-.label {
-  font-size: 18px;
-  font-weight: 500;
-  color: $primary-color;
-}
-
 .input {
   width: 100%;
-  height: 45px;
-  background: $input-bg;
+  height: 55px;
+  background: #4C007B;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 0 20px;
-  color: $secondary-color;
-  font-size: 16px;
+  color: #FFFFFF;
+  font-size: 18px;
   transition: all 0.2s ease;
 
   &::placeholder {
-    color: rgba($secondary-color, 0.5);
+    color: rgba(255, 255, 255, 0.6);
   }
 
   &:focus {
-    outline: 2px solid $primary-hover;
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: 0 0 0 2px $primary-color;
   }
 
   &:disabled {
@@ -129,10 +123,10 @@
 
 .submitButton {
   width: 100%;
-  height: 45px;
+  height: 55px;
   background: transparent;
   border: 2px solid $primary-color;
-  border-radius: 12px;
+  border-radius: 8px;
   color: $primary-color;
   font-size: 18px;
   font-weight: 600;
@@ -153,10 +147,10 @@
 }
 
 .switchText {
-  margin-top: 25px;
+  margin-top: 30px;
   text-align: center;
   font-size: 16px;
-  color: $primary-color;
+  color: #FFFFFF; // Белый цвет
 }
 
 .switchButton {
