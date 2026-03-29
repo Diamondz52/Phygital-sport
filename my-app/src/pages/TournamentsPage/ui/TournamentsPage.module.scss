@@ -9,23 +9,91 @@
 
 .main {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 120px 0 80px;
 }
 
-.content {
-  text-align: center;
-  padding: $spacing-xxxl 0;
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
 .title {
-  font-size: $font-size-title;
-  color: $primary-color;
-  margin-bottom: $spacing-xl;
+  font-size: 72px;
+  font-weight: 800;
+  color: $text-primary;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
 }
 
-.text {
-  font-size: $font-size-lg;
+.subtitle {
+  font-size: 20px;
   color: $text-secondary;
+  line-height: 1.6;
+  margin-bottom: 60px;
+  max-width: 800px;
+}
+
+.tournamentCard {
+  background: rgba(44, 1, 88, 0.3);
+  border: 1px solid rgba($primary-color, 0.3);
+  border-radius: 30px;
+  padding: 50px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba($primary-color, 0.2);
+  max-width: 900px;
+}
+
+.tournamentTitle {
+  font-size: 36px;
+  font-weight: 700;
+  color: $primary-color;
+  margin-bottom: 15px;
+}
+
+.tournamentDate {
+  font-size: 18px;
+  color: $text-secondary;
+  margin-bottom: 25px;
+}
+
+.tournamentDescription {
+  font-size: 18px;
+  color: $text-primary;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.tournamentStages {
+  font-size: 18px;
+  color: $text-primary;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.tournamentResult {
+  font-size: 18px;
+  color: $text-primary;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.applyButton {
+  background: transparent;
+  border: 2px solid $primary-color;
+  border-radius: 8px;
+  padding: 14px 40px;
+  color: $primary-color;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+
+  &:hover {
+    background: $primary-hover;
+    border-color: $primary-hover;
+    color: $text-primary;
+  }
 }
