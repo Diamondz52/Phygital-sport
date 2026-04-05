@@ -75,13 +75,13 @@
   }
 }
 
-// Фото джойстиков с наклоном - увеличено
+// Фото джойстиков с наклоном
 .joystickImage {
   position: absolute;
   top: 2150px;
   right: -370px;
-  width: 950px; // Увеличил
-  height: 1350px; // Увеличил
+  width: 950px;
+  height: 1350px;
   z-index: 10;
   transform: rotate(0.04deg);
   pointer-events: none;
