@@ -9,23 +9,213 @@
 
 .main {
   flex: 1;
+  padding: 60px 0 0;
+  position: relative;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 88px;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 50px;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 24px;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 70px;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 512px);
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+.image {
+  width: 512px;
+  height: 376px;
+  cursor: pointer;
+  border-radius: 15px;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+  
+  &:hover {
+    filter: drop-shadow(0px 0px 20px rgba(231, 192, 255, 0.8));
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.content {
-  text-align: center;
-  padding: $spacing-xxxl 0;
+.modalContent {
+  position: relative;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
 }
 
-.title {
-  font-size: $font-size-title;
-  color: $primary-color;
-  margin-bottom: $spacing-xl;
+.closeButton {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  
+  &:hover {
+    background: rgba(231, 192, 255, 0.8);
+    color: #000;
+  }
 }
 
-.text {
-  font-size: $font-size-lg;
-  color: $text-secondary;
+.prevButton {
+  position: absolute;
+  left: -80px;
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%;
+  font-size: 36px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover:not(:disabled) {
+    background: rgba(231, 192, 255, 0.8);
+    color: #000;
+  }
+  
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.nextButton {
+  position: absolute;
+  right: -80px;
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  border-radius: 50%;
+  font-size: 36px;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover:not(:disabled) {
+    background: rgba(231, 192, 255, 0.8);
+    color: #000;
+  }
+  
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.counter {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #FFFFFF;
+  font-size: 16px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.modalImage {
+  width: 1200px;
+  height: 1350px;
+  object-fit: contain;
+  border: none;
+  box-shadow: none;
+  display: block;
+}
+
+@media (max-width: 1400px) {
+  .modalImage {
+    width: 900px;
+    height: 1012px;
+  }
+  
+  .prevButton {
+    left: -60px;
+  }
+  
+  .nextButton {
+    right: -60px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .modalImage {
+    width: 700px;
+    height: 787px;
+  }
+}
+
+@media (max-width: 800px) {
+  .modalImage {
+    width: 500px;
+    height: 562px;
+  }
 }
