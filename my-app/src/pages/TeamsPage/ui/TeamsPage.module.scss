@@ -9,23 +9,273 @@
 
 .main {
   flex: 1;
+  padding: 40px 0 450px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+// Заголовок
+.title {
+  margin-top: 40px;
+  font-size: 88px;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  margin-bottom: 30px;
+  align-self: center;
+}
+
+// Подзаголовок
+.subtitle {
+  text-align: center;
+  font-size: 24px;
+  color: $text-secondary;
+  line-height: 1.6;
+  max-width: 1100px;
+  margin-bottom: 50px;
+  align-self: center;
+}
+
+// Кнопка "Как создать команду?"
+.createButton {
+  position: absolute;
+  width: 320px;
+  height: 60px;
+  right: 0;
+  top: 280px;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid #FFFFFF;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #FFFFFF;
+    border-color: #FFFFFF;
+    color: #000000;
+  }
+}
+
+// Список команд
+.teamsList {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 704px;
+  margin-top: 100px;
+}
+
+.teamWrapper {
+  width: 100%;
+}
+
+// Карточка команды
+.teamCard {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid #FFFFFF;
+  border-radius: 30px;
+  padding: 14px 25px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  
+  &:hover {
+    border-color: $primary-color;
+    background: rgba(194, 94, 255, 0.1);
+  }
+}
+
+.teamLogo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #D9D9D9;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.teamName {
+  font-size: 32px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+// Состав команды
+.teamComposition {
+  position: absolute;
+  width: 560px;
+  right: 0;
+  top: 380px;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid #FFFFFF;
+  border-radius: 30px;
+  padding: 30px;
+}
+
+.compositionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.compositionTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.compositionAvatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #D9D9D9;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.playersList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.playerCard {
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid #FFFFFF;
+  border-radius: 15px;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .playerName {
+    font-size: 20px;
+    font-weight: 400;
+    color: #FFFFFF;
+  }
+  
+  .captainBadge {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(194, 94, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+}
+
+// Модальное окно "Создание команды"
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.content {
+.createTeamModal {
+  position: relative;
+  width: 640px;
+  height: auto;
+  min-height: 580px;
+  background: linear-gradient(158.07deg, #2A0050 2.22%, #1A0032 95.14%);
+  border-radius: 15px;
+  padding: 50px 70px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+}
+
+.createTeamTitle {
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 36px;
+  color: #FFFFFF;
   text-align: center;
-  padding: $spacing-xxxl 0;
+  margin-bottom: 30px;
+  margin-top: 0;
 }
 
-.title {
-  font-size: $font-size-title;
-  color: $primary-color;
-  margin-bottom: $spacing-xl;
+.createTeamText {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 36px;
+  color: #FFFFFF;
+  flex: 1;
+  
+  p {
+    margin: 0 0 15px 0;
+  }
+  
+  .checklist {
+    margin: 15px 0;
+    
+    p {
+      margin: 0 0 8px 0;
+    }
+  }
 }
 
-.text {
-  font-size: $font-size-lg;
-  color: $text-secondary;
+.sendButton {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #FFFFFF;
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 30px;
+  
+  &:hover {
+    background: #E7C0FF;
+    border-color: #E7C0FF;
+    color: #000000;
+  }
 }
