@@ -1,28 +1,99 @@
 @import '../../../app/styles/variables';
 
 .page {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  background-color: #190027;
 }
 
-.content {
+.main {
   flex: 1;
+  padding: 60px 0 100px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// Заголовок как на странице турниры
+.title {
+  font-size: 88px;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 50px;
+  line-height: 1.2;
+}
+
+// Сетка 3 колонки
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 416px);
+  gap: 60px;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 140px;
+}
+
+// Карточка FAQ
+.faqCard {
+  width: 416px;
+  height: 550px;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid #936DAB;
+  box-shadow: 0px 0px 24.6px 3px #936DAB;
+  border-radius: 30px;
+  padding: 40px 39px 5px 39px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 35px;
+}
+
+// Заголовок вопроса
+.question {
+  width: 267px;
+  height: 80px;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $spacing-xxxl 0;
+  white-space: pre-line;
 }
 
-.title {
-  font-size: $font-size-title;
-  color: $primary-color;
-  margin-bottom: $spacing-xl;
-  text-align: center;
-}
-
-.text {
-  font-size: $font-size-lg;
-  color: $text-secondary;
-  text-align: center;
+// Текст ответа - по левому краю
+.answer {
+  width: 338px;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 36px;
+  text-align: left;
+  color: #FFFFFF;
+  margin: 0;
+  white-space: pre-line;
+  align-self: flex-start;
 }
