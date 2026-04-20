@@ -4,63 +4,362 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: $bg-dark;
+  background-color: #190027;
 }
 
 .main {
   flex: 1;
+  padding: 60px 0 100px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// Заголовок
+.title {
+  font-size: 88px;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 50px;
+  line-height: 1.2;
+}
+
+// Карточка профиля
+.profileCard {
+  width: 100%;
+  max-width: 1151px;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid #936DAB;
+  box-shadow: 0px 0px 24.6px 3px #936DAB;
+  border-radius: 30px;
+  padding: 50px 60px;
+  display: flex;
+  gap: 60px;
+}
+
+// Левая колонка
+.leftColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+// Информация о пользователе (имя и почта по центру)
+.userInfo {
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(211, 141, 255, 0.3);
+}
+
+.userName {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 8px 0;
+}
+
+.userEmail {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+// Информация
+.infoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.infoGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  
+  label {
+    font-size: 18px;
+    font-weight: 600;
+    color: $primary-color;
+  }
+  
+  p {
+    font-size: 18px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+}
+
+.editInput {
+  background: rgba(76, 0, 123, 0.5);
+  border: 1px solid rgba(211, 141, 255, 0.3);
+  border-radius: 8px;
+  padding: 10px 15px;
+  color: #FFFFFF;
+  font-size: 16px;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+  }
+}
+
+// Кнопки
+.buttonGroup {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.editButton, .saveButton, .cancelButton {
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editButton {
+  background: transparent;
+  border: 1px solid #FFFFFF;
+  color: #FFFFFF;
+  
+  &:hover {
+    background: #FFFFFF;
+    color: #000000;
+  }
+}
+
+.saveButton {
+  background: $primary-color;
+  border: none;
+  color: #190027;
+  
+  &:hover {
+    background: $primary-hover;
+  }
+}
+
+.cancelButton {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.8);
+  
+  &:hover {
+    border-color: #ff6b6b;
+    color: #ff6b6b;
+  }
+}
+
+.saveMessage {
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(76, 0, 123, 0.3);
+  color: $primary-color;
+  font-size: 14px;
+}
+
+// Правая колонка - команды
+.rightColumn {
+  width: 380px;
+  border-left: 1px solid rgba(211, 141, 255, 0.3);
+  padding-left: 40px;
+}
+
+.teamsTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: $primary-color;
+  margin-bottom: 25px;
+}
+
+// Список команд (выдвижной)
+.teamsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.teamItem {
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid rgba(211, 141, 255, 0.3);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.teamHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  
+  &:hover {
+    background: rgba(194, 94, 255, 0.1);
+  }
+}
+
+.teamHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.teamName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.captainBadge {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: $primary-color;
+  color: #190027;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.expandIcon {
+  color: $primary-color;
+  transition: transform 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.content {
-  text-align: center;
-  padding: $spacing-xxxl 0;
-  max-width: 500px;
-  width: 100%;
-}
-
-.title {
-  font-size: $font-size-title;
-  color: $primary-color;
-  margin-bottom: $spacing-xl;
-}
-
-.userInfo {
-  background: rgba($primary-color, 0.1);
-  border: 1px solid rgba($primary-color, 0.3);
-  border-radius: $radius-lg;
-  padding: $spacing-xl;
-  margin-bottom: $spacing-xl;
-  text-align: left;
-}
-
-.userName, .userEmail {
-  font-size: $font-size-lg;
-  color: $text-primary;
-  margin-bottom: $spacing-sm;
   
-  &:last-child {
-    margin-bottom: 0;
+  svg {
+    display: block;
   }
+  
+  &.expanded {
+    transform: rotate(180deg);
+  }
+}
+
+.teamMembers {
+  padding: 0 20px 20px 20px;
+  border-top: 1px solid rgba(211, 141, 255, 0.2);
+  animation: slideDown 0.3s ease;
+  
+  .membersTitle {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 12px;
+    margin-top: 15px;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      font-size: 16px;
+      color: #FFFFFF;
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(211, 141, 255, 0.1);
+      
+      &:last-child {
+        border-bottom: none;
+      }
+      
+      .memberRole {
+        font-size: 12px;
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.noTeams {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 40px 0;
+}
+
+// Кнопка выхода
+.logoutWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1151px;
 }
 
 .logoutButton {
   background: transparent;
-  border: 2px solid $primary-color;
-  border-radius: $radius-round;
-  padding: $spacing-md $spacing-xl;
-  color: $text-primary;
-  font-size: $font-size-lg;
+  border: 2px solid #E7C0FF;
+  border-radius: 12px;
+  padding: 14px 40px;
+  font-size: 18px;
   font-weight: 600;
+  color: #E7C0FF;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 100%;
-
+  
   &:hover {
-    background: $primary-hover;
-    border-color: $primary-hover;
-    color: $text-primary;
+    background: #AE2AFF;
+    border-color: #AE2AFF;
+    color: #FFFFFF;
+  }
+}
+
+// Загрузка
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+  
+  p {
+    color: $text-secondary;
+    font-size: 18px;
+  }
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba($primary-color, 0.3);
+  border-top-color: $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
