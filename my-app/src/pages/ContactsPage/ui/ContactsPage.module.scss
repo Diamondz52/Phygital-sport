@@ -4,28 +4,333 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: $bg-dark;
+  background-color: #190027;
 }
 
 .main {
   flex: 1;
+  padding: 60px 0 100px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-size: 88px;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 50px;
+  line-height: 1.2;
+}
+
+.contactsWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+}
+
+.contactInfoCard {
+  width: 100%;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid #936DAB;
+  box-shadow: 0px 0px 24.6px 3px #936DAB;
+  border-radius: 30px;
+  padding: 50px 40px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0px 0px 35px 5px #936DAB;
+  }
+}
+
+.contactTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, $primary-color, transparent);
+  }
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(211, 141, 255, 0.08);
+    transform: translateY(-3px);
+  }
+}
+
+.infoIcon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(211, 141, 255, 0.1);
+  border-radius: 50%;
+  flex-shrink: 0;
+  
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.infoContent {
+  flex: 1;
+}
+
+.infoLabel {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.infoValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.4;
+}
+
+.infoSubValue {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 4px;
+}
+
+.writeButton {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(211, 141, 255, 0.1), rgba(211, 141, 255, 0.05));
+  border: 1px solid #E7C0FF;
+  border-radius: 50px;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  
+  &:hover {
+    background: #E7C0FF;
+    color: #190027;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(231, 192, 255, 0.3);
+  }
+}
+
+// Модальное окно
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.content {
+.modalContent {
+  position: relative;
+  width: 520px;
+  max-width: 90%;
+  background: linear-gradient(158.07deg, #2A0050 2.22%, #1A0032 95.14%);
+  border: 1px solid #936DAB;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0px 0px 40px 5px rgba(147, 109, 171, 0.3);
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modalClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #FFFFFF;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(211, 141, 255, 0.2);
+    color: $primary-color;
+  }
+}
+
+.modalTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFFFFF;
   text-align: center;
-  padding: $spacing-xxxl 0;
+  margin-bottom: 30px;
 }
 
-.title {
-  font-size: $font-size-title;
-  color: $primary-color;
-  margin-bottom: $spacing-xl;
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.text {
-  font-size: $font-size-lg;
-  color: $text-secondary;
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.modalInput, .modalTextarea {
+  background: rgba(76, 0, 123, 0.5);
+  border: 1px solid rgba(211, 141, 255, 0.3);
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: #FFFFFF;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+  }
+  
+  &.error {
+    border-color: #ff6b6b;
+  }
+}
+
+.modalTextarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: #ff6b6b;
+  padding-left: 10px;
+}
+
+.modalSubmit {
+  background: transparent;
+  border: 1px solid #E7C0FF;
+  border-radius: 50px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  
+  &:hover:not(:disabled) {
+    background: #E7C0FF;
+    color: #190027;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.submitMessage {
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+  
+  &.success {
+    background: rgba(76, 0, 123, 0.3);
+    border: 1px solid $primary-color;
+    color: $primary-color;
+  }
+  
+  &.error {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+  }
+}
+
+@media (max-width: 700px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .contactInfoCard {
+    padding: 30px 25px;
+  }
+  
+  .contactTitle {
+    font-size: 28px;
+  }
 }
