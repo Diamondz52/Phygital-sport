@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../model';
 import styles from './RegisterModal.module.scss';
 
@@ -9,10 +10,12 @@ interface RegisterModalProps {
 }
 
 export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, onSwitchToLogin }) => {
+  const navigate = useNavigate();
   const { register } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
-    full_name: '',
+    firstName: '',
+    lastName: '',
     password: '',
     confirmPassword: ''
   });
@@ -31,10 +34,16 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, o
       newErrors.email = 'Неверный формат email';
     }
 
-    if (!formData.full_name) {
-      newErrors.full_name = 'Имя обязательно';
-    } else if (formData.full_name.length < 2) {
-      newErrors.full_name = 'Имя должно содержать минимум 2 символа';
+    if (!formData.firstName) {
+      newErrors.firstName = 'Имя обязательно';
+    } else if (formData.firstName.length < 2) {
+      newErrors.firstName = 'Имя должно содержать минимум 2 символа';
+    }
+
+    if (!formData.lastName) {
+      newErrors.lastName = 'Фамилия обязательна';
+    } else if (formData.lastName.length < 2) {
+      newErrors.lastName = 'Фамилия должна содержать минимум 2 символа';
     }
 
     if (!formData.password) {
@@ -70,8 +79,10 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, o
 
     setIsLoading(true);
     try {
-      await register(formData.email, formData.full_name, formData.password);
+      const fullName = `${formData.firstName} ${formData.lastName}`;
+      await register(formData.email, fullName, formData.password);
       onClose();
+      navigate('/profile');
     } catch (error: any) {
       setErrors({ form: error.message || 'Ошибка регистрации' });
     } finally {
@@ -104,13 +115,25 @@ export const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, o
           <div className={styles.inputGroup}>
             <input
               type="text"
-              name="full_name"
-              value={formData.full_name}
+              name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
               className={styles.input}
               placeholder="Имя"
             />
-            {errors.full_name && <span className={styles.error}>{errors.full_name}</span>}
+            {errors.firstName && <span className={styles.error}>{errors.firstName}</span>}
+          </div>
+
+          <div className={styles.inputGroup}>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              className={styles.input}
+              placeholder="Фамилия"
+            />
+            {errors.lastName && <span className={styles.error}>{errors.lastName}</span>}
           </div>
 
           <div className={styles.inputGroup}>

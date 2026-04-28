@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../../widgets/Header';
 import { Footer } from '../../../widgets/Footer';
-import { FAQSection } from '../../../entities/faq';
+import { FAQSection } from '../../../features/faq';
 import styles from './HomePage.module.scss';
 
 export const HomePage: React.FC = () => {
@@ -14,6 +14,10 @@ export const HomePage: React.FC = () => {
 
   const handleLearnMoreClick = () => {
     navigate('/faq');
+    // Прокрутка к началу страницы FAQ
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
   };
 
   return (

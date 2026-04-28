@@ -6,6 +6,12 @@ interface FAQSectionProps {
 }
 
 export const FAQSection: React.FC<FAQSectionProps> = ({ onButtonClick }) => {
+  const handleClick = () => {
+    if (onButtonClick) {
+      onButtonClick();
+    }
+  };
+
   return (
     <div className={styles.faqSection}>
       <div className={styles.container}>
@@ -71,7 +77,7 @@ export const FAQSection: React.FC<FAQSectionProps> = ({ onButtonClick }) => {
         <div className={styles.faqButtonWrapper}>
           <button 
             className={styles.learnMoreButton}
-            onClick={onButtonClick}
+            onClick={handleClick}
           >
             УЗНАТЬ БОЛЬШЕ
           </button>

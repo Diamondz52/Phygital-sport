@@ -40,7 +40,7 @@
 .faqCard {
   width: 360px;
   height: 520px;
-  background: rgba(44, 1, 88, 0.3);
+  background: transparent; // Прозрачный фон
   border: 1px solid rgba($primary-color, 0.5);
   border-radius: 30px;
   padding: 35px 25px;
@@ -93,8 +93,8 @@
 .faqButtonWrapper {
   display: flex;
   justify-content: center;
-  margin-top: 120px; // Опустил еще ниже (было 80px)
-  margin-bottom: 80px; // Увеличил отступ снизу
+  margin-top: 120px;
+  margin-bottom: 80px;
 }
 
 .learnMoreButton {

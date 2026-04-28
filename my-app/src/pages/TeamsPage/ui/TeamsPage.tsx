@@ -108,11 +108,15 @@ export const TeamsPage: React.FC = () => {
                 </div>
               </div>
               
+              <div className={styles.compositionCaptain}>
+                <div className={styles.captainLabel}>капитан</div>
+                <div className={styles.captainName}>{selectedTeam.captain}</div>
+              </div>
+              
               <div className={styles.playersList}>
-                {selectedTeam.players.map((player) => (
+                {selectedTeam.players.map((player, index) => (
                   <div key={player.id} className={styles.playerCard}>
-                    <span className={styles.playerName}>{player.name}</span>
-                    {player.isCaptain && <span className={styles.captainBadge}>капитан</span>}
+                    <span className={styles.playerName}>Игрок {index + 1}</span>
                   </div>
                 ))}
               </div>
@@ -127,6 +131,7 @@ export const TeamsPage: React.FC = () => {
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={handleCloseModal}>
           <div className={styles.createTeamModal} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.closeButton} onClick={handleCloseModal}>×</button>
             <h2 className={styles.createTeamTitle}>Создание команды</h2>
             <div className={styles.createTeamText}>
               <p>Свяжитесь с организатором для подачи заявки на создание команды и укажите:</p>

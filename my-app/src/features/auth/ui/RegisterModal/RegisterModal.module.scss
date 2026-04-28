@@ -7,6 +7,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
   z-index: 999;
 }
 
@@ -15,16 +16,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
-  background: $bg-dark;
+  width: 654px;
+  height: auto;
+  min-height: 700px;
+  background: #1A0032;
   border-radius: 30px;
   padding: 50px 60px;
   z-index: 1000;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
   animation: fadeIn 0.3s ease;
-  border: 1px solid rgba($primary-color, 0.3);
-  max-height: 90vh;
-  overflow-y: auto;
+  border: 1px solid #936DAB;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes fadeIn {
@@ -45,7 +48,7 @@
   background: none;
   border: none;
   font-size: 32px;
-  color: $primary-color;
+  color: #FFFFFF;
   cursor: pointer;
   width: 40px;
   height: 40px;
@@ -56,14 +59,14 @@
   transition: all 0.2s ease;
 
   &:hover {
-    background: rgba($primary-color, 0.2);
+    background: rgba(255, 255, 255, 0.2);
   }
 }
 
 .title {
   font-size: 42px;
   font-weight: 700;
-  color: #FFFFFF; // Белый цвет
+  color: #FFFFFF;
   margin-bottom: 40px;
   text-align: center;
 }
@@ -86,7 +89,7 @@
   height: 55px;
   background: #4C007B;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 0 20px;
   color: #FFFFFF;
   font-size: 18px;
@@ -98,7 +101,7 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px $primary-color;
+    box-shadow: 0 0 0 2px #D38DFF;
   }
 
   &:disabled {
@@ -118,11 +121,11 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: $primary-color;
+  accent-color: #D38DFF;
 }
 
 .checkboxLabel {
-  color: #FFFFFF; // Белый цвет
+  color: #FFFFFF;
   font-size: 14px;
   cursor: pointer;
 }
@@ -147,9 +150,9 @@
   width: 100%;
   height: 55px;
   background: transparent;
-  border: 2px solid $primary-color;
-  border-radius: 8px;
-  color: $primary-color;
+  border: 2px solid #FFFFFF;
+  border-radius: 12px;
+  color: #FFFFFF;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
@@ -157,9 +160,9 @@
   margin-top: 15px;
 
   &:hover:not(:disabled) {
-    background: $primary-hover;
-    border-color: $primary-hover;
-    color: $text-primary;
+    background: #FFFFFF;
+    border-color: #FFFFFF;
+    color: #190027;
   }
 
   &:disabled {
@@ -172,13 +175,13 @@
   margin-top: 25px;
   text-align: center;
   font-size: 16px;
-  color: #FFFFFF; // Белый цвет
+  color: #FFFFFF;
 }
 
 .switchButton {
   background: none;
   border: none;
-  color: $primary-hover;
+  color: #D38DFF;
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;
@@ -187,7 +190,7 @@
   transition: color 0.2s ease;
 
   &:hover {
-    color: $primary-color;
+    color: #FFFFFF;
     text-decoration: underline;
   }
 }

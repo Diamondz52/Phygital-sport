@@ -33,7 +33,7 @@
   flex: 1;
   position: relative;
   z-index: 2;
-  white-space: pre-line; // Сохраняет переносы строк
+  white-space: pre-line;
 
   &::-webkit-scrollbar {
     width: 4px;

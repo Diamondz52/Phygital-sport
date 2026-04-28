@@ -185,7 +185,7 @@ export const ContactsPage: React.FC = () => {
               </div>
               
               <button className={styles.writeButton} onClick={handleOpenModal}>
-                Написать нам
+                Задать вопрос
               </button>
             </div>
           </div>
@@ -198,7 +198,7 @@ export const ContactsPage: React.FC = () => {
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <button className={styles.modalClose} onClick={handleCloseModal}>×</button>
-            <h3 className={styles.modalTitle}>Написать нам</h3>
+            <h3 className={styles.modalTitle}>Задать вопрос</h3>
             
             {submitStatus && (
               <div className={`${styles.submitMessage} ${styles[submitStatus]}`}>
@@ -235,7 +235,7 @@ export const ContactsPage: React.FC = () => {
                 <input
                   type="text"
                   name="subject"
-                  placeholder="Тема сообщения *"
+                  placeholder="Тема вопроса *"
                   value={formData.subject}
                   onChange={handleChange}
                   className={`${styles.modalInput} ${errors.subject ? styles.error : ''}`}
@@ -246,11 +246,11 @@ export const ContactsPage: React.FC = () => {
               <div className={styles.formGroup}>
                 <textarea
                   name="message"
-                  placeholder="Сообщение *"
+                  placeholder="Ваш вопрос *"
                   value={formData.message}
                   onChange={handleChange}
                   className={`${styles.modalTextarea} ${errors.message ? styles.error : ''}`}
-                  rows={8}
+                  rows={6}
                 />
                 {errors.message && <span className={styles.errorMessage}>{errors.message}</span>}
               </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../model';
 import styles from './LoginModal.module.scss';
 
@@ -9,6 +10,7 @@ interface LoginModalProps {
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSwitchToRegister }) => {
+  const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
@@ -53,6 +55,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onSwitc
     try {
       await login(formData.email, formData.password);
       onClose();
+      navigate('/profile');
     } catch (error: any) {
       setErrors({ form: error.message || 'Ошибка входа' });
     } finally {

@@ -9,25 +9,21 @@
 
 .main {
   flex: 1;
-  position: relative;
-  min-height: 100vh;
-  padding: 40px 0;
+  padding: 60px 0 100px;
 }
 
 .container {
-  max-width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-// Заголовок ТУРНИРЫ с белой обводкой
 .title {
-  margin-top: 20px;
-  width: auto;
-  font-size: 88px;
+  margin-top: 60px;
+  font-size: 82px;
   font-weight: 800;
   color: transparent;
   -webkit-text-stroke: 1px #FFFFFF;
@@ -36,47 +32,41 @@
   text-align: center;
   letter-spacing: 2px;
   line-height: 1.1;
+  margin-bottom: 30px;
 }
 
-// Подзаголовок под заголовком
 .subtitle {
-  margin-top: 30px;
   text-align: center;
-  font-size: 30px;
+  font-size: 22px;
   color: $text-secondary;
   line-height: 1.6;
-  max-width: 1800px;
-  padding: 0 60px;
+  max-width: 1100px;
+  margin-bottom: 60px;
 }
 
-// Карточка турнира
 .tournamentCard {
-  margin-top: 40px;
-  margin-bottom: 40px;
-  margin-left: 161px;
-  margin-right: 161px;
-  width: calc(100% - 322px);
-  background: rgba(194, 94, 255, 0.05); // C25EFF с 5% прозрачности
-  border: 1px solid rgba($primary-color, 0.3);
+  width: 100%;
+  max-width: 1600px;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 40px;
   padding: 50px 80px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 25px rgba($primary-color, 0.2);
   position: relative;
 }
 
 .tournamentTitle {
-  font-size: 42px;
+  font-size: 48px;
   font-weight: 700;
   color: $text-primary;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .tournamentDate {
   font-size: 28px;
   font-weight: 400;
   color: $text-secondary;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 .tournamentDescription {
@@ -84,7 +74,6 @@
   color: $text-primary;
   line-height: 1.4;
   margin-bottom: 25px;
-  width: 100%;
 }
 
 .tournamentStages {
@@ -92,7 +81,6 @@
   color: $text-primary;
   line-height: 1.4;
   margin-bottom: 25px;
-  width: 100%;
 }
 
 .tournamentResult {
@@ -100,12 +88,11 @@
   color: $text-primary;
   line-height: 1.4;
   margin-bottom: 80px;
-  width: 100%;
 }
 
 .applyButton {
   position: absolute;
-  bottom: 45px;
+  bottom: 60px;
   right: 80px;
   width: 326px;
   height: 68px;
@@ -128,4 +115,155 @@
     border-color: #FFFFFF;
     color: #000000;
   }
+}
+
+// Модальное окно
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  position: relative;
+  width: 600px;
+  background: #1A0032;
+  border: 1px solid #936DAB;
+  border-radius: 30px;
+  padding: 50px;
+  box-shadow: none;
+}
+
+.modalClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #FFFFFF;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.modalTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.modalInput, .modalTextarea {
+  background: #4C007B;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: #FFFFFF;
+  font-size: 16px;
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #D38DFF;
+  }
+}
+
+.modalTextarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.modalSubmit {
+  background: transparent;
+  border: 2px solid #FFFFFF;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  
+  &:hover:not(:disabled) {
+    background: #FFFFFF;
+    color: #190027;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.modalNote {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 15px;
+}
+
+// Уведомление об успехе
+.modalSuccess {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.successIcon {
+  width: 70px;
+  height: 70px;
+  background: #D38DFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 40px;
+  color: #190027;
+  font-weight: bold;
+}
+
+.successTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #D38DFF;
+  margin-bottom: 15px;
+}
+
+.successMessage {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
 }

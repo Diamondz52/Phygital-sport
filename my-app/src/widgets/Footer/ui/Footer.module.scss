@@ -6,18 +6,18 @@
   margin-top: auto;
   width: 100%;
   margin-top: 150px;
-  padding: 40px 0 30px; // Увеличил отступы внутри футера
+  padding: 60px 0 40px;
   
-  // Разделительная полоса с подсветкой
+  // Разделительная полоса #D38DFF с подсветкой сверху
   &::before {
     content: '';
     position: absolute;
-    top: -3px;
+    top: -2px;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, $primary-color, $primary-color, transparent);
-    box-shadow: 0 0 15px rgba($primary-color, 0.6);
+    height: 1px;
+    background: #D38DFF;
+    box-shadow: 0 0 15px #D38DFF;
   }
 }
 
@@ -25,21 +25,21 @@
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: 40px 0 30px; // Увеличил отступы
+  padding: 40px 0 30px;
 }
 
 .footerContent {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 100px; // Увеличил отступы между колонками
+  gap: 120px;
   width: 100%;
   padding-left: 104px;
   padding-right: 104px;
   
   @media (max-width: $breakpoint-tablet) {
     flex-wrap: wrap;
-    gap: 60px;
+    gap: 80px;
     padding-left: 40px;
     padding-right: 40px;
   }
@@ -49,12 +49,12 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 32px; // Увеличил отступы внутри колонки
-  min-width: 250px; // Увеличил минимальную ширину
+  gap: 40px;
+  min-width: 270px;
 }
 
 .columnTitle {
-  font-size: 28px; // Увеличил (было 24px)
+  font-size: 38px;
   font-weight: 700;
   color: #FFFFFF;
   margin: 0;
@@ -63,9 +63,9 @@
 }
 
 .description {
-  font-size: 20px; // Увеличил (было 18px)
-  color: $text-primary;
-  line-height: 1.5;
+  font-size: 20px;
+  color: #FFFFFF;
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -75,7 +75,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 18px; // Увеличил отступы между ссылками
+  gap: 18px;
 
   li {
     margin: 0;
@@ -83,9 +83,9 @@
 }
 
 .link {
-  color: $text-primary;
+  color: #FFFFFF;
   text-decoration: none;
-  font-size: 20px; // Увеличил (было 18px)
+  font-size: 20px;
   transition: color 0.3s ease;
   line-height: 1.4;
 
@@ -100,15 +100,15 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 18px; // Увеличил отступы между контактами
+  gap: 18px;
 }
 
 .contactItem {
   display: flex;
   align-items: center;
-  gap: 15px; // Увеличил отступ между иконкой и текстом
-  color: $text-primary;
-  font-size: 20px; // Увеличил (было 18px)
+  gap: 15px;
+  color: #FFFFFF;
+  font-size: 20px;
   line-height: 1.4;
   transition: color 0.3s ease;
 
@@ -118,6 +118,19 @@
 }
 
 .contactIcon {
-  font-size: 24px; // Увеличил (было 20px)
-  min-width: 32px; // Увеличил
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  color: #FFFFFF;
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    stroke: #FFFFFF;
+    stroke-width: 1.5;
+  }
 }
