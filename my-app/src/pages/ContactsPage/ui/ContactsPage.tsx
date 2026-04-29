@@ -32,6 +32,13 @@ export const ContactsPage: React.FC = () => {
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
   const [submitMessage, setSubmitMessage] = useState('');
 
+  const subjectOptions = [
+    'Техническая проблема',
+    'Предложение сотрудничества',
+    'Вопрос о турнире',
+    'Другое'
+  ];
+
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
     
@@ -48,7 +55,7 @@ export const ContactsPage: React.FC = () => {
     }
     
     if (!formData.subject.trim()) {
-      newErrors.subject = 'Введите тему сообщения';
+      newErrors.subject = 'Выберите тему сообщения';
     }
     
     if (!formData.message.trim()) {
@@ -61,7 +68,7 @@ export const ContactsPage: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name as keyof FormErrors]) {
@@ -232,14 +239,17 @@ export const ContactsPage: React.FC = () => {
               </div>
               
               <div className={styles.formGroup}>
-                <input
-                  type="text"
+                <select
                   name="subject"
-                  placeholder="Тема вопроса *"
                   value={formData.subject}
                   onChange={handleChange}
-                  className={`${styles.modalInput} ${errors.subject ? styles.error : ''}`}
-                />
+                  className={`${styles.modalSelect} ${errors.subject ? styles.error : ''}`}
+                >
+                  <option value="">Выберите тему *</option>
+                  {subjectOptions.map(option => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
                 {errors.subject && <span className={styles.errorMessage}>{errors.subject}</span>}
               </div>
               

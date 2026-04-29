@@ -363,3 +363,46 @@
     transform: rotate(360deg);
   }
 }
+.buttonsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1151px;
+  flex-wrap: wrap;
+}
+
+.adminButton {
+  background: transparent;
+  border: 2px solid #D38DFF;
+  border-radius: 12px;
+  padding: 14px 40px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #D38DFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #D38DFF;
+    color: #190027;
+  }
+}
+
+.logoutButton {
+  background: transparent;
+  border: 2px solid #E7C0FF;
+  border-radius: 12px;
+  padding: 14px 40px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #E7C0FF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #E7C0FF;
+    color: #190027;
+  }
+}

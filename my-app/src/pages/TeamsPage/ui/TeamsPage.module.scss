@@ -22,7 +22,6 @@
   align-items: center;
 }
 
-// Заголовок как на странице турниры
 .title {
   margin-top: 20px;
   font-size: 88px;
@@ -37,7 +36,6 @@
   margin-bottom: 30px;
 }
 
-// Подзаголовок
 .subtitle {
   text-align: center;
   font-size: 24px;
@@ -47,7 +45,6 @@
   margin-bottom: 50px;
 }
 
-// Кнопка "Как создать команду?" - опущена ниже
 .createButton {
   position: absolute;
   width: 320px;
@@ -76,14 +73,13 @@
   }
 }
 
-// Список команд
 .teamsList {
   display: flex;
   flex-direction: column;
   gap: 30px;
   width: 100%;
   max-width: 704px;
-  margin-top: 60px;
+  margin-top: 80px;
   align-self: flex-start;
 }
 
@@ -91,7 +87,6 @@
   width: 100%;
 }
 
-// Карточка команды
 .teamCard {
   display: flex;
   align-items: center;
@@ -131,7 +126,6 @@
   margin: 0;
 }
 
-// Состав команды (справа под кнопкой)
 .teamComposition {
   position: absolute;
   width: 560px;
@@ -171,28 +165,6 @@
   }
 }
 
-.compositionCaptain {
-  background: rgba(194, 94, 255, 0.05);
-  border: 1px solid #FFFFFF;
-  border-radius: 15px;
-  padding: 15px 20px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.captainLabel {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.captainName {
-  font-size: 24px;
-  font-weight: 400;
-  color: #FFFFFF;
-}
-
 .playersList {
   display: flex;
   flex-direction: column;
@@ -204,16 +176,27 @@
   border: 1px solid #FFFFFF;
   border-radius: 15px;
   padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   
   .playerName {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     color: #FFFFFF;
+  }
+  
+  .captainBadge {
+    font-size: 14px;
+    font-weight: 400;
+    color: $primary-color;
+    background: rgba(211, 141, 255, 0.15);
+    padding: 4px 12px;
+    border-radius: 20px;
   }
 }
 
 // Модальное окно
-// Модальное окно "Создание команды"
 .modalOverlay {
   position: fixed;
   top: 0;

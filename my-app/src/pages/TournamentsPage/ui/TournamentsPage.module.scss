@@ -13,7 +13,7 @@
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 40px;
   display: flex;
@@ -22,31 +22,32 @@
 }
 
 .title {
-  margin-top: 60px;
-  font-size: 82px;
+   font-size: 88px;
   font-weight: 800;
   color: transparent;
   -webkit-text-stroke: 1px #FFFFFF;
   text-stroke: 1px #FFFFFF;
   text-transform: uppercase;
   text-align: center;
-  letter-spacing: 2px;
-  line-height: 1.1;
-  margin-bottom: 30px;
+  letter-spacing: 3px;
+  margin-bottom: 50px;
+  line-height: 1.2;
 }
 
 .subtitle {
-  text-align: center;
-  font-size: 22px;
+  font-size: 24px;
   color: $text-secondary;
   line-height: 1.6;
-  max-width: 1100px;
-  margin-bottom: 60px;
+  text-align: center;
+  margin-bottom: 70px;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .tournamentCard {
   width: 100%;
-  max-width: 1600px;
+  max-width: 1400px;
   background: rgba(194, 94, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 40px;
@@ -100,8 +101,8 @@
   border: 2px solid #FFFFFF;
   border-radius: 12px;
   color: #FFFFFF;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: none;
@@ -238,32 +239,38 @@
 // Уведомление об успехе
 .modalSuccess {
   text-align: center;
-  padding: 30px 20px;
+  padding: 40px 20px;
 }
 
 .successIcon {
-  width: 70px;
-  height: 70px;
-  background: #D38DFF;
+  width: 80px;
+  height: 80px;
+  background: #4C007B;
+  border: 2px solid #D38DFF;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px;
-  font-size: 40px;
-  color: #190027;
-  font-weight: bold;
+  margin: 0 auto 25px;
+  color: #FFFFFF;
+  
+  svg {
+    width: 45px;
+    height: 45px;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
 }
 
 .successTitle {
   font-size: 28px;
   font-weight: 700;
-  color: #D38DFF;
+  color: #FFFFFF;
   margin-bottom: 15px;
 }
 
 .successMessage {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
   line-height: 1.5;
 }

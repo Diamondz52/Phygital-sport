@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Header } from '../../../widgets/Header';
 import { Footer } from '../../../widgets/Footer';
 import { useAuth } from '../../../features/auth/model';
@@ -13,11 +13,18 @@ interface UserData {
   telegram: string;
 }
 
+interface Player {
+  id: number;
+  name: string;
+  isCaptain?: boolean;
+}
+
 interface Team {
   id: number;
   name: string;
-  isCaptain: boolean;
-  members: { id: number; name: string; role?: string }[];
+  logo: string;
+  captain: string;
+  players: Player[];
 }
 
 export const ProfilePage: React.FC = () => {
@@ -36,7 +43,49 @@ export const ProfilePage: React.FC = () => {
   const [saveMessage, setSaveMessage] = useState('');
   const [expandedTeamId, setExpandedTeamId] = useState<number | null>(null);
 
-  // Заглушка для получения данных пользователя
+  const isAdmin = user?.email === 'pyankovad2606@gmail.com' || user?.role === 'admin';
+
+  // Простое форматирование номера телефона
+  const formatPhoneNumber = (value: string): string => {
+    // Убираем все нецифровые символы
+    const digits = value.replace(/\D/g, '');
+    
+    // Если пусто, возвращаем пустую строку
+    if (digits.length === 0) return '';
+    
+    // Если начинается не с 7 или 8, ничего не меняем
+    if (digits.length === 1 && (digits[0] !== '7' && digits[0] !== '8')) {
+      return `+7 ${digits}`;
+    }
+    
+    // Ограничиваем максимум 11 цифрами (код страны + 10 цифр)
+    const limitedDigits = digits.slice(0, 11);
+    
+    // Если первая цифра 8, меняем на 7
+    let normalized = limitedDigits;
+    if (normalized[0] === '8') {
+      normalized = '7' + normalized.slice(1);
+    }
+    
+    // Форматируем: +7 XXX XXX XX XX
+    if (normalized.length === 1) return `+7`;
+    if (normalized.length <= 4) return `+7 ${normalized.slice(1)}`;
+    if (normalized.length <= 7) return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4)}`;
+    if (normalized.length <= 9) return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7)}`;
+    return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7, 9)} ${normalized.slice(9, 11)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    // Если пользователь удаляет символы, просто сохраняем как есть
+    if (rawValue.length < formData.phone.length) {
+      setFormData(prev => ({ ...prev, phone: rawValue }));
+    } else {
+      const formatted = formatPhoneNumber(rawValue);
+      setFormData(prev => ({ ...prev, phone: formatted }));
+    }
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       setLoading(true);
@@ -46,7 +95,7 @@ export const ProfilePage: React.FC = () => {
         setFormData({
           email: user?.email || 'player1@mail.ru',
           full_name: user?.full_name || 'Игрок 1',
-          phone: '+7 922 422 75-54',
+          phone: '+7 922 422 75 54',
           birth_date: '01.01.2001',
           telegram: '@player1'
         });
@@ -54,25 +103,15 @@ export const ProfilePage: React.FC = () => {
         setUserTeams([
           {
             id: 1,
-            name: 'Команда 1',
-            isCaptain: true,
-            members: [
-              { id: 1, name: 'Алексей Иванов', role: 'Капитан' },
+            name: 'New Dimension',
+            logo: '/src/shared/assets/images/team1.png',
+            captain: 'Алексей Иванов',
+            players: [
+              { id: 1, name: 'Алексей Иванов', isCaptain: true },
               { id: 2, name: 'Игрок 2' },
               { id: 3, name: 'Игрок 3' },
               { id: 4, name: 'Игрок 4' },
               { id: 5, name: 'Игрок 5' }
-            ]
-          },
-          {
-            id: 2,
-            name: 'Команда 2',
-            isCaptain: false,
-            members: [
-              { id: 1, name: 'Дмитрий Петров', role: 'Капитан' },
-              { id: 2, name: 'Игрок 2' },
-              { id: 3, name: 'Игрок 3' },
-              { id: 4, name: 'Игрок 4' }
             ]
           }
         ]);
@@ -88,7 +127,11 @@ export const ProfilePage: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'phone') {
+      handlePhoneChange(e);
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSave = async () => {
@@ -139,7 +182,6 @@ export const ProfilePage: React.FC = () => {
           <h1 className={styles.title}>ЛИЧНЫЙ КАБИНЕТ</h1>
           
           <div className={styles.profileCard}>
-            {/* Левая колонка - основная информация */}
             <div className={styles.leftColumn}>
               <div className={styles.userInfo}>
                 <h2 className={styles.userName}>{formData.full_name || 'Игрок'}</h2>
@@ -156,7 +198,7 @@ export const ProfilePage: React.FC = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       className={styles.editInput}
-                      placeholder="+7 (___) ___-__-__"
+                      placeholder="+7 XXX XXX XX XX"
                     />
                   ) : (
                     <p>{formData.phone || 'Не указан'}</p>
@@ -226,7 +268,6 @@ export const ProfilePage: React.FC = () => {
               </div>
             </div>
             
-            {/* Правая колонка - мои команды */}
             <div className={styles.rightColumn}>
               <h3 className={styles.teamsTitle}>Мои команды</h3>
               {userTeams.length > 0 ? (
@@ -239,10 +280,10 @@ export const ProfilePage: React.FC = () => {
                       >
                         <div className={styles.teamHeaderLeft}>
                           <h4 className={styles.teamName}>{team.name}</h4>
-                          {team.isCaptain && <span className={styles.captainBadge}>капитан</span>}
+                          <span className={styles.captainBadge}>капитан</span>
                         </div>
                         <div className={`${styles.expandIcon} ${expandedTeamId === team.id ? styles.expanded : ''}`}>
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                             <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                           </svg>
                         </div>
@@ -251,10 +292,10 @@ export const ProfilePage: React.FC = () => {
                         <div className={styles.teamMembers}>
                           <p className={styles.membersTitle}>Состав команды:</p>
                           <ul>
-                            {team.members.map((member) => (
-                              <li key={member.id}>
-                                {member.name}
-                                {member.role && <span className={styles.memberRole}>{member.role}</span>}
+                            {team.players.map((player) => (
+                              <li key={player.id}>
+                                {player.name}
+                                {player.isCaptain && <span className={styles.memberRole}>капитан</span>}
                               </li>
                             ))}
                           </ul>
@@ -269,8 +310,14 @@ export const ProfilePage: React.FC = () => {
             </div>
           </div>
           
-          {/* Кнопка выхода */}
-          <div className={styles.logoutWrapper}>
+          <div className={styles.buttonsWrapper}>
+            {isAdmin && (
+              <Link to="/admin">
+                <button className={styles.adminButton}>
+                  Админ-панель
+                </button>
+              </Link>
+            )}
             <button className={styles.logoutButton} onClick={handleLogout}>
               Выйти из аккаунта
             </button>

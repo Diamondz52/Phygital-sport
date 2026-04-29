@@ -1,0 +1,304 @@
+@import '../../../app/styles/variables';
+
+.page {
+  flex: 1;
+  padding: 60px 0 100px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.title {
+  font-size: 88px;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px #FFFFFF;
+  text-stroke: 1px #FFFFFF;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  margin-bottom: 50px;
+  line-height: 1.2;
+}
+
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 12px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  
+  &:hover {
+    color: #FFFFFF;
+  }
+  
+  &.active {
+    color: #D38DFF;
+    background: rgba(211, 141, 255, 0.1);
+  }
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sectionTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.addButton {
+  background: transparent;
+  border: 2px solid #D38DFF;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #D38DFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: #D38DFF;
+    color: #190027;
+  }
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  th {
+    color: #D38DFF;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
+  td {
+    color: #FFFFFF;
+    font-size: 14px;
+  }
+}
+
+.tableLogo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.roleBadge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  
+  &.admin {
+    background: rgba(211, 141, 255, 0.2);
+    color: #D38DFF;
+  }
+  
+  &.user {
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+  }
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  
+  &.upcoming {
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+  }
+  
+  &.active {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+  }
+  
+  &.completed {
+    background: rgba(158, 158, 158, 0.2);
+    color: #9E9E9E;
+  }
+}
+
+.editBtn, .deleteBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+  
+  p {
+    color: $text-secondary;
+    font-size: 18px;
+  }
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba($primary-color, 0.3);
+  border-top-color: $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Модальное окно
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  position: relative;
+  width: 500px;
+  background: #1A0032;
+  border: 1px solid #936DAB;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: none;
+}
+
+.modalClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #FFFFFF;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.modalTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modalInput, .modalSelect {
+  background: #4C007B;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: #FFFFFF;
+  font-size: 16px;
+  
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #D38DFF;
+  }
+}
+
+.modalSelect {
+  cursor: pointer;
+  
+  option {
+    background: #1A0032;
+  }
+}
+
+.modalSubmit {
+  background: transparent;
+  border: 2px solid #FFFFFF;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  
+  &:hover {
+    background: #FFFFFF;
+    color: #190027;
+  }
+}

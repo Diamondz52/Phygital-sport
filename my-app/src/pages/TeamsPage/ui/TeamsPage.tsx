@@ -37,11 +37,11 @@ export const TeamsPage: React.FC = () => {
     },
     { 
       id: 2, 
-      name: 'New Dimension', 
+      name: 'Cyber Warriors', 
       logo: '/src/shared/assets/images/team2.png',
-      captain: 'Дмитрий Петров',
+      captain: 'Екатерина Морозова',
       players: [
-        { id: 1, name: 'Дмитрий Петров', isCaptain: true },
+        { id: 1, name: 'Екатерина Морозова', isCaptain: true },
         { id: 2, name: 'Игрок 2' },
         { id: 3, name: 'Игрок 3' },
         { id: 4, name: 'Игрок 4' },
@@ -68,20 +68,16 @@ export const TeamsPage: React.FC = () => {
       
       <main className={styles.main}>
         <div className={styles.container}>
-          {/* Заголовок */}
           <h1 className={styles.title}>КОМАНДЫ</h1>
           
-          {/* Подзаголовок */}
           <p className={styles.subtitle}>
             На этой странице живут команды, которые делают наш проект особенным. Ищи знакомые названия, открывай новые имена и становись частью большого фиджитал-семейства.
           </p>
 
-          {/* Кнопка "Как создать команду?" */}
           <button className={styles.createButton} onClick={handleOpenModal}>
             Как создать команду?
           </button>
 
-          {/* Список команд */}
           <div className={styles.teamsList}>
             {teams.map((team) => (
               <div key={team.id} className={styles.teamWrapper}>
@@ -98,7 +94,6 @@ export const TeamsPage: React.FC = () => {
             ))}
           </div>
 
-          {/* Состав команды (отображается справа под кнопкой) */}
           {selectedTeam && (
             <div className={styles.teamComposition}>
               <div className={styles.compositionHeader}>
@@ -108,15 +103,11 @@ export const TeamsPage: React.FC = () => {
                 </div>
               </div>
               
-              <div className={styles.compositionCaptain}>
-                <div className={styles.captainLabel}>капитан</div>
-                <div className={styles.captainName}>{selectedTeam.captain}</div>
-              </div>
-              
               <div className={styles.playersList}>
-                {selectedTeam.players.map((player, index) => (
+                {selectedTeam.players.map((player) => (
                   <div key={player.id} className={styles.playerCard}>
-                    <span className={styles.playerName}>Игрок {index + 1}</span>
+                    <span className={styles.playerName}>{player.name}</span>
+                    {player.isCaptain && <span className={styles.captainBadge}>капитан</span>}
                   </div>
                 ))}
               </div>
@@ -127,7 +118,6 @@ export const TeamsPage: React.FC = () => {
 
       <Footer />
 
-      {/* Модальное окно "Как создать команду?" */}
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={handleCloseModal}>
           <div className={styles.createTeamModal} onClick={(e) => e.stopPropagation()}>

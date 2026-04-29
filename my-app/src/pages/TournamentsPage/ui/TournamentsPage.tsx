@@ -3,15 +3,63 @@ import { Header } from '../../../widgets/Header';
 import { Footer } from '../../../widgets/Footer';
 import styles from './TournamentsPage.module.scss';
 
+interface FormData {
+  teamName: string;
+  phone: string;
+  additionalInfo: string;
+}
+
 export const TournamentsPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     teamName: '',
     phone: '',
     additionalInfo: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Форматирование номера телефона
+  const formatPhoneNumber = (value: string): string => {
+    const digits = value.replace(/\D/g, '');
+    
+    if (digits.length === 0) return '';
+    if (digits.length === 1 && (digits[0] !== '7' && digits[0] !== '8')) {
+      return `+7 ${digits}`;
+    }
+    
+    const limitedDigits = digits.slice(0, 11);
+    
+    let normalized = limitedDigits;
+    if (normalized[0] === '8') {
+      normalized = '7' + normalized.slice(1);
+    }
+    
+    if (normalized.length === 1) return `+7`;
+    if (normalized.length <= 4) return `+7 ${normalized.slice(1)}`;
+    if (normalized.length <= 7) return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4)}`;
+    if (normalized.length <= 9) return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7)}`;
+    return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7, 9)} ${normalized.slice(9, 11)}`;
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    if (rawValue.length < formData.phone.length) {
+      setFormData(prev => ({ ...prev, phone: rawValue }));
+    } else {
+      const formatted = formatPhoneNumber(rawValue);
+      setFormData(prev => ({ ...prev, phone: formatted }));
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    if (name === 'phone') {
+      handlePhoneChange(e as React.ChangeEvent<HTMLInputElement>);
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -24,21 +72,14 @@ export const TournamentsPage: React.FC = () => {
     setIsSuccess(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Имитация отправки на бэкенд
     setTimeout(() => {
       console.log('Application submitted:', formData);
       setIsSubmitting(false);
       setIsSuccess(true);
-      // Через 2 секунды закрываем модальное окно
       setTimeout(() => {
         handleCloseModal();
       }, 2000);
@@ -82,7 +123,6 @@ export const TournamentsPage: React.FC = () => {
 
       <Footer />
 
-      {/* Модальное окно заявки */}
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={handleCloseModal}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
@@ -107,7 +147,7 @@ export const TournamentsPage: React.FC = () => {
                     <input
                       type="tel"
                       name="phone"
-                      placeholder="Номер телефона для связи*"
+                      placeholder="+7 XXX XXX XX XX"
                       value={formData.phone}
                       onChange={handleChange}
                       className={styles.modalInput}
@@ -134,7 +174,11 @@ export const TournamentsPage: React.FC = () => {
               </>
             ) : (
               <div className={styles.modalSuccess}>
-                <div className={styles.successIcon}>✓</div>
+                <div className={styles.successIcon}>
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <h3 className={styles.successTitle}>Заявка отправлена!</h3>
                 <p className={styles.successMessage}>
                   Организатор свяжется с вами для подтверждения

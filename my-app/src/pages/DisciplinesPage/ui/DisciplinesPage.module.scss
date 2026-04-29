@@ -62,7 +62,7 @@
 .basketballPlayer {
   position: absolute;
   top: 400px;
-  right: -360px;
+  right: -300px;
   width: 700px;
   height: auto;
   z-index: 1;
@@ -79,7 +79,7 @@
 .joystickImage {
   position: absolute;
   top: 2150px;
-  right: -370px;
+  right: -300px;
   width: 950px;
   height: 1350px;
   z-index: 10;
@@ -110,10 +110,10 @@
   }
 }
 
-// Блок карточка для каждой подтемы - без размытия
+// Блок карточка для каждой подтемы - прозрачный
 .blockCard {
   width: 900px;
-  background: rgba(194, 94, 255, 0.05);
+  background: transparent;
   border: 2px solid rgba(255, 255, 255, 0.7);
   border-radius: 30px;
   padding: 35px 40px;
@@ -154,7 +154,7 @@
 
 .blockSubtitle {
   font-size: 22px;
-  color: #FFFFFF;
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 10px;
   font-weight: 500;
   margin-top: 12px;
@@ -171,7 +171,7 @@
   
   li {
     font-size: 20px;
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.4;
     padding-left: 25px;
     position: relative;
