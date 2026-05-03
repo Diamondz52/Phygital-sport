@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LoginModal } from '../../../features/auth/ui/LoginModal';
 import { RegisterModal } from '../../../features/auth/ui/RegisterModal';
 import { useAuth } from '../../../features/auth/model';
@@ -21,6 +21,7 @@ const navItems: NavItem[] = [
 ];
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
   const [activeItem, setActiveItem] = useState<string>('Главная');
@@ -37,7 +38,7 @@ export const Header: React.FC = () => {
 
   const handleProfileClick = () => {
     if (user) {
-      window.location.href = '/profile';
+      navigate('/profile');
     } else {
       setIsLoginOpen(true);
     }

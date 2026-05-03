@@ -44,7 +44,7 @@ export const ProfilePage: React.FC = () => {
   const [expandedTeamId, setExpandedTeamId] = useState<number | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  const isAdmin = user?.email === 'pyankovad2606@gmail.com' || user?.role === 'admin';
+  const isAdmin = user?.role === 'admin' || user?.email === 'pyankovad2606@gmail.com';
 
   // Простое форматирование номера телефона
   const formatPhoneNumber = (value: string): string => {
@@ -85,19 +85,19 @@ export const ProfilePage: React.FC = () => {
       try {
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        // Проверка на существование пользователя
-        //if (!user?.email) {
-          //setLoginError('Пользователь не найден');
-          //setLoading(false);
-          //return;
-       // }
+        // Загружаем сохранённые данные из localStorage
+        const savedProfileData = localStorage.getItem('user_profile_data');
+        let savedData = null;
+        if (savedProfileData) {
+          savedData = JSON.parse(savedProfileData);
+        }
         
         setFormData({
           email: user?.email || '',
-          full_name: user?.full_name || 'Игрок',
-          phone: '+7 922 422 75 54',
-          birth_date: '01.01.2001',
-          telegram: '@player'
+          full_name: user?.full_name || savedData?.full_name || 'Игрок',
+          phone: savedData?.phone || '+7 922 422 75 54',
+          birth_date: savedData?.birth_date || '01.01.2001',
+          telegram: savedData?.telegram || '@player'
         });
         
         setUserTeams([
@@ -108,7 +108,7 @@ export const ProfilePage: React.FC = () => {
             captain: 'Алексей Иванов',
             players: [
               { id: 1, name: 'Алексей Иванов', isCaptain: true },
-              { id: 2, name: 'Игрок 2' },
+              { id: 2, name: 'Дмитрий Соколов' },
               { id: 3, name: 'Игрок 3' },
               { id: 4, name: 'Игрок 4' },
               { id: 5, name: 'Игрок 5' }
@@ -140,6 +140,16 @@ export const ProfilePage: React.FC = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
       console.log('Saved user data:', formData);
+      
+      // Сохраняем данные в localStorage
+      const profileDataToSave = {
+        full_name: formData.full_name,
+        phone: formData.phone,
+        birth_date: formData.birth_date,
+        telegram: formData.telegram
+      };
+      localStorage.setItem('user_profile_data', JSON.stringify(profileDataToSave));
+      
       setSaveMessage('Данные успешно сохранены!');
       setIsEditing(false);
       setTimeout(() => setSaveMessage(''), 3000);
@@ -293,11 +303,11 @@ export const ProfilePage: React.FC = () => {
             </div>
             
             <div className={styles.rightColumn}>
-  <h3 className={styles.teamsTitle}>Мои команды</h3>
-  {userTeams.length > 0 ? (
-    <div className={styles.teamsList}>
-      {userTeams.map((team) => (
-        <div key={team.id} className={styles.teamItem}>
+              <h3 className={styles.teamsTitle}>Мои команды</h3>
+              {userTeams.length > 0 ? (
+                <div className={styles.teamsList}>
+                  {userTeams.map((team) => (
+                    <div key={team.id} className={styles.teamItem}>
                       <div 
                         className={styles.teamHeader}
                         onClick={() => toggleTeamExpand(team.id)}

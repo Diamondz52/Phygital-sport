@@ -14,6 +14,13 @@ export const HomePage: React.FC = () => {
 
   const handleLearnMoreClick = () => {
     navigate('/faq');
+    // Прокрутка в начало страницы после перехода
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 100);
   };
 
   return (
