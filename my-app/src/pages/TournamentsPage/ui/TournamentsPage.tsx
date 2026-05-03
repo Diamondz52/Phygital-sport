@@ -88,6 +88,14 @@ export const TournamentsPage: React.FC = () => {
 
   return (
     <div className={styles.page}>
+      {/* Градиентный фон */}
+      <div className={styles.gradientBg}>
+        <div className={styles.ellipse4}></div>
+        <div className={styles.ellipse2}></div>
+        <div className={styles.ellipse5}></div>
+        <div className={styles.ellipse6}></div>
+      </div>
+      
       <Header />
       
       <main className={styles.main}>

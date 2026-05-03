@@ -14,14 +14,18 @@ export const HomePage: React.FC = () => {
 
   const handleLearnMoreClick = () => {
     navigate('/faq');
-    // Прокрутка к началу страницы FAQ
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 100);
   };
 
   return (
     <div className={styles.page}>
+      {/* Градиентный фон */}
+      <div className={styles.gradientBg}>
+        <div className={styles.ellipse4}></div>
+        <div className={styles.ellipse2}></div>
+        <div className={styles.ellipse5}></div>
+        <div className={styles.ellipse6}></div>
+      </div>
+      
       <Header />
       
       <main className={styles.main}>
@@ -60,12 +64,10 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Отдельный компонент - заголовок "НАШИ ДИСЦИПЛИНЫ" */}
         <div className={styles.disciplinesTitleWrapper}>
           <h2 className={styles.disciplinesTitle}>НАШИ ДИСЦИПЛИНЫ</h2>
         </div>
 
-        {/* Отдельный компонент - фото с кнопкой */}
         <div className={styles.disciplinesSection}>
           <div className={styles.imageWrapper}>
             <div className={styles.imageGlow}></div>

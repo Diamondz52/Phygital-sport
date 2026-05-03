@@ -1,11 +1,26 @@
-@import '../../styles/variables';
 .layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  background-color: #190027;
 }
 
-.main {
+.gradientBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle at 20% 30%, rgba(211, 141, 255, 0.4) 0%, transparent 60%),
+              radial-gradient(circle at 80% 70%, rgba(211, 141, 255, 0.3) 0%, transparent 60%),
+              radial-gradient(circle at 50% 50%, rgba(211, 141, 255, 0.2) 0%, transparent 70%);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
   flex: 1;
-  width: 100%;
 }

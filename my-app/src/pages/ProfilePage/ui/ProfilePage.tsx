@@ -42,32 +42,25 @@ export const ProfilePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [saveMessage, setSaveMessage] = useState('');
   const [expandedTeamId, setExpandedTeamId] = useState<number | null>(null);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const isAdmin = user?.email === 'pyankovad2606@gmail.com' || user?.role === 'admin';
 
   // Простое форматирование номера телефона
   const formatPhoneNumber = (value: string): string => {
-    // Убираем все нецифровые символы
     const digits = value.replace(/\D/g, '');
     
-    // Если пусто, возвращаем пустую строку
     if (digits.length === 0) return '';
-    
-    // Если начинается не с 7 или 8, ничего не меняем
     if (digits.length === 1 && (digits[0] !== '7' && digits[0] !== '8')) {
       return `+7 ${digits}`;
     }
     
-    // Ограничиваем максимум 11 цифрами (код страны + 10 цифр)
     const limitedDigits = digits.slice(0, 11);
-    
-    // Если первая цифра 8, меняем на 7
     let normalized = limitedDigits;
     if (normalized[0] === '8') {
       normalized = '7' + normalized.slice(1);
     }
     
-    // Форматируем: +7 XXX XXX XX XX
     if (normalized.length === 1) return `+7`;
     if (normalized.length <= 4) return `+7 ${normalized.slice(1)}`;
     if (normalized.length <= 7) return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4)}`;
@@ -77,7 +70,6 @@ export const ProfilePage: React.FC = () => {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
-    // Если пользователь удаляет символы, просто сохраняем как есть
     if (rawValue.length < formData.phone.length) {
       setFormData(prev => ({ ...prev, phone: rawValue }));
     } else {
@@ -89,15 +81,23 @@ export const ProfilePage: React.FC = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       setLoading(true);
+      setLoginError(null);
       try {
         await new Promise(resolve => setTimeout(resolve, 500));
         
+        // Проверка на существование пользователя
+        //if (!user?.email) {
+          //setLoginError('Пользователь не найден');
+          //setLoading(false);
+          //return;
+       // }
+        
         setFormData({
-          email: user?.email || 'player1@mail.ru',
-          full_name: user?.full_name || 'Игрок 1',
+          email: user?.email || '',
+          full_name: user?.full_name || 'Игрок',
           phone: '+7 922 422 75 54',
           birth_date: '01.01.2001',
-          telegram: '@player1'
+          telegram: '@player'
         });
         
         setUserTeams([
@@ -117,6 +117,7 @@ export const ProfilePage: React.FC = () => {
         ]);
       } catch (error) {
         console.error('Error fetching user data:', error);
+        setLoginError('Ошибка загрузки данных пользователя');
       } finally {
         setLoading(false);
       }
@@ -173,8 +174,31 @@ export const ProfilePage: React.FC = () => {
     );
   }
 
+  if (loginError) {
+    return (
+      <div className={styles.page}>
+        <Header />
+        <div className={styles.loadingContainer}>
+          <p className={styles.errorMessage}>{loginError}</p>
+          <button onClick={() => navigate('/')} className={styles.editButton}>
+            Вернуться на главную
+          </button>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.page}>
+      {/* Градиентный фон */}
+      <div className={styles.gradientBg}>
+        <div className={styles.ellipse4}></div>
+        <div className={styles.ellipse2}></div>
+        <div className={styles.ellipse5}></div>
+        <div className={styles.ellipse6}></div>
+      </div>
+      
       <Header />
       
       <main className={styles.main}>
@@ -269,11 +293,11 @@ export const ProfilePage: React.FC = () => {
             </div>
             
             <div className={styles.rightColumn}>
-              <h3 className={styles.teamsTitle}>Мои команды</h3>
-              {userTeams.length > 0 ? (
-                <div className={styles.teamsList}>
-                  {userTeams.map((team) => (
-                    <div key={team.id} className={styles.teamItem}>
+  <h3 className={styles.teamsTitle}>Мои команды</h3>
+  {userTeams.length > 0 ? (
+    <div className={styles.teamsList}>
+      {userTeams.map((team) => (
+        <div key={team.id} className={styles.teamItem}>
                       <div 
                         className={styles.teamHeader}
                         onClick={() => toggleTeamExpand(team.id)}

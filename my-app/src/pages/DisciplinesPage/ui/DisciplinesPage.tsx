@@ -13,7 +13,23 @@ export const DisciplinesPage: React.FC = () => {
 
   return (
     <div className={styles.page}>
+      {/* Градиентный фон */}
+      <div className={styles.gradientBg}>
+        <div className={styles.ellipse4}></div>
+        <div className={styles.ellipse2}></div>
+        <div className={styles.ellipse5}></div>
+        <div className={styles.ellipse6}></div>
+      </div>
+      
       <Header />
+      
+      {/* Фото баскетболиста - вне контейнера */}
+      <div className={styles.basketballPlayer}>
+        <img 
+          src="/src/shared/assets/images/basketball-player.png" 
+          alt="Basketball Player" 
+        />
+      </div>
       
       <main className={styles.main}>
         <div className={styles.container}>
@@ -29,14 +45,6 @@ export const DisciplinesPage: React.FC = () => {
 
           {/* Правила и геймплей - заголовок по центру */}
           <h2 className={styles.sectionHeader}>Правила и геймплей</h2>
-
-          {/* Фото баскетболиста справа от блоков */}
-          <div className={styles.basketballPlayer}>
-            <img 
-              src="/src/shared/assets/images/basketball-player.png" 
-              alt="Basketball Player" 
-            />
-          </div>
 
           {/* Этап 1 - заголовок вне блока, левее */}
           <h3 className={styles.stageHeader}>Этап 1: Реальная баскетбольная игра</h3>

@@ -5,11 +5,79 @@
   flex-direction: column;
   min-height: 100vh;
   background-color: $bg-dark;
+  position: relative;
+}
+
+// Градиентный фон для страницы команд
+.gradientBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+// Эллипс 5 - правый верхний
+.ellipse5 {
+  position: absolute;
+  width: 1155px;
+  height: 912px;
+  left: 966px;
+  top: 1151px;
+  background: rgba(83, 0, 98, 0.8);
+  opacity: 0.66;
+  filter: blur(205.2px);
+  border-radius: 50%;
+}
+
+// Эллипс 4 - левый верхний
+.ellipse4 {
+  position: absolute;
+  width: 592px;
+  height: 722px;
+  left: -88px;
+  top: -370px;
+  background: #530062;
+  opacity: 0.66;
+  filter: blur(205.2px);
+  border-radius: 50%;
+}
+
+// Эллипс 2 - левый нижний
+.ellipse2 {
+  position: absolute;
+  width: 1142.05px;
+  height: 1531.48px;
+  left: -83px;
+  top: 2384px;
+  background: #300059;
+  opacity: 0.43;
+  filter: blur(205.2px);
+  transform: rotate(-0.41deg);
+  border-radius: 50%;
+}
+
+// Эллипс 6 - правый нижний
+.ellipse6 {
+  position: absolute;
+  width: 1155px;
+  height: 912px;
+  left: 800px;
+  top: 3928px;
+  background: rgba(83, 0, 98, 0.8);
+  opacity: 0.66;
+  filter: blur(205.2px);
+  border-radius: 50%;
 }
 
 .main {
   flex: 1;
   padding: 40px 0 450px;
+  position: relative;
+  z-index: 1;
 }
 
 .container {
@@ -20,6 +88,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 2;
 }
 
 .title {

@@ -16,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <MainLayout>
+        <MainLayout>  {/* <-- Должен быть MainLayout, оборачивающий все страницы */}
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/tournaments" element={<TournamentsPage />} />

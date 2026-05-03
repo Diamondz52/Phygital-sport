@@ -6,6 +6,72 @@
   min-height: 100vh;
   background-color: $bg-dark;
   overflow-x: clip;
+  position: relative;
+}
+
+// Градиентный фон для главной страницы - привязан к странице
+.gradientBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+// Эллипс 5 - заходит на фото баскетболиста и текст "НАШИ ДИСЦИПЛИНЫ"
+.ellipse5 {
+  position: absolute;
+  width: 1155px;
+  height: 912px;
+  left: 1200px; //1200!!!
+  top: 1151px;
+  background: rgba(83, 0, 98, 0.8);
+  opacity: 0.66;
+  filter: blur(205.2px);
+  border-radius: 50%;
+}
+
+// Эллипс 4 - левый верхний
+.ellipse4 {
+  position: absolute;
+  width: 592px;
+  height: 722px;
+  left: -88px;
+  top: -370px;
+  background: #530062;
+  opacity: 0.66;
+  filter: blur(205.2px);
+  border-radius: 50%;
+}
+
+// Эллипс 2 - заходит на карточки FAQ
+.ellipse2 {
+  position: absolute;
+  width: 1142.05px;
+  height: 1531.48px;
+  left: -83px;
+  top: 2384px;
+  background: #300059;
+  opacity: 0.43;
+  filter: blur(205.2px);
+  transform: rotate(-0.41deg);
+  border-radius: 50%;
+}
+
+// Эллипс 6 - правый нижний
+.ellipse6 {
+  position: absolute;
+  width: 1155px;
+  height: 912px;
+  left: 800px;
+  top: 3928px;
+  background: rgba(83, 0, 98, 0.8);
+  opacity: 0.66;
+  filter: blur(205.2px);
+  border-radius: 50%;
 }
 
 .main {
@@ -13,6 +79,8 @@
   position: relative;
   min-height: 3000px;
   overflow-x: visible;
+  z-index: 1;
+  background: transparent;
 }
 
 .container {
@@ -148,8 +216,8 @@
   position: relative;
   width: 553px;
   height: 602px;
-  border: 1px solid rgba(255, 255, 255, 0.5); // Добавлена белая тонкая рамка
-  border-radius: 30px; // Добавлен скругление для рамки
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 30px;
 }
 
 .imageGlow {
