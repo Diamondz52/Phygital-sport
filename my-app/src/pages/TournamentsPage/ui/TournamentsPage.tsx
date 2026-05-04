@@ -123,7 +123,7 @@ export const TournamentsPage: React.FC = () => {
               частью истории студенческого фиджитал-движения!
             </p>
             <button className={styles.applyButton} onClick={handleOpenModal}>
-              Как подать заявку?
+              Подать заявку
             </button>
           </div>
         </div>

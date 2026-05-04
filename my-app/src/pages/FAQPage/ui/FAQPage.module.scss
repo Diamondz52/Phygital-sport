@@ -152,7 +152,7 @@
   white-space: pre-line;
 }
 
-// Текст ответа - по левому краю
+// Текст ответа - по левому краю со сдвигом вправо
 .answer {
   width: 338px;
   font-family: 'Inter', sans-serif;
@@ -165,4 +165,5 @@
   margin: 0;
   white-space: pre-line;
   align-self: flex-start;
+  padding-left: 20px; // Сдвиг текста вправо
 }

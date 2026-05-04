@@ -46,7 +46,7 @@ export const ProfilePage: React.FC = () => {
 
   const isAdmin = user?.role === 'admin' || user?.email === 'pyankovad2606@gmail.com';
 
-  // Простое форматирование номера телефона
+  // Форматирование номера телефона
   const formatPhoneNumber = (value: string): string => {
     const digits = value.replace(/\D/g, '');
     
@@ -68,6 +68,53 @@ export const ProfilePage: React.FC = () => {
     return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7, 9)} ${normalized.slice(9, 11)}`;
   };
 
+  // Форматирование даты из YYYY-MM-DD в DD.MM.YYYY для отображения
+  const formatDateForDisplay = (dateString: string): string => {
+    if (!dateString) return '';
+    // Если уже в формате DD.MM.YYYY
+    if (dateString.includes('.')) return dateString;
+    // Если в формате YYYY-MM-DD
+    const parts = dateString.split('-');
+    if (parts.length === 3) {
+      return `${parts[2]}.${parts[1]}.${parts[0]}`;
+    }
+    return dateString;
+  };
+
+  // Форматирование даты из DD.MM.YYYY в YYYY-MM-DD для input type="date"
+  const formatDateForInput = (dateString: string): string => {
+    if (!dateString) return '';
+    // Если уже в формате YYYY-MM-DD
+    if (dateString.includes('-')) return dateString;
+    // Если в формате DD.MM.YYYY
+    const parts = dateString.split('.');
+    if (parts.length === 3) {
+      const day = parts[0].padStart(2, '0');
+      const month = parts[1].padStart(2, '0');
+      let year = parts[2];
+      // Ограничиваем год 4 цифрами
+      if (year.length > 4) {
+        year = year.slice(0, 4);
+      }
+      return `${year}-${month}-${day}`;
+    }
+    return dateString;
+  };
+
+  // Валидация даты (год не более 4 цифр)
+  const validateDate = (dateString: string): boolean => {
+    if (!dateString) return true;
+    const parts = dateString.split('.');
+    if (parts.length === 3) {
+      const year = parts[2];
+      // Год должен быть не более 4 цифр
+      if (year.length > 4) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
     if (rawValue.length < formData.phone.length) {
@@ -76,6 +123,42 @@ export const ProfilePage: React.FC = () => {
       const formatted = formatPhoneNumber(rawValue);
       setFormData(prev => ({ ...prev, phone: formatted }));
     }
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dateValue = e.target.value;
+    if (dateValue) {
+      // Проверяем, что год не больше 4 цифр
+      const yearPart = dateValue.split('-')[0];
+      if (yearPart && yearPart.length > 4) {
+        return; // Не обновляем, если год больше 4 цифр
+      }
+      // Конвертируем из YYYY-MM-DD в DD.MM.YYYY для отображения
+      const formattedDate = formatDateForDisplay(dateValue);
+      setFormData(prev => ({ ...prev, birth_date: formattedDate }));
+    } else {
+      setFormData(prev => ({ ...prev, birth_date: '' }));
+    }
+  };
+
+  // Ручной ввод даты (для текстового поля, если нужно)
+  const handleManualDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    // Ограничиваем длину ввода (максимум 10 символов: DD.MM.YYYY)
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+    
+    // Если вводятся цифры года, ограничиваем 4 цифрами
+    const parts = value.split('.');
+    if (parts.length === 3) {
+      const year = parts[2];
+      if (year.length > 4) {
+        return;
+      }
+    }
+    
+    setFormData(prev => ({ ...prev, birth_date: value }));
   };
 
   useEffect(() => {
@@ -92,11 +175,14 @@ export const ProfilePage: React.FC = () => {
           savedData = JSON.parse(savedProfileData);
         }
         
+        // Получаем дату рождения и форматируем её для отображения
+        let birthDate = savedData?.birth_date || '01.01.2001';
+        
         setFormData({
           email: user?.email || '',
           full_name: user?.full_name || savedData?.full_name || 'Игрок',
           phone: savedData?.phone || '+7 922 422 75 54',
-          birth_date: savedData?.birth_date || '01.01.2001',
+          birth_date: formatDateForDisplay(birthDate),
           telegram: savedData?.telegram || '@player'
         });
         
@@ -130,6 +216,8 @@ export const ProfilePage: React.FC = () => {
     const { name, value } = e.target;
     if (name === 'phone') {
       handlePhoneChange(e);
+    } else if (name === 'birth_date') {
+      handleDateChange(e);
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
@@ -139,6 +227,15 @@ export const ProfilePage: React.FC = () => {
     setLoading(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Валидация даты перед сохранением
+      if (!validateDate(formData.birth_date)) {
+        setSaveMessage('Год должен содержать не более 4 цифр');
+        setTimeout(() => setSaveMessage(''), 3000);
+        setLoading(false);
+        return;
+      }
+      
       console.log('Saved user data:', formData);
       
       // Сохраняем данные в localStorage
@@ -250,14 +347,8 @@ export const ProfilePage: React.FC = () => {
                     <input
                       type="date"
                       name="birth_date"
-                      value={formData.birth_date.split('.').reverse().join('-')}
-                      onChange={(e) => {
-                        const date = e.target.value;
-                        if (date) {
-                          const [year, month, day] = date.split('-');
-                          setFormData(prev => ({ ...prev, birth_date: `${day}.${month}.${year}` }));
-                        }
-                      }}
+                      value={formatDateForInput(formData.birth_date)}
+                      onChange={handleInputChange}
                       className={styles.editInput}
                     />
                   ) : (
