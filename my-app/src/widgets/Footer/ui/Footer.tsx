@@ -1,4 +1,5 @@
 import React from 'react';
+import organizersIcon from '../../../shared/assets/icons/organizers.svg';
 import styles from './Footer.module.scss';
 
 const ScrollToTopLink: React.FC<{ to: string; children: React.ReactNode }> = ({ to, children }) => {
@@ -27,10 +28,9 @@ export const Footer: React.FC = () => {
               Место, где геймеры<br />
               становятся спортсменами,<br />
               а спортсмены берут в руки<br />
-              геймпады.<br />
-              Фиджитал-турниры,<br />
-              живые эмоции,<br />
-              настоящие победы.
+              геймпады. Фиджитал-турниры,<br />
+              живые эмоции, настоящие<br />
+              победы.
             </p>
           </div>
 
@@ -58,13 +58,16 @@ export const Footer: React.FC = () => {
 
           {/* Колонка 4 - Контакты */}
           <div className={styles.column}>
-            <h3 className={styles.columnTitle}>Информация</h3>
+            <h3 className={styles.columnTitle}>Контакты</h3>
             <ul className={styles.contactList}>
               <li className={styles.contactItem}>
                 <span className={styles.contactIcon}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 6L12 13L2 6M22 6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6l10 7 10-7z"/>
-                  </svg>
+                  <img 
+                    src={organizersIcon} 
+                    alt="Организаторы" 
+                    width="32" 
+                    height="32" 
+                  />
                 </span>
                 <span>Организаторы</span>
               </li>
