@@ -26,7 +26,7 @@
   position: absolute;
   width: 1155px;
   height: 912px;
-  left: 1200px; //1200!!!
+  left: 1200px;
   top: 1151px;
   background: rgba(83, 0, 98, 0.8);
   opacity: 0.66;
@@ -218,6 +218,7 @@
   height: 602px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 30px;
+  overflow: hidden;
 }
 
 .imageGlow {
@@ -234,15 +235,58 @@
   pointer-events: none;
 }
 
+// Кнопки навигации слайдера
+.sliderPrev, .sliderNext {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+  }
+}
+
+.sliderPrev {
+  left: 10px;
+}
+
+.sliderNext {
+  right: 10px;
+}
+
+// Контейнер для фото
+.sliderContainer {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
 .disciplineImage {
-  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: $radius-lg;
+  border-radius: 30px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-  z-index: 1;
+  transition: transform 0.3s ease;
 }
 
 .imageContent {
@@ -258,6 +302,7 @@
   padding: 40px 0 100px 0;
   z-index: 3;
   border-radius: $radius-lg;
+  pointer-events: none;
 }
 
 .disciplineName {
@@ -273,7 +318,7 @@
   width: 400px;
   height: 60px;
   background: rgba(44, 1, 88, 0.3);
-  border: 1.5px solid rgba($primary-color, 0.6);
+  border: 1px solid rgba($primary-color, 0.5);
   border-radius: 8px;
   color: $text-primary;
   font-size: $font-size-lg;
@@ -287,10 +332,50 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   position: relative;
   bottom: -20px;
+  pointer-events: auto;
 
   &:hover {
     background: #FFFFFF;
     color: #000000;
     border-color: #FFFFFF;
+  }
+}
+
+// Индикаторы (точки)
+.sliderDots {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+  width: 100% !important;
+  z-index: 100 !important;
+  position: relative !important;
+}
+
+.dot {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transition: all 0.3s ease !important;
+  display: block !important;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.8) !important;
+    transform: scale(1.2) !important;
+  }
+  
+  &.active {
+    background: #D38DFF !important;
+    width: 24px !important;
+    height: 10px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 0 8px rgba(211, 141, 255, 0.8) !important;
   }
 }

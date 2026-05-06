@@ -14,6 +14,7 @@ interface AuthContextType {
   register: (email: string, full_name: string, password: string) => Promise<void>;
   logout: () => void;
   checkAuth: () => Promise<void>;
+  updateUser: (updatedUser: User) => void; // Добавлено
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -216,6 +217,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Функция обновления данных пользователя
+  const updateUser = (updatedUser: User) => {
+    // Обновляем в localStorage
+    localStorage.setItem(USER_KEY, JSON.stringify(updatedUser));
+    setUser(updatedUser);
+    
+    // Обновляем данные в хранилище пользователей
+    const allUsers = loadAllUsers();
+    const existingUser = allUsers.get(updatedUser.email);
+    if (existingUser) {
+      allUsers.set(updatedUser.email, {
+        full_name: updatedUser.full_name,
+        password: existingUser.password,
+        role: updatedUser.role || existingUser.role
+      });
+      saveAllUsers(allUsers);
+    }
+    
+    console.log('Данные пользователя обновлены:', updatedUser.email);
+  };
+
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
@@ -244,7 +266,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout, checkAuth }}>
+    <AuthContext.Provider value={{ user, isLoading, login, register, logout, checkAuth, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

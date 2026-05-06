@@ -27,11 +27,18 @@ interface Tournament {
   status: 'active' | 'completed' | 'upcoming';
 }
 
+interface DisciplineImage {
+  id: number;
+  url: string;
+  title: string;
+}
+
 export const AdminPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'teams' | 'users' | 'tournaments'>('teams');
+  const [activeTab, setActiveTab] = useState<'teams' | 'users' | 'tournaments' | 'images'>('teams');
   const [teams, setTeams] = useState<Team[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const [disciplineImages, setDisciplineImages] = useState<DisciplineImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
@@ -46,10 +53,12 @@ export const AdminPage: React.FC = () => {
     tournamentName: '',
     tournamentDate: '',
     tournamentDiscipline: '',
-    tournamentStatus: 'upcoming'
+    tournamentStatus: 'upcoming',
+    imageUrl: '',
+    imageTitle: ''
   });
 
-  // Заглушка для загрузки данных
+  // Загрузка данных
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -70,6 +79,22 @@ export const AdminPage: React.FC = () => {
         { id: 2, name: 'Киберфутбол 2026', date: '10-11 июня', discipline: 'Футбол', status: 'active' },
       ]);
       
+      // Загрузка фото дисциплин из localStorage
+      const savedImages = localStorage.getItem('discipline_images');
+      if (savedImages) {
+        setDisciplineImages(JSON.parse(savedImages));
+      } else {
+        // Фото по умолчанию
+        const defaultImages = [
+          { id: 1, url: '/src/shared/assets/images/basketball.png', title: 'Фиджитал Баскетбол' },
+          { id: 2, url: '/src/shared/assets/images/basketball1.png', title: 'Фиджитал Баскетбол 2' },
+          { id: 3, url: '/src/shared/assets/images/basketball2.png', title: 'Фиджитал Баскетбол 3' },
+          { id: 4, url: '/src/shared/assets/images/basketball3.png', title: 'Фиджитал Баскетбол 4' },
+        ];
+        setDisciplineImages(defaultImages);
+        localStorage.setItem('discipline_images', JSON.stringify(defaultImages));
+      }
+      
       setLoading(false);
     };
     
@@ -85,7 +110,8 @@ export const AdminPage: React.FC = () => {
     setEditingItem(null);
     setFormData({
       name: '', logo: '', captain: '', email: '', full_name: '', password: '', role: 'user',
-      tournamentName: '', tournamentDate: '', tournamentDiscipline: '', tournamentStatus: 'upcoming'
+      tournamentName: '', tournamentDate: '', tournamentDiscipline: '', tournamentStatus: 'upcoming',
+      imageUrl: '', imageTitle: ''
     });
     setShowModal(true);
   };
@@ -98,6 +124,8 @@ export const AdminPage: React.FC = () => {
       setFormData({ ...formData, email: item.email, full_name: item.full_name, role: item.role });
     } else if (activeTab === 'tournaments') {
       setFormData({ ...formData, tournamentName: item.name, tournamentDate: item.date, tournamentDiscipline: item.discipline, tournamentStatus: item.status });
+    } else if (activeTab === 'images') {
+      setFormData({ ...formData, imageUrl: item.url, imageTitle: item.title });
     }
     setShowModal(true);
   };
@@ -110,6 +138,10 @@ export const AdminPage: React.FC = () => {
         setUsers(prev => prev.filter(u => u.id !== id));
       } else if (activeTab === 'tournaments') {
         setTournaments(prev => prev.filter(t => t.id !== id));
+      } else if (activeTab === 'images') {
+        const newImages = disciplineImages.filter(img => img.id !== id);
+        setDisciplineImages(newImages);
+        localStorage.setItem('discipline_images', JSON.stringify(newImages));
       }
     }
   };
@@ -135,6 +167,21 @@ export const AdminPage: React.FC = () => {
       } else {
         setTournaments(prev => [...prev, { id: Date.now(), name: formData.tournamentName, date: formData.tournamentDate, discipline: formData.tournamentDiscipline, status: formData.tournamentStatus as any }]);
       }
+    } else if (activeTab === 'images') {
+      const newImage = {
+        id: editingItem ? editingItem.id : Date.now(),
+        url: formData.imageUrl,
+        title: formData.imageTitle
+      };
+      
+      let newImages;
+      if (editingItem) {
+        newImages = disciplineImages.map(img => img.id === editingItem.id ? newImage : img);
+      } else {
+        newImages = [...disciplineImages, newImage];
+      }
+      setDisciplineImages(newImages);
+      localStorage.setItem('discipline_images', JSON.stringify(newImages));
     }
     
     setShowModal(false);
@@ -180,6 +227,12 @@ export const AdminPage: React.FC = () => {
           >
             Турниры
           </button>
+          <button 
+            className={`${styles.tab} ${activeTab === 'images' ? styles.active : ''}`}
+            onClick={() => setActiveTab('images')}
+          >
+            Фото дисциплин
+          </button>
         </div>
         
         <div className={styles.tableHeader}>
@@ -187,6 +240,7 @@ export const AdminPage: React.FC = () => {
             {activeTab === 'teams' && 'Управление командами'}
             {activeTab === 'users' && 'Управление пользователями'}
             {activeTab === 'tournaments' && 'Управление турнирами'}
+            {activeTab === 'images' && 'Управление фото для слайдера'}
           </h2>
           <button className={styles.addButton} onClick={handleAdd}>
             + Добавить
@@ -223,6 +277,14 @@ export const AdminPage: React.FC = () => {
                     <th>Дата</th>
                     <th>Дисциплина</th>
                     <th>Статус</th>
+                    <th>Действия</th>
+                  </>
+                )}
+                {activeTab === 'images' && (
+                  <>
+                    <th>ID</th>
+                    <th>Изображение</th>
+                    <th>Название</th>
                     <th>Действия</th>
                   </>
                 )}
@@ -267,6 +329,17 @@ export const AdminPage: React.FC = () => {
                   </td>
                 </tr>
               ))}
+              {activeTab === 'images' && disciplineImages.map(image => (
+                <tr key={image.id}>
+                  <td>{image.id}</td>
+                  <td><img src={image.url} alt={image.title} className={styles.tableLogo} /></td>
+                  <td>{image.title}</td>
+                  <td>
+                    <button className={styles.editBtn} onClick={() => handleEdit(image)}>✏️</button>
+                    <button className={styles.deleteBtn} onClick={() => handleDelete(image.id)}>🗑️</button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -284,6 +357,7 @@ export const AdminPage: React.FC = () => {
               {activeTab === 'teams' && ' команду'}
               {activeTab === 'users' && ' пользователя'}
               {activeTab === 'tournaments' && ' турнир'}
+              {activeTab === 'images' && ' фото'}
             </h3>
             
             <form className={styles.modalForm} onSubmit={handleSubmit}>
@@ -317,6 +391,13 @@ export const AdminPage: React.FC = () => {
                     <option value="active">Активен</option>
                     <option value="completed">Завершен</option>
                   </select>
+                </>
+              )}
+              
+              {activeTab === 'images' && (
+                <>
+                  <input type="text" name="imageUrl" placeholder="URL изображения" value={formData.imageUrl} onChange={handleInputChange} className={styles.modalInput} required />
+                  <input type="text" name="imageTitle" placeholder="Название" value={formData.imageTitle} onChange={handleInputChange} className={styles.modalInput} required />
                 </>
               )}
               
