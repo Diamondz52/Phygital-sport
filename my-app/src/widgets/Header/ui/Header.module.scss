@@ -5,7 +5,9 @@
   padding: $spacing-xl 0 $spacing-lg;
   display: flex;
   justify-content: center;
-  background: linear-gradient(180deg, $bg-dark 0%, rgba(25, 0, 39, 0.95) 100%);
+  background: transparent; // Убрали фон, сделали прозрачным
+  position: relative;
+  z-index: 100;
 }
 
 .container {
@@ -23,8 +25,9 @@
   display: inline-flex;
   backdrop-filter: blur(5px);
   width: 100%;
-  max-width: 1300px; // Увеличил с 1200px до 1300px
+  max-width: 1300px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .nav {
@@ -32,13 +35,13 @@
   
   .navList {
     display: flex;
-    list-style: none;
-    gap: 56px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
     margin: 0;
     padding: 0;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+    list-style: none;
   }
 
   .navLink {
@@ -49,6 +52,7 @@
     transition: color 0.3s ease;
     white-space: nowrap;
     letter-spacing: 0.5px;
+    display: inline-block;
 
     &:hover {
       color: $primary-color;
@@ -80,5 +84,90 @@
       width: 28px;
       height: 28px;
     }
+  }
+}
+
+// Адаптация для планшетов
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 40px;
+  }
+  
+  .navWrapper {
+    padding: $spacing-md $spacing-xl;
+    max-width: 100%;
+  }
+  
+  .nav .navList {
+    gap: 30px;
+  }
+  
+  .nav .navLink {
+    font-size: 18px;
+  }
+}
+
+// Адаптация для мобильных устройств
+@media (max-width: 900px) {
+  .header {
+    padding: $spacing-lg 0;
+  }
+  
+  .container {
+    padding: 0 20px;
+  }
+  
+  .navWrapper {
+    padding: $spacing-sm $spacing-lg;
+    border-radius: 40px;
+  }
+  
+  .nav .navList {
+    gap: 20px;
+  }
+  
+  .nav .navLink {
+    font-size: 16px;
+  }
+  
+  .nav .profileButton svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// Адаптация для очень маленьких экранов
+@media (max-width: 700px) {
+  .nav .navList {
+    gap: 15px;
+  }
+  
+  .nav .navLink {
+    font-size: 14px;
+    white-space: normal;
+  }
+  
+  .navWrapper {
+    padding: $spacing-sm $spacing-md;
+  }
+}
+
+// Адаптация для самых маленьких экранов
+@media (max-width: 550px) {
+  .nav .navList {
+    gap: 12px;
+  }
+  
+  .nav .navLink {
+    font-size: 12px;
+  }
+  
+  .nav .profileButton svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .container {
+    padding: 0 15px;
   }
 }

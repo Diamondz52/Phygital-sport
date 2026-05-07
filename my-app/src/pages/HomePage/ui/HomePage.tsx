@@ -16,8 +16,8 @@ const disciplineImages = [
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const intervalRef = useRef<number | null>(null); // Исправлено: number вместо NodeJS.Timeout
-  const pauseTimeoutRef = useRef<number | null>(null); // Исправлено: number вместо NodeJS.Timeout
+  const intervalRef = useRef<number | null>(null);
+  const pauseTimeoutRef = useRef<number | null>(null);
 
   const handleDetailClick = () => {
     navigate('/disciplines');
@@ -33,7 +33,6 @@ export const HomePage: React.FC = () => {
     }, 100);
   };
 
-  // Остановка автоматического слайдера
   const stopAutoSlide = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -41,7 +40,6 @@ export const HomePage: React.FC = () => {
     }
   };
 
-  // Запуск автоматического слайдера
   const startAutoSlide = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -51,37 +49,30 @@ export const HomePage: React.FC = () => {
     }, 4000);
   };
 
-  // Пауза на 5 секунд при ручном переключении
   const pauseAutoSlide = () => {
     stopAutoSlide();
     
-    // Очищаем предыдущий таймер паузы
     if (pauseTimeoutRef.current) {
       clearTimeout(pauseTimeoutRef.current);
     }
     
-    // Запускаем таймер на 5 секунд, после чего возобновляем автопереключение
     pauseTimeoutRef.current = window.setTimeout(() => {
       startAutoSlide();
     }, 5000);
   };
 
-  // Следующее фото
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % disciplineImages.length);
   };
 
-  // Предыдущее фото
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + disciplineImages.length) % disciplineImages.length);
   };
 
-  // Переход к определенному фото по точке
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
   };
 
-  // Обработчик ручного переключения (с паузой)
   const handlePrevSlide = () => {
     prevSlide();
     pauseAutoSlide();
@@ -97,11 +88,9 @@ export const HomePage: React.FC = () => {
     pauseAutoSlide();
   };
 
-  // Запуск автопереключения при монтировании
   useEffect(() => {
     startAutoSlide();
     
-    // Очистка при размонтировании
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -162,17 +151,20 @@ export const HomePage: React.FC = () => {
         </div>
 
         <div className={styles.disciplinesSection}>
+          {/* Текст над карточкой */}
+          <div className={styles.disciplineTitleWrapper}>
+            <span className={styles.disciplineName}>Фиджитал Баскетбол</span>
+          </div>
+
           <div className={styles.imageWrapper}>
             <div className={styles.imageGlow}></div>
             
-            {/* Кнопка "Назад" */}
             <button className={styles.sliderPrev} onClick={handlePrevSlide} aria-label="Предыдущее фото">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
             
-            {/* Фото */}
             <div className={styles.sliderContainer}>
               <img 
                 src={disciplineImages[currentIndex]} 
@@ -181,7 +173,6 @@ export const HomePage: React.FC = () => {
               />
             </div>
             
-            {/* Кнопка "Вперед" */}
             <button className={styles.sliderNext} onClick={handleNextSlide} aria-label="Следующее фото">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -189,7 +180,6 @@ export const HomePage: React.FC = () => {
             </button>
             
             <div className={styles.imageContent}>
-              <span className={styles.disciplineName}>Фиджитал Баскетбол</span>
               <button 
                 className={styles.detailButton}
                 onClick={handleDetailClick}
@@ -199,7 +189,6 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
           
-          {/* Индикаторы (точки) */}
           <div className={styles.sliderDots}>
             {disciplineImages.map((_, index) => (
               <button

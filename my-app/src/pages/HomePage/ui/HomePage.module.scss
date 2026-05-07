@@ -212,6 +212,30 @@
   align-items: center;
 }
 
+// Заголовок над карточкой
+.disciplineTitleWrapper {
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.disciplineName {
+  font-size: 28px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px rgba(211, 141, 255, 0.5);
+  background: linear-gradient(135deg, #FFFFFF 0%, #D38DFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .imageWrapper {
   position: relative;
   width: 553px;
@@ -291,34 +315,19 @@
 
 .imageContent {
   position: absolute;
-  top: 0;
+  bottom: 30px;
   left: 0;
   right: 0;
-  bottom: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 40px 0 100px 0;
-  z-index: 3;
-  border-radius: $radius-lg;
-  pointer-events: none;
-}
-
-.disciplineName {
-  font-size: 36px;
-  font-weight: 400;
-  color: $text-primary;
-  text-align: center;
-  margin-top: 40px;
-  letter-spacing: 1px;
+  justify-content: center;
+  z-index: 10;
 }
 
 .detailButton {
   width: 400px;
   height: 60px;
-  background: rgba(44, 1, 88, 0.3);
-  border: 1px solid rgba($primary-color, 0.5);
+  background: transparent !important;
+  border: 2px solid rgba($primary-color, 0.6); // Было: 1px solid rgba($primary-color, 0.5)
   border-radius: 8px;
   color: $text-primary;
   font-size: $font-size-lg;
@@ -326,20 +335,18 @@
   letter-spacing: 1.5px;
   cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
   text-transform: uppercase;
   margin-bottom: 20px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  position: relative;
-  bottom: -20px;
   pointer-events: auto;
 
   &:hover {
-    background: #FFFFFF;
-    color: #000000;
-    border-color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: #D38DFF;
+    border-color: #D38DFF;
   }
 }
+
 
 // Индикаторы (точки)
 .sliderDots {
@@ -377,5 +384,221 @@
     height: 10px !important;
     border-radius: 10px !important;
     box-shadow: 0 0 8px rgba(211, 141, 255, 0.8) !important;
+  }
+}
+// ========== АДАПТАЦИЯ ПОД РАЗНЫЕ ЭКРАНЫ ==========
+
+// Планшеты (1024px - 1280px)
+@media (max-width: 1280px) {
+  .disciplinesSection {
+    right: 150px;
+  }
+  
+  .disciplinesTitleWrapper {
+    right: 150px;
+  }
+  
+  .leftColumn {
+    margin-left: 0;
+  }
+  
+  .titleSmall {
+    font-size: 48px;
+  }
+  
+  .titleLarge {
+    font-size: 72px;
+  }
+  
+  .description {
+    font-size: 24px;
+    max-width: 700px;
+  }
+}
+
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) {
+  .handLeft, .handRight {
+    display: none;
+  }
+  
+  .disciplinesSection {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-top: 200px;
+  }
+  
+  .disciplinesTitleWrapper {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-top: 100px;
+    width: auto;
+  }
+  
+  .disciplinesTitle {
+    font-size: 48px;
+    white-space: normal;
+  }
+  
+  .topSection {
+    padding-top: 100px;
+    margin-bottom: 100px;
+    padding-left: 0;
+    margin-left: 0;
+  }
+  
+  .leftColumn {
+    margin-left: 0;
+    text-align: center;
+  }
+  
+  .titleSmall {
+    font-size: 36px;
+  }
+  
+  .titleLarge {
+    font-size: 54px;
+  }
+  
+  .description {
+    font-size: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  .imageWrapper {
+    width: 450px;
+    height: 490px;
+  }
+  
+  .detailButton {
+    width: 300px;
+    height: 50px;
+    font-size: 14px;
+  }
+  
+  .disciplineName {
+    font-size: 24px;
+  }
+  
+  .disciplineTitleWrapper {
+    top: -55px;
+  }
+}
+
+// Мобильные устройства (576px - 768px)
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+  
+  .disciplinesSection {
+    width: 100%;
+    padding: 0 20px;
+    margin-top: 100px;
+  }
+  
+  .imageWrapper {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    aspect-ratio: 553 / 602;
+    margin: 0 auto;
+  }
+  
+  .disciplinesTitle {
+    font-size: 32px;
+  }
+  
+  .titleSmall {
+    font-size: 28px;
+  }
+  
+  .titleLarge {
+    font-size: 42px;
+  }
+  
+  .description {
+    font-size: 18px;
+    max-width: 100%;
+  }
+  
+  .detailButton {
+    width: 250px;
+    height: 45px;
+    font-size: 12px;
+  }
+  
+  .disciplineName {
+    font-size: 20px;
+  }
+  
+  .disciplineTitleWrapper {
+    top: -45px;
+  }
+  
+  .sliderPrev, .sliderNext {
+    width: 30px;
+    height: 30px;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  
+  .sliderPrev {
+    left: 5px;
+  }
+  
+  .sliderNext {
+    right: 5px;
+  }
+}
+
+// Маленькие мобильные устройства (до 576px)
+@media (max-width: 576px) {
+  .disciplinesTitle {
+    font-size: 24px;
+  }
+  
+  .titleSmall {
+    font-size: 22px;
+  }
+  
+  .titleLarge {
+    font-size: 32px;
+  }
+  
+  .description {
+    font-size: 16px;
+  }
+  
+  .detailButton {
+    width: 200px;
+    height: 40px;
+    font-size: 10px;
+  }
+  
+  .disciplineName {
+    font-size: 18px;
+  }
+  
+  .disciplineTitleWrapper {
+    top: -35px;
+  }
+  
+  .dot {
+    width: 8px !important;
+    height: 8px !important;
+    
+    &.active {
+      width: 20px !important;
+      height: 8px !important;
+    }
   }
 }

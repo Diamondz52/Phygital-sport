@@ -135,3 +135,166 @@
     display: block;
   }
 }
+// ========== АДАПТАЦИЯ ФУТЕРА ПОД РАЗНЫЕ ЭКРАНЫ ==========
+
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) {
+  .footerContent {
+    flex-wrap: wrap;
+    gap: 60px;
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+  
+  .column {
+    min-width: 220px;
+    gap: 25px;
+  }
+  
+  .columnTitle {
+    font-size: 30px;
+  }
+  
+  .description {
+    font-size: 18px;
+  }
+  
+  .link, .contactItem {
+    font-size: 18px;
+  }
+  
+  .contactIcon {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    
+    svg, img {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
+
+// Мобильные устройства (576px - 768px)
+@media (max-width: 768px) {
+  .footer {
+    margin-top: 60px;
+    padding: 40px 0 25px;
+  }
+  
+  .container {
+    padding: 25px 0 15px;
+  }
+  
+  .footerContent {
+    flex-direction: column;
+    gap: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .column {
+    width: 100%;
+    min-width: auto;
+    gap: 15px;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .columnTitle {
+    font-size: 28px;
+    text-align: center;
+  }
+  
+  .description {
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .linkList {
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .contactList {
+    align-items: center;
+  }
+  
+  .contactItem {
+    justify-content: center;
+  }
+  
+  .link, .contactItem {
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .contactIcon {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    
+    svg, img {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  
+  // Убираем прижатие к низу для колонки "Разделы сайта" на мобильных
+  .column:nth-child(2) {
+    justify-content: flex-start;
+  }
+}
+
+// Маленькие мобильные устройства (до 576px)
+@media (max-width: 576px) {
+  .footer {
+    margin-top: 40px;
+    padding: 30px 0 20px;
+  }
+  
+  .container {
+    padding: 15px 0 10px;
+  }
+  
+  .footerContent {
+    gap: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .column {
+    gap: 12px;
+  }
+  
+  .columnTitle {
+    font-size: 24px;
+  }
+  
+  .description {
+    font-size: 16px;
+  }
+  
+  .link, .contactItem {
+    font-size: 16px;
+  }
+  
+  .contactIcon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    
+    svg, img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .contactItem {
+    gap: 10px;
+  }
+  
+  .linkList, .contactList {
+    gap: 6px;
+  }
+}
