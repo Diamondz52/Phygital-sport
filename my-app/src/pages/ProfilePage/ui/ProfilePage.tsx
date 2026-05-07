@@ -29,7 +29,8 @@ interface Team {
 
 export const ProfilePage: React.FC = () => {
   const navigate = useNavigate();
-  const { user, logout, updateUser } = useAuth();
+  const { user, logout } = useAuth();
+  const [activeTab, setActiveTab] = useState<'profile' | 'security'>('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<UserData>({
     email: '',
@@ -43,6 +44,22 @@ export const ProfilePage: React.FC = () => {
   const [saveMessage, setSaveMessage] = useState('');
   const [expandedTeamId, setExpandedTeamId] = useState<number | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
+
+  // Состояния для смены пароля
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [passwordErrors, setPasswordErrors] = useState<Record<string, string>>({});
+  const [passwordMessage, setPasswordMessage] = useState('');
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  
+  // Состояния для показа/скрытия пароля
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const isAdmin = user?.role === 'admin' || user?.email === 'pyankovad2606@gmail.com';
 
@@ -68,7 +85,7 @@ export const ProfilePage: React.FC = () => {
     return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7, 9)} ${normalized.slice(9, 11)}`;
   };
 
-  // Форматирование даты из YYYY-MM-DD в DD.MM.YYYY для отображения
+  // Форматирование даты
   const formatDateForDisplay = (dateString: string): string => {
     if (!dateString) return '';
     if (dateString.includes('.')) return dateString;
@@ -79,7 +96,6 @@ export const ProfilePage: React.FC = () => {
     return dateString;
   };
 
-  // Форматирование даты из DD.MM.YYYY в YYYY-MM-DD для input type="date"
   const formatDateForInput = (dateString: string): string => {
     if (!dateString) return '';
     if (dateString.includes('-')) return dateString;
@@ -117,6 +133,92 @@ export const ProfilePage: React.FC = () => {
       setFormData(prev => ({ ...prev, birth_date: formattedDate }));
     } else {
       setFormData(prev => ({ ...prev, birth_date: '' }));
+    }
+  };
+
+  // Обработчики для смены пароля
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setPasswordData(prev => ({ ...prev, [name]: value }));
+    if (passwordErrors[name]) {
+      setPasswordErrors(prev => ({ ...prev, [name]: '' }));
+    }
+    if (passwordMessage) {
+      setPasswordMessage('');
+    }
+  };
+
+  const validatePasswordForm = (): boolean => {
+    const errors: Record<string, string> = {};
+    
+    if (!passwordData.currentPassword) {
+      errors.currentPassword = 'Введите текущий пароль';
+    }
+    
+    if (!passwordData.newPassword) {
+      errors.newPassword = 'Введите новый пароль';
+    } else if (passwordData.newPassword.length < 6) {
+      errors.newPassword = 'Пароль должен содержать минимум 6 символов';
+    }
+    
+    if (!passwordData.confirmPassword) {
+      errors.confirmPassword = 'Подтвердите новый пароль';
+    } else if (passwordData.newPassword !== passwordData.confirmPassword) {
+      errors.confirmPassword = 'Пароли не совпадают';
+    }
+    
+    setPasswordErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validatePasswordForm()) return;
+    
+    setIsChangingPassword(true);
+    setPasswordMessage('');
+    
+    try {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      const storedUsers = localStorage.getItem('registered_users');
+      if (storedUsers && user) {
+        const users = JSON.parse(storedUsers);
+        const currentUser = users[user.email];
+        
+        if (!currentUser || currentUser.password !== passwordData.currentPassword) {
+          setPasswordErrors({ currentPassword: 'Неверный текущий пароль' });
+          setIsChangingPassword(false);
+          return;
+        }
+        
+        users[user.email] = {
+          ...currentUser,
+          password: passwordData.newPassword
+        };
+        localStorage.setItem('registered_users', JSON.stringify(users));
+      }
+      
+      setPasswordMessage('Пароль успешно изменен!');
+      
+      setPasswordData({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+      setPasswordErrors({});
+      
+      setTimeout(() => {
+        setShowPasswordForm(false);
+        setPasswordMessage('');
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Error changing password:', error);
+      setPasswordMessage('Ошибка при смене пароля');
+    } finally {
+      setIsChangingPassword(false);
     }
   };
 
@@ -186,7 +288,6 @@ export const ProfilePage: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 500));
       console.log('Saved user data:', formData);
       
-      // Сохраняем данные в localStorage
       const profileDataToSave = {
         full_name: formData.full_name,
         phone: formData.phone,
@@ -195,16 +296,6 @@ export const ProfilePage: React.FC = () => {
         email: formData.email
       };
       localStorage.setItem('user_profile_data', JSON.stringify(profileDataToSave));
-      
-      // Обновляем email в контексте авторизации
-      if (user && updateUser) {
-        const updatedUser = {
-          ...user,
-          email: formData.email,
-          full_name: formData.full_name
-        };
-        updateUser(updatedUser);
-      }
       
       setSaveMessage('Данные успешно сохранены!');
       setIsEditing(false);
@@ -257,7 +348,6 @@ export const ProfilePage: React.FC = () => {
 
   return (
     <div className={styles.page}>
-      {/* Градиентный фон */}
       <div className={styles.gradientBg}>
         <div className={styles.ellipse4}></div>
         <div className={styles.ellipse2}></div>
@@ -271,139 +361,316 @@ export const ProfilePage: React.FC = () => {
         <div className={styles.container}>
           <h1 className={styles.title}>ЛИЧНЫЙ КАБИНЕТ</h1>
           
-          <div className={styles.profileCard}>
-            <div className={styles.leftColumn}>
-              <div className={styles.userInfo}>
-                <h2 className={styles.userName}>{formData.full_name || 'Игрок'}</h2>
-                <p className={styles.userEmail}>{formData.email}</p>
+          <div className={styles.tabs}>
+            <button 
+              className={`${styles.tab} ${activeTab === 'profile' ? styles.active : ''}`}
+              onClick={() => setActiveTab('profile')}
+            >
+              Профиль
+            </button>
+            <button 
+              className={`${styles.tab} ${activeTab === 'security' ? styles.active : ''}`}
+              onClick={() => setActiveTab('security')}
+            >
+              Безопасность
+            </button>
+          </div>
+          
+          {activeTab === 'profile' && (
+            <div className={styles.profileCard}>
+              <div className={styles.leftColumn}>
+                <div className={styles.userInfo}>
+                  <h2 className={styles.userName}>{formData.full_name || 'Игрок'}</h2>
+                  <p className={styles.userEmail}>{formData.email}</p>
+                </div>
+                
+                <div className={styles.infoSection}>
+                  <div className={styles.infoGroup}>
+                    <label>Номер телефона</label>
+                    {isEditing ? (
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        className={styles.editInput}
+                        placeholder="+7 XXX XXX XX XX"
+                      />
+                    ) : (
+                      <p>{formData.phone || 'Не указан'}</p>
+                    )}
+                  </div>
+                  
+                  <div className={styles.infoGroup}>
+                    <label>E-mail</label>
+                    {isEditing ? (
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className={styles.editInput}
+                        placeholder="example@mail.ru"
+                      />
+                    ) : (
+                      <p>{formData.email || 'Не указан'}</p>
+                    )}
+                  </div>
+                  
+                  <div className={styles.infoGroup}>
+                    <label>Дата рождения</label>
+                    {isEditing ? (
+                      <input
+                        type="date"
+                        name="birth_date"
+                        value={formatDateForInput(formData.birth_date)}
+                        onChange={handleInputChange}
+                        className={styles.editInput}
+                      />
+                    ) : (
+                      <p>{formData.birth_date || 'Не указана'}</p>
+                    )}
+                  </div>
+                  
+                  <div className={styles.infoGroup}>
+                    <label>Telegram</label>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="telegram"
+                        value={formData.telegram}
+                        onChange={handleInputChange}
+                        className={styles.editInput}
+                        placeholder="@username"
+                      />
+                    ) : (
+                      <p>{formData.telegram || 'Не указан'}</p>
+                    )}
+                  </div>
+                  
+                  {saveMessage && <div className={styles.saveMessage}>{saveMessage}</div>}
+                  
+                  <div className={styles.buttonGroup}>
+                    {isEditing ? (
+                      <>
+                        <button className={styles.saveButton} onClick={handleSave} disabled={loading}>
+                          {loading ? 'Сохранение...' : 'Сохранить'}
+                        </button>
+                        <button className={styles.cancelButton} onClick={() => setIsEditing(false)}>
+                          Отмена
+                        </button>
+                      </>
+                    ) : (
+                      <button className={styles.editButton} onClick={() => setIsEditing(true)}>
+                        Редактировать
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
               
-              <div className={styles.infoSection}>
-                <div className={styles.infoGroup}>
-                  <label>Номер телефона</label>
-                  {isEditing ? (
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className={styles.editInput}
-                      placeholder="+7 XXX XXX XX XX"
-                    />
-                  ) : (
-                    <p>{formData.phone || 'Не указан'}</p>
-                  )}
-                </div>
-                
-                <div className={styles.infoGroup}>
-                  <label>E-mail</label>
-                  {isEditing ? (
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className={styles.editInput}
-                      placeholder="example@mail.ru"
-                    />
-                  ) : (
-                    <p>{formData.email || 'Не указан'}</p>
-                  )}
-                </div>
-                
-                <div className={styles.infoGroup}>
-                  <label>Дата рождения</label>
-                  {isEditing ? (
-                    <input
-                      type="date"
-                      name="birth_date"
-                      value={formatDateForInput(formData.birth_date)}
-                      onChange={handleInputChange}
-                      className={styles.editInput}
-                    />
-                  ) : (
-                    <p>{formData.birth_date || 'Не указана'}</p>
-                  )}
-                </div>
-                
-                <div className={styles.infoGroup}>
-                  <label>Telegram</label>
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      name="telegram"
-                      value={formData.telegram}
-                      onChange={handleInputChange}
-                      className={styles.editInput}
-                      placeholder="@username"
-                    />
-                  ) : (
-                    <p>{formData.telegram || 'Не указан'}</p>
-                  )}
-                </div>
-                
-                {saveMessage && <div className={styles.saveMessage}>{saveMessage}</div>}
-                
-                <div className={styles.buttonGroup}>
-                  {isEditing ? (
-                    <>
-                      <button className={styles.saveButton} onClick={handleSave} disabled={loading}>
-                        {loading ? 'Сохранение...' : 'Сохранить'}
-                      </button>
-                      <button className={styles.cancelButton} onClick={() => setIsEditing(false)}>
-                        Отмена
-                      </button>
-                    </>
-                  ) : (
-                    <button className={styles.editButton} onClick={() => setIsEditing(true)}>
-                      Редактировать
-                    </button>
-                  )}
-                </div>
+              <div className={styles.rightColumn}>
+                <h3 className={styles.teamsTitle}>Мои команды</h3>
+                {userTeams.length > 0 ? (
+                  <div className={styles.teamsList}>
+                    {userTeams.map((team) => (
+                      <div key={team.id} className={styles.teamItem}>
+                        <div 
+                          className={styles.teamHeader}
+                          onClick={() => toggleTeamExpand(team.id)}
+                        >
+                          <div className={styles.teamHeaderLeft}>
+                            <h4 className={styles.teamName}>{team.name}</h4>
+                            <span className={styles.captainBadge}>капитан</span>
+                          </div>
+                          <div className={`${styles.expandIcon} ${expandedTeamId === team.id ? styles.expanded : ''}`}>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                              <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </div>
+                        </div>
+                        {expandedTeamId === team.id && (
+                          <div className={styles.teamMembers}>
+                            <p className={styles.membersTitle}>Состав команды:</p>
+                            <ul>
+                              {team.players.map((player) => (
+                                <li key={player.id}>
+                                  {player.name}
+                                  {player.isCaptain && <span className={styles.memberRole}>капитан</span>}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className={styles.noTeams}>Вы пока не состоите ни в одной команде</p>
+                )}
               </div>
             </div>
-            
-            <div className={styles.rightColumn}>
-              <h3 className={styles.teamsTitle}>Мои команды</h3>
-              {userTeams.length > 0 ? (
-                <div className={styles.teamsList}>
-                  {userTeams.map((team) => (
-                    <div key={team.id} className={styles.teamItem}>
-                      <div 
-                        className={styles.teamHeader}
-                        onClick={() => toggleTeamExpand(team.id)}
-                      >
-                        <div className={styles.teamHeaderLeft}>
-                          <h4 className={styles.teamName}>{team.name}</h4>
-                          <span className={styles.captainBadge}>капитан</span>
-                        </div>
-                        <div className={`${styles.expandIcon} ${expandedTeamId === team.id ? styles.expanded : ''}`}>
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        </div>
-                      </div>
-                      {expandedTeamId === team.id && (
-                        <div className={styles.teamMembers}>
-                          <p className={styles.membersTitle}>Состав команды:</p>
-                          <ul>
-                            {team.players.map((player) => (
-                              <li key={player.id}>
-                                {player.name}
-                                {player.isCaptain && <span className={styles.memberRole}>капитан</span>}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
+          )}
+          
+          {activeTab === 'security' && (
+            <div className={styles.securityCard}>
+              <h3 className={styles.securityTitle}>Смена пароля</h3>
+              <p className={styles.securityDescription}>
+                Для безопасности аккаунта рекомендуется периодически менять пароль.
+              </p>
+              
+              {!showPasswordForm ? (
+                <button 
+                  className={styles.changePasswordButton}
+                  onClick={() => setShowPasswordForm(true)}
+                >
+                  Изменить пароль
+                </button>
               ) : (
-                <p className={styles.noTeams}>Вы пока не состоите ни в одной команде</p>
+                <form className={styles.passwordForm} onSubmit={handleChangePassword}>
+                  <div className={styles.infoGroup}>
+                    <label>Текущий пароль</label>
+                    <div className={styles.passwordInputWrapper}>
+                      <input
+                        type={showCurrentPassword ? "text" : "password"}
+                        name="currentPassword"
+                        value={passwordData.currentPassword}
+                        onChange={handlePasswordChange}
+                        className={styles.editInput}
+                        placeholder="Введите текущий пароль"
+                      />
+                      <button
+                        type="button"
+                        className={styles.togglePasswordButton}
+                        onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                      >
+                        {showCurrentPassword ? (
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M3 3L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        ) : (
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                    {passwordErrors.currentPassword && (
+                      <span className={styles.errorText}>{passwordErrors.currentPassword}</span>
+                    )}
+                  </div>
+                  
+                  <div className={styles.infoGroup}>
+                    <label>Новый пароль</label>
+                    <div className={styles.passwordInputWrapper}>
+                      <input
+                        type={showNewPassword ? "text" : "password"}
+                        name="newPassword"
+                        value={passwordData.newPassword}
+                        onChange={handlePasswordChange}
+                        className={styles.editInput}
+                        placeholder="Введите новый пароль (мин. 6 символов)"
+                      />
+                      <button
+                        type="button"
+                        className={styles.togglePasswordButton}
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                      >
+                        {showNewPassword ? (
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M3 3L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        ) : (
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                    {passwordErrors.newPassword && (
+                      <span className={styles.errorText}>{passwordErrors.newPassword}</span>
+                    )}
+                  </div>
+                  
+                  <div className={styles.infoGroup}>
+                    <label>Подтверждение пароля</label>
+                    <div className={styles.passwordInputWrapper}>
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        value={passwordData.confirmPassword}
+                        onChange={handlePasswordChange}
+                        className={styles.editInput}
+                        placeholder="Подтвердите новый пароль"
+                      />
+                      <button
+                        type="button"
+                        className={styles.togglePasswordButton}
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? (
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M3 3L21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        ) : (
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                    {passwordErrors.confirmPassword && (
+                      <span className={styles.errorText}>{passwordErrors.confirmPassword}</span>
+                    )}
+                  </div>
+                  
+                  {passwordMessage && (
+                    <div className={`${styles.saveMessage} ${passwordMessage.includes('успешно') ? styles.successMessage : styles.errorMessage}`}>
+                      {passwordMessage}
+                    </div>
+                  )}
+                  
+                  <div className={styles.buttonGroup}>
+                    <button 
+                      type="submit" 
+                      className={styles.saveButton}
+                      disabled={isChangingPassword}
+                    >
+                      {isChangingPassword ? 'Сохранение...' : 'Сохранить пароль'}
+                    </button>
+                    <button 
+                      type="button"
+                      className={styles.cancelButton}
+                      onClick={() => {
+                        setShowPasswordForm(false);
+                        setPasswordData({
+                          currentPassword: '',
+                          newPassword: '',
+                          confirmPassword: ''
+                        });
+                        setPasswordErrors({});
+                        setPasswordMessage('');
+                        setShowCurrentPassword(false);
+                        setShowNewPassword(false);
+                        setShowConfirmPassword(false);
+                      }}
+                    >
+                      Отмена
+                    </button>
+                  </div>
+                </form>
               )}
             </div>
-          </div>
+          )}
           
           <div className={styles.buttonsWrapper}>
             {isAdmin && (

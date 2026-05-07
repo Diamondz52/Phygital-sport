@@ -194,3 +194,40 @@
     text-decoration: underline;
   }
 }
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  
+  input {
+    flex: 1;
+    padding-right: 45px;
+  }
+}
+
+.togglePasswordButton {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  
+  &:hover {
+    color: #D38DFF;
+    background: rgba(211, 141, 255, 0.1);
+  }
+  
+  svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+}

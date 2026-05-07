@@ -104,6 +104,36 @@
   line-height: 1.2;
 }
 
+// Вкладки
+.tabs {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 12px 30px;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  
+  &:hover {
+    color: #FFFFFF;
+  }
+  
+  &.active {
+    color: #D38DFF;
+    background: rgba(211, 141, 255, 0.1);
+  }
+}
+
 // Карточка профиля
 .profileCard {
   width: 100%;
@@ -115,6 +145,74 @@
   padding: 50px 60px;
   display: flex;
   gap: 60px;
+}
+
+// Карточка безопасности
+.securityCard {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(194, 94, 255, 0.05);
+  border: 1px solid #936DAB;
+  box-shadow: 0px 0px 24.6px 3px #936DAB;
+  border-radius: 30px;
+  padding: 50px 60px;
+}
+
+.securityTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #D38DFF;
+  margin-bottom: 15px;
+}
+
+.securityDescription {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 30px;
+}
+
+.changePasswordButton {
+  background: transparent;
+  border: 2px solid #D38DFF;
+  border-radius: 12px;
+  padding: 14px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #D38DFF;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  
+  &:hover {
+    background: #D38DFF;
+    color: #190027;
+  }
+}
+
+.passwordForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.errorText {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.successMessage {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid #4CAF50;
+  color: #4CAF50;
+}
+
+.errorMessage {
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid #ff6b6b;
+  color: #ff6b6b;
 }
 
 // Левая колонка
@@ -448,5 +546,41 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+.passwordInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  
+  input {
+    flex: 1;
+    padding-right: 45px;
+  }
+}
+
+.togglePasswordButton {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  
+  &:hover {
+    color: #D38DFF;
+    background: rgba(211, 141, 255, 0.1);
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    display: block;
   }
 }
