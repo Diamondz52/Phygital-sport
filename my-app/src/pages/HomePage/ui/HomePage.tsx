@@ -8,9 +8,9 @@ import styles from './HomePage.module.scss';
 // Массив фото для слайдера
 const disciplineImages = [
   '/src/shared/assets/images/basketball.png',
-  '/src/shared/assets/images/media1.png',
-  '/src/shared/assets/images/basketball2.png',
-  '/src/shared/assets/images/basketball3.png'
+  '/src/shared/assets/images/dis2.jpg',
+  '/src/shared/assets/images/dis1.jpg',
+  '/src/shared/assets/images/dis3.jpg'
 ];
 
 export const HomePage: React.FC = () => {
