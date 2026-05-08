@@ -5,7 +5,7 @@
   padding: $spacing-xl 0 $spacing-lg;
   display: flex;
   justify-content: center;
-  background: transparent; // Убрали фон, сделали прозрачным
+  background: transparent;
   position: relative;
   z-index: 100;
 }
@@ -87,7 +87,102 @@
   }
 }
 
-// Адаптация для планшетов
+// Стили для пункта с выпадающим списком
+.navItem {
+  position: relative;
+}
+
+.navLink.hasDropdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dropdownArrow {
+  transition: transform 0.3s ease;
+  
+  &.rotated {
+    transform: rotate(180deg);
+  }
+}
+
+// Улучшенный выпадающий список
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, rgba(25, 0, 39, 0.98) 0%, rgba(44, 1, 88, 0.98) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(211, 141, 255, 0.4);
+  border-radius: 16px;
+  padding: 8px 0;
+  min-width: 280px;
+  z-index: 100;
+  animation: dropdownFadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(211, 141, 255, 0.1);
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.dropdownHeader {
+  padding: 12px 20px 10px;
+  border-bottom: 1px solid rgba(211, 141, 255, 0.2);
+  margin-bottom: 8px;
+  
+  span {
+    font-size: 13px;
+    color: rgba(211, 141, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  gap: 12px;
+  
+  &:hover {
+    background: linear-gradient(90deg, rgba(211, 141, 255, 0.15) 0%, transparent 100%);
+    color: #D38DFF;
+    padding-left: 28px;
+    
+    .dropdownItemArrow {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+  }
+}
+
+.dropdownItemArrow {
+  opacity: 0;
+  transition: all 0.25s ease;
+  font-size: 16px;
+  margin-left: auto;
+}
+
+// Адаптация
 @media (max-width: 1200px) {
   .container {
     padding: 0 40px;
@@ -107,7 +202,6 @@
   }
 }
 
-// Адаптация для мобильных устройств
 @media (max-width: 900px) {
   .header {
     padding: $spacing-lg 0;
@@ -134,9 +228,21 @@
     width: 24px;
     height: 24px;
   }
+  
+  .dropdownMenu {
+    position: fixed;
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 260px;
+  }
+  
+  .dropdownItem {
+    padding: 12px 16px;
+    font-size: 16px;
+  }
 }
 
-// Адаптация для очень маленьких экранов
 @media (max-width: 700px) {
   .nav .navList {
     gap: 15px;
@@ -150,9 +256,21 @@
   .navWrapper {
     padding: $spacing-sm $spacing-md;
   }
+  
+  .dropdownMenu {
+    min-width: 220px;
+  }
+  
+  .dropdownItem {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+  
+  .dropdownHeader span {
+    font-size: 11px;
+  }
 }
 
-// Адаптация для самых маленьких экранов
 @media (max-width: 550px) {
   .nav .navList {
     gap: 12px;

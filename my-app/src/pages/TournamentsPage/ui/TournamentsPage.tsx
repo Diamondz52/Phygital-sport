@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '../../../widgets/Header';
 import { Footer } from '../../../widgets/Footer';
 import styles from './TournamentsPage.module.scss';
@@ -10,6 +11,7 @@ interface FormData {
 }
 
 export const TournamentsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -86,6 +88,10 @@ export const TournamentsPage: React.FC = () => {
     }, 1000);
   };
 
+  const handleRulesClick = () => {
+    navigate('/disciplines');
+  };
+
   return (
     <div className={styles.page}>
       {/* Градиентный фон */}
@@ -122,9 +128,14 @@ export const TournamentsPage: React.FC = () => {
               Победитель определяется по сумме двух этапов. Регистрация уже открыта. Стань<br />
               частью истории студенческого фиджитал-движения!
             </p>
-            <button className={styles.applyButton} onClick={handleOpenModal}>
-              Подать заявку
-            </button>
+            <div className={styles.buttonGroup}>
+              <button className={styles.rulesButton} onClick={handleRulesClick}>
+                Правила
+              </button>
+              <button className={styles.applyButton} onClick={handleOpenModal}>
+                Подать заявку
+              </button>
+            </div>
           </div>
         </div>
       </main>

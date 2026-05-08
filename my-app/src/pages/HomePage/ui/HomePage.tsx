@@ -13,9 +13,19 @@ const disciplineImages = [
   '/src/shared/assets/images/dis3.jpg'
 ];
 
+// Массив названий для слайдера (соответствует фото)
+const disciplineNames = [
+  'Фиджитал Баскетбол',
+  'Кибербаскетбол',
+  'Виртуальный Спорт',
+  'Цифровая Арена'
+];
+
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
   const intervalRef = useRef<number | null>(null);
   const pauseTimeoutRef = useRef<number | null>(null);
 
@@ -62,15 +72,27 @@ export const HomePage: React.FC = () => {
   };
 
   const nextSlide = () => {
+    if (isTransitioning) return;
+    setDirection('right');
+    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % disciplineImages.length);
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const prevSlide = () => {
+    if (isTransitioning) return;
+    setDirection('left');
+    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => (prevIndex - 1 + disciplineImages.length) % disciplineImages.length);
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const goToSlide = (index: number) => {
+    if (isTransitioning || index === currentIndex) return;
+    setDirection(index > currentIndex ? 'right' : 'left');
+    setIsTransitioning(true);
     setCurrentIndex(index);
+    setTimeout(() => setIsTransitioning(false), 500);
   };
 
   const handlePrevSlide = () => {
@@ -153,40 +175,48 @@ export const HomePage: React.FC = () => {
         <div className={styles.disciplinesSection}>
           {/* Текст над карточкой */}
           <div className={styles.disciplineTitleWrapper}>
-            <span className={styles.disciplineName}>Фиджитал Баскетбол</span>
+            <span className={`${styles.disciplineName} ${isTransitioning ? styles.fadeOut : styles.fadeIn}`}>
+              {disciplineNames[currentIndex]}
+            </span>
           </div>
 
-          <div className={styles.imageWrapper}>
-            <div className={styles.imageGlow}></div>
-            
+          <div className={styles.sliderWrapper}>
+            {/* Кнопка "Назад" слева за пределами фото */}
             <button className={styles.sliderPrev} onClick={handlePrevSlide} aria-label="Предыдущее фото">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
-            
-            <div className={styles.sliderContainer}>
-              <img 
-                src={disciplineImages[currentIndex]} 
-                alt="Фиджитал Баскетбол" 
-                className={styles.disciplineImage}
-              />
+
+            <div className={styles.imageWrapper}>
+              <div className={styles.imageGlow}></div>
+              
+              <div className={styles.sliderContainer}>
+                <div className={`${styles.sliderTrack} ${isTransitioning ? direction === 'right' ? styles.slideRight : styles.slideLeft : ''}`}>
+                  <img 
+                    src={disciplineImages[currentIndex]} 
+                    alt="Дисциплина" 
+                    className={styles.disciplineImage}
+                  />
+                </div>
+              </div>
+              
+              <div className={styles.imageContent}>
+                <button 
+                  className={styles.detailButton}
+                  onClick={handleDetailClick}
+                >
+                  ПОДРОБНЕЕ
+                </button>
+              </div>
             </div>
-            
+
+            {/* Кнопка "Вперед" справа за пределами фото */}
             <button className={styles.sliderNext} onClick={handleNextSlide} aria-label="Следующее фото">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
-            
-            <div className={styles.imageContent}>
-              <button 
-                className={styles.detailButton}
-                onClick={handleDetailClick}
-              >
-                ПОДРОБНЕЕ
-              </button>
-            </div>
           </div>
           
           <div className={styles.sliderDots}>

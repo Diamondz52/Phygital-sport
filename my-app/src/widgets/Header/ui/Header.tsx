@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LoginModal } from '../../../features/auth/ui/LoginModal';
 import { RegisterModal } from '../../../features/auth/ui/RegisterModal';
 import { useAuth } from '../../../features/auth/model';
@@ -8,12 +8,19 @@ import styles from './Header.module.scss';
 interface NavItem {
   label: string;
   path: string;
+  dropdown?: { label: string; path: string }[];
 }
 
 const navItems: NavItem[] = [
   { label: 'Главная', path: '/' },
+  { 
+    label: 'Дисциплины', 
+    path: '/disciplines',
+    dropdown: [
+      { label: 'Фиджитал Баскетбол', path: '/disciplines' }
+    ]
+  },
   { label: 'Турниры', path: '/tournaments' },
-  { label: 'Дисциплины', path: '/disciplines' },
   { label: 'Команды', path: '/teams' },
   { label: 'Медиацентр', path: '/media' },
   { label: 'FAQ', path: '/faq' },
@@ -27,6 +34,8 @@ export const Header: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string>('Главная');
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -35,6 +44,16 @@ export const Header: React.FC = () => {
       setActiveItem(currentItem.label);
     }
   }, [location]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleProfileClick = () => {
     if (user) {
@@ -62,6 +81,22 @@ export const Header: React.FC = () => {
     setIsLoginOpen(true);
   };
 
+  const handleNavClick = (item: NavItem, e: React.MouseEvent) => {
+    if (item.dropdown) {
+      e.preventDefault();
+      setOpenDropdown(openDropdown === item.label ? null : item.label);
+    } else {
+      setActiveItem(item.label);
+      navigate(item.path);
+    }
+  };
+
+  const handleDropdownSelect = (item: NavItem, dropdownItem: { label: string; path: string }) => {
+    setActiveItem(item.label);
+    setOpenDropdown(null);
+    navigate(dropdownItem.path);
+  };
+
   return (
     <>
       <header className={styles.header}>
@@ -70,16 +105,49 @@ export const Header: React.FC = () => {
             <nav className={styles.nav}>
               <ul className={styles.navList}>
                 {navItems.map((item) => (
-                  <li key={item.label} className={styles.navItem}>
-                    <Link
-                      to={item.path}
+                  <li 
+                    key={item.label} 
+                    className={styles.navItem}
+                    ref={item.label === 'Дисциплины' ? dropdownRef : null}
+                  >
+                    <a
+                      href={item.path}
+                      onClick={(e) => handleNavClick(item, e)}
                       className={`${styles.navLink} ${
                         activeItem === item.label ? styles.active : ''
-                      }`}
-                      onClick={() => setActiveItem(item.label)}
+                      } ${item.dropdown ? styles.hasDropdown : ''}`}
                     >
                       {item.label}
-                    </Link>
+                      {item.dropdown && (
+                        <svg 
+                          className={`${styles.dropdownArrow} ${openDropdown === item.label ? styles.rotated : ''}`}
+                          width="14" 
+                          height="14" 
+                          viewBox="0 0 24 24" 
+                          fill="none"
+                        >
+                          <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </a>
+                    
+                    {item.dropdown && openDropdown === item.label && (
+                      <div className={styles.dropdownMenu}>
+                        <div className={styles.dropdownHeader}>
+                          <span>Выберите дисциплину</span>
+                        </div>
+                        {item.dropdown.map((dropdownItem) => (
+                          <button
+                            key={dropdownItem.label}
+                            className={styles.dropdownItem}
+                            onClick={() => handleDropdownSelect(item, dropdownItem)}
+                          >
+                            <span>{dropdownItem.label}</span>
+                            <span className={styles.dropdownItemArrow}>→</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </li>
                 ))}
                 <li className={styles.navItem}>
