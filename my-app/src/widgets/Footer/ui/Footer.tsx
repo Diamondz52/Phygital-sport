@@ -28,9 +28,10 @@ export const Footer: React.FC = () => {
               Место, где геймеры<br />
               становятся спортсменами,<br />
               а спортсмены берут в руки<br />
-              геймпады. Фиджитал-турниры,<br />
-              живые эмоции, настоящие<br />
-              победы.
+              геймпады.<br />
+              Фиджитал-турниры,<br />
+              живые эмоции,<br />
+              настоящие победы.
             </p>
           </div>
 
@@ -69,7 +70,14 @@ export const Footer: React.FC = () => {
                     height="32" 
                   />
                 </span>
-                <span>Организаторы</span>
+                <a 
+                  href="https://it-college.ru/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={styles.contactLink}
+                >
+                  Организаторы
+                </a>
               </li>
               <li className={styles.contactItem}>
                 <span className={styles.contactIcon}>
@@ -95,7 +103,7 @@ export const Footer: React.FC = () => {
                     <polyline points="22,6 12,13 2,6"/>
                   </svg>
                 </span>
-                <span>XP-League@mail.ru</span>
+                <span>phygitalcore@mail.ru</span>
               </li>
             </ul>
           </div>

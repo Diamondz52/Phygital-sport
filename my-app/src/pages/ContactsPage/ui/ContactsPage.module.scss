@@ -1,4 +1,4 @@
-@import '../../../app/styles/variables';
+@use '../../../app/styles/variables' as *;
 
 .page {
   display: flex;
@@ -410,5 +410,17 @@
   
   .contactTitle {
     font-size: 32px;
+  }
+}
+.infoLink {
+  font-size: 20px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+  
+  &:hover {
+    color: $primary-color;
   }
 }

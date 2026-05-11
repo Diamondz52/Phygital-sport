@@ -156,7 +156,7 @@ export const ContactsPage: React.FC = () => {
                   </div>
                   <div className={styles.infoContent}>
                     <div className={styles.infoLabel}>Режим работы</div>
-                    <div className={styles.infoValue}>Пн-Пт 10:00 - 18:00</div>
+                    <div className={styles.infoValue}>Пн-Пт 9:00 - 18:00</div>
                     <div className={styles.infoSubValue}>Сб-Вс выходной</div>
                   </div>
                 </div>
@@ -181,22 +181,29 @@ export const ContactsPage: React.FC = () => {
                   </div>
                   <div className={styles.infoContent}>
                     <div className={styles.infoLabel}>Email</div>
-                    <div className={styles.infoValue}>XPoint@mail.ru</div>
+                    <div className={styles.infoValue}>phygitalcore@mail.ru</div>
                   </div>
                 </div>
                 
                 <div className={styles.infoItem}>
-                  <div className={styles.infoIcon}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 2C8.13 2 5 5.13 5 9C5 13.17 9.42 18.92 11.24 21.11C11.64 21.59 12.37 21.59 12.77 21.11C14.58 18.92 19 13.17 19 9C19 5.13 15.87 2 12 2Z" fill="#D38DFF"/>
-                      <path d="M12 6.5C10.62 6.5 9.5 7.62 9.5 9C9.5 10.38 10.62 11.5 12 11.5C13.38 11.5 14.5 10.38 14.5 9C14.5 7.62 13.38 6.5 12 6.5Z" fill="#190027"/>
-                    </svg>
-                  </div>
-                  <div className={styles.infoContent}>
-                    <div className={styles.infoLabel}>Адрес</div>
-                    <div className={styles.infoValue}>г. Екатеринбург, ул. Чкалова, 3</div>
-                  </div>
-                </div>
+  <div className={styles.infoIcon}>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 13C10.4295 13.5741 10.9774 14.0491 11.6066 14.3929C12.2357 14.7367 12.9315 14.9411 13.6467 14.9923C14.3618 15.0435 15.0796 14.9403 15.7513 14.6897C16.4231 14.4392 17.0331 14.047 17.54 13.54L20.54 10.54C21.4508 9.59695 21.9548 8.33394 21.9434 7.02296C21.932 5.71198 21.4061 4.45791 20.4791 3.53087C19.5521 2.60383 18.298 2.07799 16.987 2.0666C15.676 2.0552 14.413 2.55918 13.47 3.47L11.75 5.18" stroke="#D38DFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M14 11C13.5705 10.4259 13.0226 9.95089 12.3934 9.60707C11.7643 9.26325 11.0685 9.05885 10.3533 9.00766C9.63816 8.95648 8.92036 9.05968 8.24862 9.31024C7.57688 9.5608 6.96688 9.95299 6.46 10.46L3.46 13.46C2.54918 14.403 2.0452 15.6661 2.0566 16.977C2.06799 18.288 2.59383 19.5421 3.52087 20.4691C4.44791 21.3962 5.70198 21.922 7.01296 21.9334C8.32394 21.9448 9.58695 21.4408 10.53 20.53L12.24 18.82" stroke="#D38DFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  </div>
+  <div className={styles.infoContent}>
+    <div className={styles.infoLabel}>Организаторы</div>
+    <a 
+      href="https://it-college.ru/" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      className={styles.infoLink}
+    >
+      it-college.ru
+    </a>
+  </div>
+</div>
               </div>
               
               <button className={styles.writeButton} onClick={handleOpenModal}>

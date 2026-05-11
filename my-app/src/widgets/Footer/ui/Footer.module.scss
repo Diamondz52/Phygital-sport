@@ -1,4 +1,4 @@
-@import '../../../app/styles/variables';
+@use '../../../app/styles/variables' as *;
 
 .footer {
   background: #190027;
@@ -296,5 +296,16 @@
   
   .linkList, .contactList {
     gap: 6px;
+  }
+}
+// Добавьте в конец файла:
+
+.contactLink {
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: $primary-color;
   }
 }

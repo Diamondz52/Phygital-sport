@@ -1,5 +1,4 @@
-@import '../../../app/styles/variables';
-
+@use '../../../app/styles/variables' as *;
 .page {
   display: flex;
   flex-direction: column;
@@ -352,4 +351,4 @@
   font-size: 16px;
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.5;
-}
+} 

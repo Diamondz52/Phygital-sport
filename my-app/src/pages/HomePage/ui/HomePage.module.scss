@@ -1,4 +1,4 @@
-@import '../../../app/styles/variables';
+@use '../../../app/styles/variables' as *;
 
 .page {
   display: flex;
@@ -374,8 +374,8 @@
 .detailButton {
   width: 400px;
   height: 60px;
-  background: transparent !important;
-  border: 3px solid #FFFFFF;
+  background: rgba(255, 255, 255, 0.2) !important; // Белый с прозрачностью 20%
+  border: 1px solid rgba(255, 255, 255, 0.8); // Тонкая обводка
   border-radius: 8px;
   color: $text-primary;
   font-size: $font-size-lg;
@@ -394,7 +394,6 @@
     border-color: #FFFFFF;
   }
 }
-
 .sliderDots {
   display: flex !important;
   justify-content: center !important;
