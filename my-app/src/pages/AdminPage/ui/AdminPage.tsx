@@ -33,12 +33,34 @@ interface DisciplineImage {
   title: string;
 }
 
+interface TournamentApplication {
+  id: number;
+  teamName: string;
+  phone: string;
+  additionalInfo: string;
+  tournament: string;
+  date: string;
+  status: string;
+}
+
+interface ContactQuestion {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  date: string;
+  status: string;
+}
+
 export const AdminPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'teams' | 'users' | 'tournaments' | 'images'>('teams');
+  const [activeTab, setActiveTab] = useState<'teams' | 'users' | 'tournaments' | 'images' | 'applications' | 'questions'>('teams');
   const [teams, setTeams] = useState<Team[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [disciplineImages, setDisciplineImages] = useState<DisciplineImage[]>([]);
+  const [applications, setApplications] = useState<TournamentApplication[]>([]);
+  const [questions, setQuestions] = useState<ContactQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState<any>(null);
@@ -58,15 +80,14 @@ export const AdminPage: React.FC = () => {
     imageTitle: ''
   });
 
-  // Загрузка данных
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       await new Promise(resolve => setTimeout(resolve, 500));
       
       setTeams([
-        { id: 1, name: 'New Dimension', logo: '/src/shared/assets/images/team1.png', captain: 'Алексей Иванов', players: [{ id: 1, name: 'Игрок 1' }, { id: 2, name: 'Игрок 2' }] },
-        { id: 2, name: 'Cyber Warriors', logo: '/src/shared/assets/images/team2.png', captain: 'Екатерина Морозова', players: [{ id: 1, name: 'Игрок 1' }] },
+        { id: 1, name: 'New Dimension', logo: '/src/shared/assets/images/team1.png', captain: 'Алексей Иванов', players: [] },
+        { id: 2, name: 'Cyber Warriors', logo: '/src/shared/assets/images/team2.png', captain: 'Екатерина Морозова', players: [] },
       ]);
       
       setUsers([
@@ -79,12 +100,10 @@ export const AdminPage: React.FC = () => {
         { id: 2, name: 'Киберфутбол 2026', date: '10-11 июня', discipline: 'Футбол', status: 'active' },
       ]);
       
-      // Загрузка фото дисциплин из localStorage
       const savedImages = localStorage.getItem('discipline_images');
       if (savedImages) {
         setDisciplineImages(JSON.parse(savedImages));
       } else {
-        // Фото по умолчанию
         const defaultImages = [
           { id: 1, url: '/src/shared/assets/images/basketball.png', title: 'Фиджитал Баскетбол' },
           { id: 2, url: '/src/shared/assets/images/basketball1.png', title: 'Фиджитал Баскетбол 2' },
@@ -93,6 +112,16 @@ export const AdminPage: React.FC = () => {
         ];
         setDisciplineImages(defaultImages);
         localStorage.setItem('discipline_images', JSON.stringify(defaultImages));
+      }
+      
+      const savedApplications = localStorage.getItem('tournament_applications');
+      if (savedApplications) {
+        setApplications(JSON.parse(savedApplications));
+      }
+      
+      const savedQuestions = localStorage.getItem('contact_questions');
+      if (savedQuestions) {
+        setQuestions(JSON.parse(savedQuestions));
       }
       
       setLoading(false);
@@ -142,6 +171,14 @@ export const AdminPage: React.FC = () => {
         const newImages = disciplineImages.filter(img => img.id !== id);
         setDisciplineImages(newImages);
         localStorage.setItem('discipline_images', JSON.stringify(newImages));
+      } else if (activeTab === 'applications') {
+        const newApplications = applications.filter(app => app.id !== id);
+        setApplications(newApplications);
+        localStorage.setItem('tournament_applications', JSON.stringify(newApplications));
+      } else if (activeTab === 'questions') {
+        const newQuestions = questions.filter(q => q.id !== id);
+        setQuestions(newQuestions);
+        localStorage.setItem('contact_questions', JSON.stringify(newQuestions));
       }
     }
   };
@@ -151,7 +188,7 @@ export const AdminPage: React.FC = () => {
     
     if (activeTab === 'teams') {
       if (editingItem) {
-        setTeams(prev => prev.map(t => t.id === editingItem.id ? { ...t, name: formData.name, logo: formData.logo, captain: formData.captain } : t));
+        setTeams(prev => prev.map(t => t.id === editingItem.id ? { ...t, name: formData.name, logo: formData.logo, captain: formData.captain, players: t.players } : t));
       } else {
         setTeams(prev => [...prev, { id: Date.now(), name: formData.name, logo: formData.logo, captain: formData.captain, players: [] }]);
       }
@@ -209,29 +246,23 @@ export const AdminPage: React.FC = () => {
         <h1 className={styles.title}>АДМИН-ПАНЕЛЬ</h1>
         
         <div className={styles.tabs}>
-          <button 
-            className={`${styles.tab} ${activeTab === 'teams' ? styles.active : ''}`}
-            onClick={() => setActiveTab('teams')}
-          >
+          <button className={`${styles.tab} ${activeTab === 'teams' ? styles.active : ''}`} onClick={() => setActiveTab('teams')}>
             Команды
           </button>
-          <button 
-            className={`${styles.tab} ${activeTab === 'users' ? styles.active : ''}`}
-            onClick={() => setActiveTab('users')}
-          >
+          <button className={`${styles.tab} ${activeTab === 'users' ? styles.active : ''}`} onClick={() => setActiveTab('users')}>
             Пользователи
           </button>
-          <button 
-            className={`${styles.tab} ${activeTab === 'tournaments' ? styles.active : ''}`}
-            onClick={() => setActiveTab('tournaments')}
-          >
+          <button className={`${styles.tab} ${activeTab === 'tournaments' ? styles.active : ''}`} onClick={() => setActiveTab('tournaments')}>
             Турниры
           </button>
-          <button 
-            className={`${styles.tab} ${activeTab === 'images' ? styles.active : ''}`}
-            onClick={() => setActiveTab('images')}
-          >
+          <button className={`${styles.tab} ${activeTab === 'images' ? styles.active : ''}`} onClick={() => setActiveTab('images')}>
             Фото дисциплин
+          </button>
+          <button className={`${styles.tab} ${activeTab === 'applications' ? styles.active : ''}`} onClick={() => setActiveTab('applications')}>
+            Заявки на турниры
+          </button>
+          <button className={`${styles.tab} ${activeTab === 'questions' ? styles.active : ''}`} onClick={() => setActiveTab('questions')}>
+            Вопросы
           </button>
         </div>
         
@@ -241,10 +272,14 @@ export const AdminPage: React.FC = () => {
             {activeTab === 'users' && 'Управление пользователями'}
             {activeTab === 'tournaments' && 'Управление турнирами'}
             {activeTab === 'images' && 'Управление фото для слайдера'}
+            {activeTab === 'applications' && 'Заявки на турниры'}
+            {activeTab === 'questions' && 'Вопросы пользователей'}
           </h2>
-          <button className={styles.addButton} onClick={handleAdd}>
-            + Добавить
-          </button>
+          {activeTab !== 'applications' && activeTab !== 'questions' && (
+            <button className={styles.addButton} onClick={handleAdd}>
+              + Добавить
+            </button>
+          )}
         </div>
         
         <div className={styles.tableWrapper}>
@@ -285,6 +320,28 @@ export const AdminPage: React.FC = () => {
                     <th>ID</th>
                     <th>Изображение</th>
                     <th>Название</th>
+                    <th>Действия</th>
+                  </>
+                )}
+                {activeTab === 'applications' && (
+                  <>
+                    <th>ID</th>
+                    <th>Команда</th>
+                    <th>Телефон</th>
+                    <th>Турнир</th>
+                    <th>Доп. информация</th>
+                    <th>Дата</th>
+                    <th>Действия</th>
+                  </>
+                )}
+                {activeTab === 'questions' && (
+                  <>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Email</th>
+                    <th>Тема</th>
+                    <th>Сообщение</th>
+                    <th>Дата</th>
                     <th>Действия</th>
                   </>
                 )}
@@ -340,6 +397,32 @@ export const AdminPage: React.FC = () => {
                   </td>
                 </tr>
               ))}
+              {activeTab === 'applications' && applications.map(app => (
+                <tr key={app.id}>
+                  <td>{app.id}</td>
+                  <td>{app.teamName}</td>
+                  <td>{app.phone}</td>
+                  <td>{app.tournament}</td>
+                  <td style={{ maxWidth: '200px' }}>{app.additionalInfo || '-'}</td>
+                  <td>{new Date(app.date).toLocaleString()}</td>
+                  <td>
+                    <button className={styles.deleteBtn} onClick={() => handleDelete(app.id)}>🗑️</button>
+                  </td>
+                </tr>
+              ))}
+              {activeTab === 'questions' && questions.map(q => (
+                <tr key={q.id}>
+                  <td>{q.id}</td>
+                  <td>{q.name}</td>
+                  <td>{q.email}</td>
+                  <td>{q.subject}</td>
+                  <td style={{ maxWidth: '250px' }}>{q.message}</td>
+                  <td>{new Date(q.date).toLocaleString()}</td>
+                  <td>
+                    <button className={styles.deleteBtn} onClick={() => handleDelete(q.id)}>🗑️</button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -347,7 +430,6 @@ export const AdminPage: React.FC = () => {
       
       <Footer />
       
-      {/* Модальное окно */}
       {showModal && (
         <div className={styles.modalOverlay} onClick={() => setShowModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>

@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
         <div className={styles.footerContent}>
           {/* Колонка 1 - XPoint */}
           <div className={styles.column}>
-            <h3 className={styles.columnTitle}>XPoint</h3>
+            <h3 className={styles.columnTitle}> Phygital Core</h3>
             <p className={styles.description}>
               Место, где геймеры<br />
               становятся спортсменами,<br />

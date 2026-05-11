@@ -25,7 +25,6 @@ export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [direction, setDirection] = useState<'left' | 'right'>('right');
   const intervalRef = useRef<number | null>(null);
   const pauseTimeoutRef = useRef<number | null>(null);
 
@@ -73,26 +72,23 @@ export const HomePage: React.FC = () => {
 
   const nextSlide = () => {
     if (isTransitioning) return;
-    setDirection('right');
     setIsTransitioning(true);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % disciplineImages.length);
-    setTimeout(() => setIsTransitioning(false), 500);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const prevSlide = () => {
     if (isTransitioning) return;
-    setDirection('left');
     setIsTransitioning(true);
     setCurrentIndex((prevIndex) => (prevIndex - 1 + disciplineImages.length) % disciplineImages.length);
-    setTimeout(() => setIsTransitioning(false), 500);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const goToSlide = (index: number) => {
     if (isTransitioning || index === currentIndex) return;
-    setDirection(index > currentIndex ? 'right' : 'left');
     setIsTransitioning(true);
     setCurrentIndex(index);
-    setTimeout(() => setIsTransitioning(false), 500);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const handlePrevSlide = () => {
@@ -155,7 +151,7 @@ export const HomePage: React.FC = () => {
           <div className={styles.container}>
             <div className={styles.leftColumn}>
               <h1 className={styles.titleSmall}>ЧТО ТАКОЕ</h1>
-              <h1 className={styles.titleLarge}>Phygital Core</h1>
+              <h1 className={styles.titleLarge}>ФИДЖИТАЛ?</h1>
               <p className={styles.description}>
                 Турнир нового поколения: соревнуйтесь<br />
                 в спорте и его киберспортивной версии.<br />
@@ -181,7 +177,7 @@ export const HomePage: React.FC = () => {
           </div>
 
           <div className={styles.sliderWrapper}>
-            {/* Кнопка "Назад" слева за пределами фото */}
+            {/* Кнопка "Назад" */}
             <button className={styles.sliderPrev} onClick={handlePrevSlide} aria-label="Предыдущее фото">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -192,13 +188,12 @@ export const HomePage: React.FC = () => {
               <div className={styles.imageGlow}></div>
               
               <div className={styles.sliderContainer}>
-                <div className={`${styles.sliderTrack} ${isTransitioning ? direction === 'right' ? styles.slideRight : styles.slideLeft : ''}`}>
-                  <img 
-                    src={disciplineImages[currentIndex]} 
-                    alt="Дисциплина" 
-                    className={styles.disciplineImage}
-                  />
-                </div>
+                <img 
+                  key={currentIndex}
+                  src={disciplineImages[currentIndex]} 
+                  alt="Дисциплина" 
+                  className={`${styles.disciplineImage} ${isTransitioning ? styles.imageFadeOut : styles.imageFadeIn}`}
+                />
               </div>
               
               <div className={styles.imageContent}>
@@ -211,7 +206,7 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Кнопка "Вперед" справа за пределами фото */}
+            {/* Кнопка "Вперед" */}
             <button className={styles.sliderNext} onClick={handleNextSlide} aria-label="Следующее фото">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -219,6 +214,7 @@ export const HomePage: React.FC = () => {
             </button>
           </div>
           
+          {/* Индикаторы (точки) */}
           <div className={styles.sliderDots}>
             {disciplineImages.map((_, index) => (
               <button

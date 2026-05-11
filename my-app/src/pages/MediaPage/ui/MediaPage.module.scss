@@ -1,4 +1,4 @@
-@use '../../../app/styles/variables' as *;
+@import '../../../app/styles/variables';
 
 .page {
   display: flex;
@@ -75,7 +75,7 @@
 
 .main {
   flex: 1;
-  padding: 60px 0 0;
+  padding: 60px 0 100px;
   position: relative;
   z-index: 1;
 }
@@ -117,32 +117,36 @@
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(3, 512px);
+  grid-template-columns: repeat(3, 1fr);
   justify-content: center;
   gap: 30px;
   width: 100%;
+  max-width: 1600px;
 }
 
 .image {
-  width: 512px;
-  height: 376px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 512 / 376;
   cursor: pointer;
   border-radius: 15px;
   object-fit: cover;
-  transition: filter 0.3s ease;
+  transition: all 0.3s ease;
   
   &:hover {
     filter: drop-shadow(0px 0px 20px rgba(231, 192, 255, 0.8));
+    transform: scale(1.02);
   }
 }
 
+// Модальное окно
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
   z-index: 9999;
   display: flex;
@@ -161,8 +165,8 @@
 
 .closeButton {
   position: absolute;
-  top: -60px;
-  right: -60px;
+  top: -50px;
+  right: -50px;
   width: 40px;
   height: 40px;
   background: rgba(0, 0, 0, 0.6);
@@ -185,13 +189,13 @@
 
 .prevButton {
   position: absolute;
-  left: -80px;
-  width: 50px;
-  height: 50px;
+  left: -70px;
+  width: 45px;
+  height: 45px;
   background: rgba(0, 0, 0, 0.6);
   border: none;
   border-radius: 50%;
-  font-size: 36px;
+  font-size: 32px;
   color: #FFFFFF;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -212,13 +216,13 @@
 
 .nextButton {
   position: absolute;
-  right: -80px;
-  width: 50px;
-  height: 50px;
+  right: -70px;
+  width: 45px;
+  height: 45px;
   background: rgba(0, 0, 0, 0.6);
   border: none;
   border-radius: 50%;
-  font-size: 36px;
+  font-size: 32px;
   color: #FFFFFF;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -239,51 +243,251 @@
 
 .counter {
   position: absolute;
-  bottom: -60px;
+  bottom: -45px;
   left: 50%;
   transform: translateX(-50%);
   color: #FFFFFF;
-  font-size: 16px;
+  font-size: 14px;
   background: rgba(0, 0, 0, 0.6);
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 20px;
   white-space: nowrap;
 }
 
 .modalImage {
-  width: 1200px;
-  height: 1350px;
+  width: 1000px;
+  height: 1125px;
   object-fit: contain;
   border: none;
   box-shadow: none;
   display: block;
+  border-radius: 10px;
 }
 
-@media (max-width: 1400px) {
-  .modalImage {
-    width: 900px;
-    height: 1012px;
+// ========== АДАПТАЦИЯ ==========
+
+// Планшеты (768px - 1280px)
+@media (max-width: 1280px) {
+  .gallery {
+    gap: 20px;
+  }
+  
+  .title {
+    font-size: 72px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+    padding: 0 20px;
   }
   
   .prevButton {
-    left: -60px;
+    left: -50px;
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
   }
   
   .nextButton {
-    right: -60px;
+    right: -50px;
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+  }
+  
+  .closeButton {
+    top: -40px;
+    right: -40px;
+  }
+  
+  .modalImage {
+    width: 800px;
+    height: 900px;
   }
 }
 
-@media (max-width: 1100px) {
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 30px;
+  }
+  
+  .title {
+    font-size: 56px;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+    margin-bottom: 50px;
+  }
+  
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+  
+  .prevButton {
+    left: -40px;
+    width: 35px;
+    height: 35px;
+    font-size: 24px;
+  }
+  
+  .nextButton {
+    right: -40px;
+    width: 35px;
+    height: 35px;
+    font-size: 24px;
+  }
+  
+  .closeButton {
+    top: -35px;
+    right: -35px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+  }
+  
+  .counter {
+    bottom: -35px;
+    font-size: 12px;
+  }
+  
   .modalImage {
-    width: 700px;
-    height: 787px;
+    width: 650px;
+    height: 731px;
   }
 }
 
-@media (max-width: 800px) {
+// Мобильные устройства (576px - 768px)
+@media (max-width: 768px) {
+  .main {
+    padding: 40px 0 60px;
+  }
+  
+  .container {
+    padding: 0 20px;
+  }
+  
+  .title {
+    font-size: 42px;
+    margin-bottom: 30px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+  
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .prevButton {
+    left: -30px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+  
+  .nextButton {
+    right: -30px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+  }
+  
+  .closeButton {
+    top: -30px;
+    right: -30px;
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+  }
+  
+  .counter {
+    bottom: -30px;
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  
   .modalImage {
-    width: 500px;
-    height: 562px;
+    width: 450px;
+    height: 506px;
+  }
+}
+
+// Маленькие мобильные устройства (до 576px)
+@media (max-width: 576px) {
+  .main {
+    padding: 30px 0 40px;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+  
+  .title {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+  
+  .gallery {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 350px;
+    margin: 0 auto;
+  }
+  
+  .prevButton {
+    left: -25px;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+  
+  .nextButton {
+    right: -25px;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+  
+  .closeButton {
+    top: -25px;
+    right: -25px;
+    width: 22px;
+    height: 22px;
+    font-size: 14px;
+  }
+  
+  .counter {
+    bottom: -25px;
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  
+  .modalImage {
+    width: 320px;
+    height: 360px;
+  }
+}
+
+// Для очень больших экранов
+@media (min-width: 1920px) {
+  .gallery {
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+  
+  .modalImage {
+    width: 1200px;
+    height: 1350px;
   }
 }

@@ -21,7 +21,6 @@ export const TournamentsPage: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Форматирование номера телефона
   const formatPhoneNumber = (value: string): string => {
     const digits = value.replace(/\D/g, '');
     
@@ -79,7 +78,22 @@ export const TournamentsPage: React.FC = () => {
     setIsSubmitting(true);
     
     setTimeout(() => {
-      console.log('Application submitted:', formData);
+      // Сохраняем заявку в localStorage
+      const existingApplications = localStorage.getItem('tournament_applications');
+      const applications = existingApplications ? JSON.parse(existingApplications) : [];
+      
+      const newApplication = {
+        id: Date.now(),
+        ...formData,
+        tournament: 'Фиджитал Баскетбол 2026',
+        date: new Date().toISOString(),
+        status: 'pending'
+      };
+      
+      applications.unshift(newApplication);
+      localStorage.setItem('tournament_applications', JSON.stringify(applications));
+      
+      console.log('Application submitted:', newApplication);
       setIsSubmitting(false);
       setIsSuccess(true);
       setTimeout(() => {
@@ -94,7 +108,6 @@ export const TournamentsPage: React.FC = () => {
 
   return (
     <div className={styles.page}>
-      {/* Градиентный фон */}
       <div className={styles.gradientBg}>
         <div className={styles.ellipse4}></div>
         <div className={styles.ellipse2}></div>

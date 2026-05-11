@@ -1,4 +1,4 @@
-@use '../../../app/styles/variables' as *;
+@import '../../../app/styles/variables';
 
 .page {
   display: flex;
@@ -90,7 +90,7 @@
   z-index: 2;
 }
 
-// Заголовок как на странице турниры
+// Заголовок
 .title {
   font-size: 88px;
   font-weight: 800;
@@ -118,11 +118,11 @@
   gap: 140px;
 }
 
-// Карточка FAQ - прозрачность 5%
+// Карточка FAQ
 .faqCard {
   width: 416px;
   height: 550px;
-  background: rgba(194, 94, 255, 0.05); // 5% прозрачности
+  background: rgba(194, 94, 255, 0.05);
   border: 1px solid #936DAB;
   box-shadow: 0px 0px 24.6px 3px #936DAB;
   border-radius: 30px;
@@ -152,7 +152,7 @@
   white-space: pre-line;
 }
 
-// Текст ответа - по левому краю со сдвигом вправо
+// Текст ответа
 .answer {
   width: 338px;
   font-family: 'Inter', sans-serif;
@@ -165,5 +165,174 @@
   margin: 0;
   white-space: pre-line;
   align-self: flex-start;
-  padding-left: 20px; // Сдвиг текста вправо
+  padding-left: 20px;
+}
+
+// ========== АДАПТАЦИЯ ==========
+
+// Планшеты (1024px - 1280px)
+@media (max-width: 1280px) {
+  .faqGrid {
+    grid-template-columns: repeat(3, 360px);
+    gap: 40px;
+  }
+  
+  .faqCard {
+    width: 360px;
+    height: 500px;
+    padding: 30px 30px 5px 30px;
+    gap: 25px;
+  }
+  
+  .question {
+    width: 240px;
+    height: 70px;
+    font-size: 24px;
+    line-height: 34px;
+  }
+  
+  .answer {
+    width: 300px;
+    font-size: 20px;
+    line-height: 30px;
+    padding-left: 15px;
+  }
+  
+  .title {
+    font-size: 72px;
+  }
+}
+
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 30px;
+  }
+  
+  .title {
+    font-size: 56px;
+    margin-bottom: 40px;
+  }
+  
+  .faqGrid {
+    grid-template-columns: repeat(2, 360px);
+    gap: 40px;
+  }
+  
+  .column {
+    gap: 100px;
+  }
+  
+  .faqCard {
+    width: 360px;
+    height: 500px;
+    padding: 30px 30px 5px 30px;
+    gap: 25px;
+  }
+  
+  .question {
+    width: 240px;
+    height: 70px;
+    font-size: 24px;
+    line-height: 34px;
+  }
+  
+  .answer {
+    width: 300px;
+    font-size: 20px;
+    line-height: 30px;
+    padding-left: 15px;
+  }
+}
+
+// Мобильные устройства (576px - 768px)
+@media (max-width: 768px) {
+  .main {
+    padding: 40px 0 60px;
+  }
+  
+  .container {
+    padding: 0 20px;
+  }
+  
+  .title {
+    font-size: 42px;
+    margin-bottom: 30px;
+  }
+  
+  .faqGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .column {
+    gap: 30px;
+  }
+  
+  .faqCard {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    min-height: 480px;
+    margin: 0 auto;
+    padding: 30px 25px 25px 25px;
+    gap: 25px;
+  }
+  
+  .question {
+    width: 100%;
+    height: auto;
+    min-height: 60px;
+    font-size: 22px;
+    line-height: 32px;
+  }
+  
+  .answer {
+    width: 100%;
+    font-size: 18px;
+    line-height: 28px;
+    padding-left: 15px;
+  }
+}
+
+// Маленькие мобильные устройства (до 576px)
+@media (max-width: 576px) {
+  .main {
+    padding: 30px 0 40px;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+  
+  .title {
+    font-size: 32px;
+    margin-bottom: 25px;
+  }
+  
+  .faqGrid {
+    gap: 20px;
+  }
+  
+  .column {
+    gap: 20px;
+  }
+  
+  .faqCard {
+    max-width: 350px;
+    min-height: 420px;
+    padding: 25px 20px 20px 20px;
+    gap: 20px;
+  }
+  
+  .question {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  
+  .answer {
+    font-size: 16px;
+    line-height: 24px;
+    padding-left: 12px;
+  }
 }

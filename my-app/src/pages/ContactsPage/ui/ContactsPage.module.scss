@@ -1,4 +1,4 @@
-@use '../../../app/styles/variables' as *;
+@import '../../../app/styles/variables';
 
 .page {
   display: flex;
@@ -208,6 +208,19 @@
   margin-top: 6px;
 }
 
+.infoLink {
+  font-size: 20px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+  
+  &:hover {
+    color: $primary-color;
+  }
+}
+
 .writeButton {
   width: 100%;
   background: linear-gradient(135deg, rgba(211, 141, 255, 0.1), rgba(211, 141, 255, 0.05));
@@ -398,29 +411,262 @@
   }
 }
 
-@media (max-width: 700px) {
-  .infoGrid {
-    grid-template-columns: 1fr;
-    gap: 30px;
+// ========== АДАПТАЦИЯ ==========
+
+// Планшеты (1024px - 1280px)
+@media (max-width: 1280px) {
+  .title {
+    font-size: 72px;
   }
   
   .contactInfoCard {
-    padding: 40px 30px;
+    padding: 50px 60px;
+  }
+  
+  .infoGrid {
+    gap: 35px;
+  }
+  
+  .infoItem {
+    padding: 20px;
+  }
+  
+  .infoIcon {
+    width: 50px;
+    height: 50px;
+    
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+  
+  .infoValue, .infoLink {
+    font-size: 18px;
+  }
+  
+  .infoSubValue {
+    font-size: 16px;
+  }
+  
+  .writeButton {
+    font-size: 20px;
+    padding: 18px 20px;
+  }
+}
+
+// Планшеты (768px - 1024px)
+@media (max-width: 1024px) {
+  .main {
+    padding: 40px 0 80px;
+  }
+  
+  .container {
+    padding: 0 30px;
+  }
+  
+  .title {
+    font-size: 56px;
+    margin-bottom: 40px;
   }
   
   .contactTitle {
     font-size: 32px;
+    margin-bottom: 45px;
+  }
+  
+  .infoGrid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .infoItem {
+    padding: 18px 20px;
+  }
+  
+  .writeButton {
+    font-size: 18px;
+    padding: 15px 20px;
+  }
+  
+  .modalContent {
+    width: 500px;
+    padding: 40px;
+  }
+  
+  .modalTitle {
+    font-size: 28px;
+    margin-bottom: 25px;
   }
 }
-.infoLink {
-  font-size: 20px;
-  font-weight: 600;
-  color: #FFFFFF;
-  text-decoration: none;
-  transition: color 0.3s ease;
-  display: inline-block;
+
+// Мобильные устройства (576px - 768px)
+@media (max-width: 768px) {
+  .main {
+    padding: 30px 0 60px;
+  }
   
-  &:hover {
-    color: $primary-color;
+  .container {
+    padding: 0 20px;
+  }
+  
+  .title {
+    font-size: 42px;
+    margin-bottom: 30px;
+  }
+  
+  .contactInfoCard {
+    padding: 30px 25px;
+  }
+  
+  .contactTitle {
+    font-size: 28px;
+    margin-bottom: 35px;
+    
+    &::after {
+      width: 70px;
+      bottom: -12px;
+    }
+  }
+  
+  .infoGrid {
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .infoItem {
+    padding: 15px;
+    gap: 15px;
+  }
+  
+  .infoIcon {
+    width: 45px;
+    height: 45px;
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .infoLabel {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .infoValue, .infoLink {
+    font-size: 16px;
+  }
+  
+  .infoSubValue {
+    font-size: 14px;
+  }
+  
+  .writeButton {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+  
+  .modalContent {
+    width: 90%;
+    padding: 30px 25px;
+  }
+  
+  .modalTitle {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .modalInput, .modalSelect, .modalTextarea {
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+  
+  .modalSubmit {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+// Маленькие мобильные устройства (до 576px)
+@media (max-width: 576px) {
+  .main {
+    padding: 20px 0 40px;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+  
+  .title {
+    font-size: 32px;
+    margin-bottom: 25px;
+  }
+  
+  .contactInfoCard {
+    padding: 25px 20px;
+  }
+  
+  .contactTitle {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+  
+  .infoItem {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .infoIcon {
+    width: 40px;
+    height: 40px;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  .infoLabel {
+    font-size: 11px;
+  }
+  
+  .infoValue, .infoLink {
+    font-size: 14px;
+  }
+  
+  .infoSubValue {
+    font-size: 12px;
+  }
+  
+  .writeButton {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+  
+  .modalContent {
+    padding: 25px 20px;
+  }
+  
+  .modalTitle {
+    font-size: 20px;
+  }
+  
+  .modalClose {
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    font-size: 24px;
+  }
+  
+  .modalInput, .modalSelect, .modalTextarea {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  
+  .modalSubmit {
+    padding: 10px 16px;
+    font-size: 13px;
   }
 }
