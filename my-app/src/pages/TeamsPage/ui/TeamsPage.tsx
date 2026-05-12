@@ -140,7 +140,7 @@ export const TeamsPage: React.FC = () => {
                 <p>✓ Дисциплину</p>
               </div>
               <p>Все участники должны быть зарегистрированы на сайте.</p>
-              <p>Почта для связи: XP-League@mail.ru</p>
+              <p>Почта для связи: phygitalcore@mail.ru</p>
             </div>
             <button className={styles.sendButton} onClick={handleCloseModal}>ОК</button>
           </div>

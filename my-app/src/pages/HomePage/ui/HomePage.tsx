@@ -24,7 +24,6 @@ const disciplineNames = [
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef<number | null>(null);
   const pauseTimeoutRef = useRef<number | null>(null);
 
@@ -54,8 +53,8 @@ export const HomePage: React.FC = () => {
       clearInterval(intervalRef.current);
     }
     intervalRef.current = window.setInterval(() => {
-      nextSlide();
-    }, 4000);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % disciplineImages.length);
+    }, 2000);
   };
 
   const pauseAutoSlide = () => {
@@ -71,38 +70,17 @@ export const HomePage: React.FC = () => {
   };
 
   const nextSlide = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % disciplineImages.length);
-    setTimeout(() => setIsTransitioning(false), 400);
+    pauseAutoSlide();
   };
 
   const prevSlide = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
     setCurrentIndex((prevIndex) => (prevIndex - 1 + disciplineImages.length) % disciplineImages.length);
-    setTimeout(() => setIsTransitioning(false), 400);
+    pauseAutoSlide();
   };
 
   const goToSlide = (index: number) => {
-    if (isTransitioning || index === currentIndex) return;
-    setIsTransitioning(true);
     setCurrentIndex(index);
-    setTimeout(() => setIsTransitioning(false), 400);
-  };
-
-  const handlePrevSlide = () => {
-    prevSlide();
-    pauseAutoSlide();
-  };
-
-  const handleNextSlide = () => {
-    nextSlide();
-    pauseAutoSlide();
-  };
-
-  const handleGoToSlide = (index: number) => {
-    goToSlide(index);
     pauseAutoSlide();
   };
 
@@ -169,16 +147,14 @@ export const HomePage: React.FC = () => {
         </div>
 
         <div className={styles.disciplinesSection}>
-          {/* Текст над карточкой */}
           <div className={styles.disciplineTitleWrapper}>
-            <span className={`${styles.disciplineName} ${isTransitioning ? styles.fadeOut : styles.fadeIn}`}>
+            <span className={styles.disciplineName}>
               {disciplineNames[currentIndex]}
             </span>
           </div>
 
           <div className={styles.sliderWrapper}>
-            {/* Кнопка "Назад" */}
-            <button className={styles.sliderPrev} onClick={handlePrevSlide} aria-label="Предыдущее фото">
+            <button className={styles.sliderPrev} onClick={prevSlide} aria-label="Предыдущее фото">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15 18L9 12L15 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -189,10 +165,9 @@ export const HomePage: React.FC = () => {
               
               <div className={styles.sliderContainer}>
                 <img 
-                  key={currentIndex}
                   src={disciplineImages[currentIndex]} 
                   alt="Дисциплина" 
-                  className={`${styles.disciplineImage} ${isTransitioning ? styles.imageFadeOut : styles.imageFadeIn}`}
+                  className={styles.disciplineImage}
                 />
               </div>
               
@@ -206,21 +181,19 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Кнопка "Вперед" */}
-            <button className={styles.sliderNext} onClick={handleNextSlide} aria-label="Следующее фото">
+            <button className={styles.sliderNext} onClick={nextSlide} aria-label="Следующее фото">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9 18L15 12L9 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
           </div>
           
-          {/* Индикаторы (точки) */}
           <div className={styles.sliderDots}>
             {disciplineImages.map((_, index) => (
               <button
                 key={index}
                 className={`${styles.dot} ${index === currentIndex ? styles.active : ''}`}
-                onClick={() => handleGoToSlide(index)}
+                onClick={() => goToSlide(index)}
               />
             ))}
           </div>
