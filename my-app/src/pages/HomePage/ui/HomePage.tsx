@@ -129,7 +129,7 @@ export const HomePage: React.FC = () => {
           <div className={styles.container}>
             <div className={styles.leftColumn}>
               <h1 className={styles.titleSmall}>ЧТО ТАКОЕ</h1>
-              <h1 className={styles.titleLarge}>ФИДЖИТАЛ?</h1>
+              <h1 className={styles.titleLarge}>Phygital Core</h1>
               <p className={styles.description}>
                 Турнир нового поколения: соревнуйтесь<br />
                 в спорте и его киберспортивной версии.<br />
