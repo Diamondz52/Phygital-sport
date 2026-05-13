@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from '../../../widgets/Header';
 import { Footer } from '../../../widgets/Footer';
+import { useAuth } from '../../../features/auth/model';
 import styles from './TeamsPage.module.scss';
 
 interface Player {
@@ -18,37 +19,75 @@ interface Team {
 }
 
 export const TeamsPage: React.FC = () => {
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+  const [userTeams, setUserTeams] = useState<Team[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const teams: Team[] = [
-    { 
-      id: 1, 
-      name: 'New Dimension', 
-      logo: '/src/shared/assets/images/team1.png',
-      captain: 'Алексей Иванов',
-      players: [
-        { id: 1, name: 'Алексей Иванов', isCaptain: true },
-        { id: 2, name: 'Игрок 2' },
-        { id: 3, name: 'Игрок 3' },
-        { id: 4, name: 'Игрок 4' },
-        { id: 5, name: 'Игрок 5' },
-      ]
-    },
-    { 
-      id: 2, 
-      name: 'Cyber Warriors', 
-      logo: '/src/shared/assets/images/team2.png',
-      captain: 'Екатерина Морозова',
-      players: [
-        { id: 1, name: 'Екатерина Морозова', isCaptain: true },
-        { id: 2, name: 'Игрок 2' },
-        { id: 3, name: 'Игрок 3' },
-        { id: 4, name: 'Игрок 4' },
-        { id: 5, name: 'Игрок 5' },
-      ]
-    },
-  ];
+  // Заглушка для логотипа по умолчанию
+  const defaultLogo = '/src/shared/assets/images/default-team-logo.png';
+
+  useEffect(() => {
+    // Загрузка команд пользователя (заглушка - в будущем заменится на API)
+    const loadUserTeams = async () => {
+      setLoading(true);
+      try {
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // TODO: Здесь будет запрос к бэкенду:
+        // const response = await api.get(`/users/${user?.id}/teams`);
+        // setUserTeams(response.data);
+        
+        // Заглушка для демонстрации
+        const allTeams: Team[] = [
+          { 
+            id: 1, 
+            name: 'New Dimension', 
+            logo: '/src/shared/assets/images/team1.jpg',
+            captain: 'Алексей Иванов',
+            players: [
+              { id: 1, name: 'Алексей Иванов', isCaptain: true },
+              { id: 2, name: 'Дмитрий Соколов' },
+              { id: 3, name: 'Игрок 3' },
+              { id: 4, name: 'Игрок 4' },
+              { id: 5, name: 'Игрок 5' },
+            ]
+          },
+          { 
+            id: 2, 
+            name: 'Cyber Warriors', 
+            logo: '/src/shared/assets/images/team1.jpg',
+            captain: 'Екатерина Морозова',
+            players: [
+              { id: 1, name: 'Екатерина Морозова', isCaptain: true },
+              { id: 2, name: 'Игрок 2' },
+              { id: 3, name: 'Игрок 3' },
+              { id: 4, name: 'Игрок 4' },
+              { id: 5, name: 'Игрок 5' },
+            ]
+          },
+        ];
+        
+        // Фильтруем команды, где состоит пользователь (по email капитана или имени)
+        // В реальном проекте бэкенд вернет только команды пользователя
+        const userEmail = user?.email;
+        const filteredTeams = allTeams.filter(team => {
+          // Заглушка: показываем все команды для демонстрации
+          // В реальном проекте проверка будет по ID пользователя
+          return true;
+        });
+        
+        setUserTeams(filteredTeams);
+      } catch (error) {
+        console.error('Error loading teams:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadUserTeams();
+  }, [user]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -62,9 +101,27 @@ export const TeamsPage: React.FC = () => {
     setSelectedTeam(selectedTeam?.id === team.id ? null : team);
   };
 
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.gradientBg}>
+          <div className={styles.ellipse4}></div>
+          <div className={styles.ellipse2}></div>
+          <div className={styles.ellipse5}></div>
+          <div className={styles.ellipse6}></div>
+        </div>
+        <Header />
+        <div className={styles.loadingContainer}>
+          <div className={styles.loader}></div>
+          <p>Загрузка...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.page}>
-      {/* Градиентный фон */}
       <div className={styles.gradientBg}>
         <div className={styles.ellipse4}></div>
         <div className={styles.ellipse2}></div>
@@ -86,28 +143,47 @@ export const TeamsPage: React.FC = () => {
             Как создать команду?
           </button>
 
-          <div className={styles.teamsList}>
-            {teams.map((team) => (
-              <div key={team.id} className={styles.teamWrapper}>
-                <div 
-                  className={styles.teamCard}
-                  onClick={() => handleTeamClick(team)}
-                >
-                  <div className={styles.teamLogo}>
-                    <img src={team.logo} alt={team.name} />
+          {userTeams.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p>Вы пока не состоите ни в одной команде</p>
+              <p className={styles.emptyStateHint}>Свяжитесь с организатором для создания или вступления в команду</p>
+            </div>
+          ) : (
+            <div className={styles.teamsList}>
+              {userTeams.map((team) => (
+                <div key={team.id} className={styles.teamWrapper}>
+                  <div 
+                    className={styles.teamCard}
+                    onClick={() => handleTeamClick(team)}
+                  >
+                    <div className={styles.teamLogo}>
+                      <img 
+                        src={team.logo} 
+                        alt={team.name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = defaultLogo;
+                        }}
+                      />
+                    </div>
+                    <h2 className={styles.teamName}>{team.name}</h2>
                   </div>
-                  <h2 className={styles.teamName}>{team.name}</h2>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {selectedTeam && (
             <div className={styles.teamComposition}>
               <div className={styles.compositionHeader}>
                 <h3 className={styles.compositionTitle}>{selectedTeam.name}</h3>
                 <div className={styles.compositionAvatar}>
-                  <img src={selectedTeam.logo} alt={selectedTeam.name} />
+                  <img 
+                    src={selectedTeam.logo} 
+                    alt={selectedTeam.name}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = defaultLogo;
+                    }}
+                  />
                 </div>
               </div>
               

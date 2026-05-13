@@ -8,12 +8,14 @@ interface Team {
   name: string;
   logo: string;
   captain: string;
-  players: { id: number; name: string }[];
+  captainPhone: string;
+  players: { id: number; name: string; phone: string }[];
 }
 
 interface User {
   id: number;
   email: string;
+  phone: string;
   full_name: string;
   role: 'user' | 'admin';
   createdAt: string;
@@ -30,6 +32,13 @@ interface Tournament {
 interface DisciplineImage {
   id: number;
   url: string;
+  title: string;
+}
+
+interface MediaImage {
+  id: number;
+  url: string;
+  thumbnailUrl: string;
   title: string;
 }
 
@@ -53,22 +62,52 @@ interface ContactQuestion {
   status: string;
 }
 
+// Форматирование номера телефона
+const formatPhoneNumber = (value: string): string => {
+  const digits = value.replace(/\D/g, '');
+  
+  if (digits.length === 0) return '';
+  if (digits.length === 1 && (digits[0] !== '7' && digits[0] !== '8')) {
+    return `+7 ${digits}`;
+  }
+  
+  const limitedDigits = digits.slice(0, 11);
+  let normalized = limitedDigits;
+  if (normalized[0] === '8') {
+    normalized = '7' + normalized.slice(1);
+  }
+  
+  if (normalized.length === 1) return `+7`;
+  if (normalized.length <= 4) return `+7 ${normalized.slice(1)}`;
+  if (normalized.length <= 7) return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4)}`;
+  if (normalized.length <= 9) return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7)}`;
+  return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7, 9)} ${normalized.slice(9, 11)}`;
+};
+
 export const AdminPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'teams' | 'users' | 'tournaments' | 'images' | 'applications' | 'questions'>('teams');
+  const [activeTab, setActiveTab] = useState<'teams' | 'users' | 'tournaments' | 'images' | 'media' | 'applications' | 'questions'>('teams');
   const [teams, setTeams] = useState<Team[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const [disciplineImages, setDisciplineImages] = useState<DisciplineImage[]>([]);
+  const [mediaImages, setMediaImages] = useState<MediaImage[]>([]);
   const [applications, setApplications] = useState<TournamentApplication[]>([]);
   const [questions, setQuestions] = useState<ContactQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showAddMemberModal, setShowAddMemberModal] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+  const [memberPhone, setMemberPhone] = useState('');
+  const [memberError, setMemberError] = useState('');
+  const [memberSuccess, setMemberSuccess] = useState('');
   const [editingItem, setEditingItem] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: '',
     logo: '',
     captain: '',
+    captainPhone: '',
     email: '',
+    phone: '',
     full_name: '',
     password: '',
     role: 'user',
@@ -77,7 +116,10 @@ export const AdminPage: React.FC = () => {
     tournamentDiscipline: '',
     tournamentStatus: 'upcoming',
     imageUrl: '',
-    imageTitle: ''
+    imageTitle: '',
+    mediaUrl: '',
+    mediaThumbnailUrl: '',
+    mediaTitle: ''
   });
 
   useEffect(() => {
@@ -86,13 +128,13 @@ export const AdminPage: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 500));
       
       setTeams([
-        { id: 1, name: 'New Dimension', logo: '/src/shared/assets/images/team1.png', captain: 'Алексей Иванов', players: [] },
-        { id: 2, name: 'Cyber Warriors', logo: '/src/shared/assets/images/team2.png', captain: 'Екатерина Морозова', players: [] },
+        { id: 1, name: 'New Dimension', logo: '/src/shared/assets/images/team1.jpg', captain: 'Алексей Иванов', captainPhone: '+7 922 111 11 11', players: [] },
+        { id: 2, name: 'Cyber Warriors', logo: '/src/shared/assets/images/team1.jpg', captain: 'Екатерина Морозова', captainPhone: '+7 922 222 22 22', players: [] },
       ]);
       
       setUsers([
-        { id: 1, email: 'admin@xpoint.ru', full_name: 'Admin User', role: 'admin', createdAt: '2024-01-01' },
-        { id: 2, email: 'user@example.com', full_name: 'Test User', role: 'user', createdAt: '2024-01-15' },
+        { id: 1, email: 'admin@xpoint.ru', phone: '+7 922 000 00 00', full_name: 'Admin User', role: 'admin', createdAt: '2024-01-01' },
+        { id: 2, email: 'user@example.com', phone: '+7 922 123 45 67', full_name: 'Test User', role: 'user', createdAt: '2024-01-15' },
       ]);
       
       setTournaments([
@@ -112,6 +154,28 @@ export const AdminPage: React.FC = () => {
         ];
         setDisciplineImages(defaultImages);
         localStorage.setItem('discipline_images', JSON.stringify(defaultImages));
+      }
+      
+      const savedMedia = localStorage.getItem('media_images');
+      if (savedMedia) {
+        setMediaImages(JSON.parse(savedMedia));
+      } else {
+        const defaultMedia = [
+          { id: 1, url: '/src/shared/assets/images/media1.png', thumbnailUrl: '/src/shared/assets/images/media1.png', title: 'Медиа 1' },
+          { id: 2, url: '/src/shared/assets/images/media2.png', thumbnailUrl: '/src/shared/assets/images/media2.png', title: 'Медиа 2' },
+          { id: 3, url: '/src/shared/assets/images/media3.png', thumbnailUrl: '/src/shared/assets/images/media3.png', title: 'Медиа 3' },
+          { id: 4, url: '/src/shared/assets/images/media4.png', thumbnailUrl: '/src/shared/assets/images/media4.png', title: 'Медиа 4' },
+          { id: 5, url: '/src/shared/assets/images/media5.png', thumbnailUrl: '/src/shared/assets/images/media5.png', title: 'Медиа 5' },
+          { id: 6, url: '/src/shared/assets/images/media6.png', thumbnailUrl: '/src/shared/assets/images/media6.png', title: 'Медиа 6' },
+          { id: 7, url: '/src/shared/assets/images/media1.png', thumbnailUrl: '/src/shared/assets/images/media1.png', title: 'Медиа 7' },
+          { id: 8, url: '/src/shared/assets/images/media2.png', thumbnailUrl: '/src/shared/assets/images/media2.png', title: 'Медиа 8' },
+          { id: 9, url: '/src/shared/assets/images/media3.png', thumbnailUrl: '/src/shared/assets/images/media3.png', title: 'Медиа 9' },
+          { id: 10, url: '/src/shared/assets/images/media4.png', thumbnailUrl: '/src/shared/assets/images/media4.png', title: 'Медиа 10' },
+          { id: 11, url: '/src/shared/assets/images/media5.png', thumbnailUrl: '/src/shared/assets/images/media5.png', title: 'Медиа 11' },
+          { id: 12, url: '/src/shared/assets/images/media6.png', thumbnailUrl: '/src/shared/assets/images/media6.png', title: 'Медиа 12' },
+        ];
+        setMediaImages(defaultMedia);
+        localStorage.setItem('media_images', JSON.stringify(defaultMedia));
       }
       
       const savedApplications = localStorage.getItem('tournament_applications');
@@ -135,12 +199,18 @@ export const AdminPage: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleMemberPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const rawValue = e.target.value;
+    const formatted = formatPhoneNumber(rawValue);
+    setMemberPhone(formatted);
+  };
+
   const handleAdd = () => {
     setEditingItem(null);
     setFormData({
-      name: '', logo: '', captain: '', email: '', full_name: '', password: '', role: 'user',
+      name: '', logo: '', captain: '', captainPhone: '', email: '', phone: '', full_name: '', password: '', role: 'user',
       tournamentName: '', tournamentDate: '', tournamentDiscipline: '', tournamentStatus: 'upcoming',
-      imageUrl: '', imageTitle: ''
+      imageUrl: '', imageTitle: '', mediaUrl: '', mediaThumbnailUrl: '', mediaTitle: ''
     });
     setShowModal(true);
   };
@@ -148,13 +218,15 @@ export const AdminPage: React.FC = () => {
   const handleEdit = (item: any) => {
     setEditingItem(item);
     if (activeTab === 'teams') {
-      setFormData({ ...formData, name: item.name, logo: item.logo, captain: item.captain });
+      setFormData({ ...formData, name: item.name, logo: item.logo, captain: item.captain, captainPhone: item.captainPhone });
     } else if (activeTab === 'users') {
-      setFormData({ ...formData, email: item.email, full_name: item.full_name, role: item.role });
+      setFormData({ ...formData, email: item.email, phone: item.phone, full_name: item.full_name, role: item.role });
     } else if (activeTab === 'tournaments') {
       setFormData({ ...formData, tournamentName: item.name, tournamentDate: item.date, tournamentDiscipline: item.discipline, tournamentStatus: item.status });
     } else if (activeTab === 'images') {
       setFormData({ ...formData, imageUrl: item.url, imageTitle: item.title });
+    } else if (activeTab === 'media') {
+      setFormData({ ...formData, mediaUrl: item.url, mediaThumbnailUrl: item.thumbnailUrl, mediaTitle: item.title });
     }
     setShowModal(true);
   };
@@ -171,6 +243,10 @@ export const AdminPage: React.FC = () => {
         const newImages = disciplineImages.filter(img => img.id !== id);
         setDisciplineImages(newImages);
         localStorage.setItem('discipline_images', JSON.stringify(newImages));
+      } else if (activeTab === 'media') {
+        const newMedia = mediaImages.filter(img => img.id !== id);
+        setMediaImages(newMedia);
+        localStorage.setItem('media_images', JSON.stringify(newMedia));
       } else if (activeTab === 'applications') {
         const newApplications = applications.filter(app => app.id !== id);
         setApplications(newApplications);
@@ -188,15 +264,15 @@ export const AdminPage: React.FC = () => {
     
     if (activeTab === 'teams') {
       if (editingItem) {
-        setTeams(prev => prev.map(t => t.id === editingItem.id ? { ...t, name: formData.name, logo: formData.logo, captain: formData.captain, players: t.players } : t));
+        setTeams(prev => prev.map(t => t.id === editingItem.id ? { ...t, name: formData.name, logo: formData.logo, captain: formData.captain, captainPhone: formData.captainPhone, players: t.players } : t));
       } else {
-        setTeams(prev => [...prev, { id: Date.now(), name: formData.name, logo: formData.logo, captain: formData.captain, players: [] }]);
+        setTeams(prev => [...prev, { id: Date.now(), name: formData.name, logo: formData.logo, captain: formData.captain, captainPhone: formData.captainPhone, players: [] }]);
       }
     } else if (activeTab === 'users') {
       if (editingItem) {
-        setUsers(prev => prev.map(u => u.id === editingItem.id ? { ...u, email: formData.email, full_name: formData.full_name, role: formData.role as 'user' | 'admin' } : u));
+        setUsers(prev => prev.map(u => u.id === editingItem.id ? { ...u, email: formData.email, phone: formData.phone, full_name: formData.full_name, role: formData.role as 'user' | 'admin' } : u));
       } else {
-        setUsers(prev => [...prev, { id: Date.now(), email: formData.email, full_name: formData.full_name, role: formData.role as 'user' | 'admin', createdAt: new Date().toISOString().split('T')[0] }]);
+        setUsers(prev => [...prev, { id: Date.now(), email: formData.email, phone: formData.phone, full_name: formData.full_name, role: formData.role as 'user' | 'admin', createdAt: new Date().toISOString().split('T')[0] }]);
       }
     } else if (activeTab === 'tournaments') {
       if (editingItem) {
@@ -219,10 +295,82 @@ export const AdminPage: React.FC = () => {
       }
       setDisciplineImages(newImages);
       localStorage.setItem('discipline_images', JSON.stringify(newImages));
+    } else if (activeTab === 'media') {
+      const newMedia = {
+        id: editingItem ? editingItem.id : Date.now(),
+        url: formData.mediaUrl,
+        thumbnailUrl: formData.mediaThumbnailUrl || formData.mediaUrl,
+        title: formData.mediaTitle
+      };
+      
+      let newMediaList;
+      if (editingItem) {
+        newMediaList = mediaImages.map(img => img.id === editingItem.id ? newMedia : img);
+      } else {
+        newMediaList = [...mediaImages, newMedia];
+      }
+      setMediaImages(newMediaList);
+      localStorage.setItem('media_images', JSON.stringify(newMediaList));
     }
     
     setShowModal(false);
     setEditingItem(null);
+  };
+
+  const handleOpenAddMemberModal = (team: Team) => {
+    setSelectedTeam(team);
+    setMemberPhone('');
+    setMemberError('');
+    setMemberSuccess('');
+    setShowAddMemberModal(true);
+  };
+
+  const handleCloseAddMemberModal = () => {
+    setShowAddMemberModal(false);
+    setSelectedTeam(null);
+    setMemberPhone('');
+    setMemberError('');
+    setMemberSuccess('');
+  };
+
+  const handleAddMember = () => {
+    if (!memberPhone.trim()) {
+      setMemberError('Введите номер телефона пользователя');
+      return;
+    }
+    
+    if (!selectedTeam) return;
+    
+    const normalizedPhone = memberPhone.replace(/\s/g, '');
+    const userExists = users.find(u => u.phone.replace(/\s/g, '') === normalizedPhone);
+    if (!userExists) {
+      setMemberError('Пользователь с таким номером телефона не найден');
+      return;
+    }
+    
+    const alreadyInTeam = selectedTeam.players.some(p => p.phone.replace(/\s/g, '') === normalizedPhone);
+    if (alreadyInTeam) {
+      setMemberError('Пользователь уже состоит в этой команде');
+      return;
+    }
+    
+    const newPlayer = {
+      id: Date.now(),
+      name: userExists.full_name,
+      phone: memberPhone
+    };
+    
+    const updatedTeam = {
+      ...selectedTeam,
+      players: [...selectedTeam.players, newPlayer]
+    };
+    
+    setTeams(prev => prev.map(t => t.id === selectedTeam.id ? updatedTeam : t));
+    setMemberSuccess('Пользователь успешно добавлен в команду!');
+    
+    setTimeout(() => {
+      handleCloseAddMemberModal();
+    }, 1500);
   };
 
   if (loading) {
@@ -258,6 +406,9 @@ export const AdminPage: React.FC = () => {
           <button className={`${styles.tab} ${activeTab === 'images' ? styles.active : ''}`} onClick={() => setActiveTab('images')}>
             Фото дисциплин
           </button>
+          <button className={`${styles.tab} ${activeTab === 'media' ? styles.active : ''}`} onClick={() => setActiveTab('media')}>
+            Медиацентр
+          </button>
           <button className={`${styles.tab} ${activeTab === 'applications' ? styles.active : ''}`} onClick={() => setActiveTab('applications')}>
             Заявки на турниры
           </button>
@@ -272,6 +423,7 @@ export const AdminPage: React.FC = () => {
             {activeTab === 'users' && 'Управление пользователями'}
             {activeTab === 'tournaments' && 'Управление турнирами'}
             {activeTab === 'images' && 'Управление фото для слайдера'}
+            {activeTab === 'media' && 'Управление фото медиацентра'}
             {activeTab === 'applications' && 'Заявки на турниры'}
             {activeTab === 'questions' && 'Вопросы пользователей'}
           </h2>
@@ -292,6 +444,8 @@ export const AdminPage: React.FC = () => {
                     <th>Название</th>
                     <th>Логотип</th>
                     <th>Капитан</th>
+                    <th>Телефон капитана</th>
+                    <th>Участники</th>
                     <th>Действия</th>
                   </>
                 )}
@@ -299,6 +453,7 @@ export const AdminPage: React.FC = () => {
                   <>
                     <th>ID</th>
                     <th>Email</th>
+                    <th>Телефон</th>
                     <th>Имя</th>
                     <th>Роль</th>
                     <th>Дата регистрации</th>
@@ -316,6 +471,14 @@ export const AdminPage: React.FC = () => {
                   </>
                 )}
                 {activeTab === 'images' && (
+                  <>
+                    <th>ID</th>
+                    <th>Изображение</th>
+                    <th>Название</th>
+                    <th>Действия</th>
+                  </>
+                )}
+                {activeTab === 'media' && (
                   <>
                     <th>ID</th>
                     <th>Изображение</th>
@@ -352,8 +515,25 @@ export const AdminPage: React.FC = () => {
                 <tr key={team.id}>
                   <td>{team.id}</td>
                   <td>{team.name}</td>
-                  <td><img src={team.logo} alt={team.name} className={styles.tableLogo} /></td>
+                  <td className={styles.logoTd}>
+                    <img 
+                      src={team.logo} 
+                      alt={team.name} 
+                      className={styles.tableLogo} 
+                      onError={(e) => { 
+                        (e.target as HTMLImageElement).onerror = null;
+                        (e.target as HTMLImageElement).src = '/src/shared/assets/images/default-team-logo.png'; 
+                      }}
+                      loading="lazy"
+                    />
+                  </td>
                   <td>{team.captain}</td>
+                  <td>{team.captainPhone}</td>
+                  <td>
+                    <button className={styles.memberBtn} onClick={() => handleOpenAddMemberModal(team)}>
+                      👥 {team.players.length}
+                    </button>
+                  </td>
                   <td>
                     <button className={styles.editBtn} onClick={() => handleEdit(team)}>✏️</button>
                     <button className={styles.deleteBtn} onClick={() => handleDelete(team.id)}>🗑️</button>
@@ -364,8 +544,13 @@ export const AdminPage: React.FC = () => {
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.email}</td>
+                  <td>{user.phone}</td>
                   <td>{user.full_name}</td>
-                  <td><span className={`${styles.roleBadge} ${user.role === 'admin' ? styles.admin : styles.user}`}>{user.role}</span></td>
+                  <td>
+                    <span className={`${styles.roleBadge} ${user.role === 'admin' ? styles.admin : styles.user}`}>
+                      {user.role}
+                    </span>
+                  </td>
                   <td>{user.createdAt}</td>
                   <td>
                     <button className={styles.editBtn} onClick={() => handleEdit(user)}>✏️</button>
@@ -379,7 +564,11 @@ export const AdminPage: React.FC = () => {
                   <td>{tournament.name}</td>
                   <td>{tournament.date}</td>
                   <td>{tournament.discipline}</td>
-                  <td><span className={`${styles.statusBadge} ${styles[tournament.status]}`}>{tournament.status === 'active' ? 'Активен' : tournament.status === 'completed' ? 'Завершен' : 'Предстоящий'}</span></td>
+                  <td>
+                    <span className={`${styles.statusBadge} ${styles[tournament.status]}`}>
+                      {tournament.status === 'active' ? 'Активен' : tournament.status === 'completed' ? 'Завершен' : 'Предстоящий'}
+                    </span>
+                  </td>
                   <td>
                     <button className={styles.editBtn} onClick={() => handleEdit(tournament)}>✏️</button>
                     <button className={styles.deleteBtn} onClick={() => handleDelete(tournament.id)}>🗑️</button>
@@ -389,7 +578,22 @@ export const AdminPage: React.FC = () => {
               {activeTab === 'images' && disciplineImages.map(image => (
                 <tr key={image.id}>
                   <td>{image.id}</td>
-                  <td><img src={image.url} alt={image.title} className={styles.tableLogo} /></td>
+                  <td>
+                    <img src={image.url} alt={image.title} className={styles.tableLogo} loading="lazy" />
+                  </td>
+                  <td>{image.title}</td>
+                  <td>
+                    <button className={styles.editBtn} onClick={() => handleEdit(image)}>✏️</button>
+                    <button className={styles.deleteBtn} onClick={() => handleDelete(image.id)}>🗑️</button>
+                  </td>
+                </tr>
+              ))}
+              {activeTab === 'media' && mediaImages.map(image => (
+                <tr key={image.id}>
+                  <td>{image.id}</td>
+                  <td>
+                    <img src={image.thumbnailUrl} alt={image.title} className={styles.tableLogo} loading="lazy" />
+                  </td>
                   <td>{image.title}</td>
                   <td>
                     <button className={styles.editBtn} onClick={() => handleEdit(image)}>✏️</button>
@@ -440,6 +644,7 @@ export const AdminPage: React.FC = () => {
               {activeTab === 'users' && ' пользователя'}
               {activeTab === 'tournaments' && ' турнир'}
               {activeTab === 'images' && ' фото'}
+              {activeTab === 'media' && ' фото медиацентра'}
             </h3>
             
             <form className={styles.modalForm} onSubmit={handleSubmit}>
@@ -448,12 +653,36 @@ export const AdminPage: React.FC = () => {
                   <input type="text" name="name" placeholder="Название команды" value={formData.name} onChange={handleInputChange} className={styles.modalInput} required />
                   <input type="text" name="logo" placeholder="URL логотипа" value={formData.logo} onChange={handleInputChange} className={styles.modalInput} required />
                   <input type="text" name="captain" placeholder="Капитан" value={formData.captain} onChange={handleInputChange} className={styles.modalInput} required />
+                  <input 
+                    type="tel" 
+                    name="captainPhone" 
+                    placeholder="+7 XXX XXX XX XX" 
+                    value={formData.captainPhone} 
+                    onChange={(e) => {
+                      const formatted = formatPhoneNumber(e.target.value);
+                      setFormData(prev => ({ ...prev, captainPhone: formatted }));
+                    }}
+                    className={styles.modalInput} 
+                    required 
+                  />
                 </>
               )}
               
               {activeTab === 'users' && (
                 <>
                   <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} className={styles.modalInput} required />
+                  <input 
+                    type="tel" 
+                    name="phone" 
+                    placeholder="+7 XXX XXX XX XX" 
+                    value={formData.phone} 
+                    onChange={(e) => {
+                      const formatted = formatPhoneNumber(e.target.value);
+                      setFormData(prev => ({ ...prev, phone: formatted }));
+                    }}
+                    className={styles.modalInput} 
+                    required 
+                  />
                   <input type="text" name="full_name" placeholder="Полное имя" value={formData.full_name} onChange={handleInputChange} className={styles.modalInput} required />
                   {!editingItem && <input type="password" name="password" placeholder="Пароль" value={formData.password} onChange={handleInputChange} className={styles.modalInput} required />}
                   <select name="role" value={formData.role} onChange={handleInputChange} className={styles.modalSelect}>
@@ -483,10 +712,43 @@ export const AdminPage: React.FC = () => {
                 </>
               )}
               
+              {activeTab === 'media' && (
+                <>
+                  <input type="text" name="mediaUrl" placeholder="URL изображения (большое)" value={formData.mediaUrl} onChange={handleInputChange} className={styles.modalInput} required />
+                  <input type="text" name="mediaThumbnailUrl" placeholder="URL миниатюры" value={formData.mediaThumbnailUrl} onChange={handleInputChange} className={styles.modalInput} />
+                  <input type="text" name="mediaTitle" placeholder="Название" value={formData.mediaTitle} onChange={handleInputChange} className={styles.modalInput} required />
+                </>
+              )}
+              
               <button type="submit" className={styles.modalSubmit}>
                 {editingItem ? 'Сохранить' : 'Добавить'}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+      
+      {showAddMemberModal && selectedTeam && (
+        <div className={styles.modalOverlay} onClick={handleCloseAddMemberModal}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.modalClose} onClick={handleCloseAddMemberModal}>×</button>
+            <h3 className={styles.modalTitle}>Добавить участника</h3>
+            <div className={styles.addMemberForm}>
+              <p className={styles.addMemberHint}>Добавление в команду: <strong>{selectedTeam.name}</strong></p>
+              <input
+                type="tel"
+                placeholder="+7 XXX XXX XX XX"
+                value={memberPhone}
+                onChange={handleMemberPhoneChange}
+                className={styles.modalInput}
+              />
+              {memberError && <div className={styles.errorMessage}>{memberError}</div>}
+              {memberSuccess && <div className={styles.successMessage}>{memberSuccess}</div>}
+              <div className={styles.addMemberButtons}>
+                <button className={styles.cancelButton} onClick={handleCloseAddMemberModal}>Отмена</button>
+                <button className={styles.submitButton} onClick={handleAddMember}>Добавить</button>
+              </div>
+            </div>
           </div>
         </div>
       )}
